@@ -1,0 +1,6 @@
+{
+  "name": "Go with the Flow",
+  "description": "An interactive, gamified music education platform for children to learn music reading, fingering, and rhythm.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
