@@ -1,0 +1,5 @@
+ALTER TABLE profiles ADD COLUMN name text DEFAULT 'Student';
+ALTER TABLE profiles ADD COLUMN avatar_data jsonb DEFAULT '{"type": "owl", "x": 50, "y": 50}'::jsonb;
+
+ALTER TABLE game_progress ADD COLUMN profile_id uuid REFERENCES profiles(id);
+ALTER TABLE practice_logs ADD COLUMN profile_id uuid REFERENCES profiles(id);

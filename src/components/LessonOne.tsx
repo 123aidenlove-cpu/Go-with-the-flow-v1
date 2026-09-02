@@ -14,7 +14,7 @@ export default function LessonOne({ currentStep, onSetStep, onNavigate, onBack }
     {
       id: 1,
       title: 'Theory Time',
-      description: 'Meet the note E and learn its clarinet fingering.',
+      description: 'Meet the note E and learn its trumpet fingering.',
       icon: <BookOpen className="w-6 h-6" />,
       actionLabel: 'Learn Now',
       color: 'amber',
@@ -72,7 +72,7 @@ export default function LessonOne({ currentStep, onSetStep, onNavigate, onBack }
         </button>
         <div className="text-right">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-600">Level 1 Lesson</span>
-          <h2 className="text-lg font-extrabold text-amber-900">Clarinet Core Curriculum</h2>
+          <h2 className="text-lg font-extrabold text-amber-900">Trumpet Core Curriculum</h2>
         </div>
       </div>
 
@@ -203,10 +203,10 @@ export default function LessonOne({ currentStep, onSetStep, onNavigate, onBack }
           className="max-w-sm p-5 mx-auto mt-8 bg-white border border-amber-200 rounded-2xl shadow-md text-center"
           id="interactive-e-guide"
         >
-          <span className="text-3xl" role="img" aria-label="Clarinet">🎷</span>
+          <span className="text-3xl" role="img" aria-label="Trumpet">🎷</span>
           <h4 className="mt-1 font-bold text-amber-900">How to Play Middle E</h4>
           <p className="mt-1 text-xs text-amber-700">
-            For E on the clarinet, cover the <span className="font-bold underline">Back Thumb hole</span> and the <span className="font-bold underline">Top Left Hand pointer finger hole</span>.
+            For E on the trumpet, cover the <span className="font-bold underline">Back Thumb hole</span> and the <span className="font-bold underline">Top Left Hand pointer finger hole</span>.
           </p>
           <div className="flex justify-center gap-4 mt-3">
             <div className="flex flex-col items-center">

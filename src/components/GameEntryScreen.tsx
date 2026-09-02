@@ -54,40 +54,40 @@ export const GameEntryScreen: React.FC<GameEntryScreenProps> = ({
     switch (gameTitle) {
       case 'Rocket Reading':
         return {
-          demoImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80',
+          demoImage: '/images/Reading Rocket Gameplay.png',
           heading: 'How to Play: Rocket Reading',
-          description: 'Help your Clarinet Rocket fly through outer space by identifying notes correctly! When a note appears on the stave, press its corresponding letter key (A-G) or click on the keyboard. Correct answers fuel your rocket, while incorrect ones drain your oxygen! Fly as high as you can!',
+          description: 'Help your Trumpet Rocket fly through outer space by identifying notes correctly! When a note appears on the stave, press its corresponding letter key (A-G) or click on the keyboard. Correct answers fuel your rocket, while incorrect ones drain your oxygen! Fly as high as you can!',
         };
       case 'Finger Fishing':
         return {
-          demoImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80',
+          demoImage: '/images/Finger Fishing gameplay.png',
           heading: 'How to Play: Finger Fishing',
           description: 'Hook the correct music notes to reel in rare tropical fish! Read the note name displayed on screen, and click on the bubble carrying the correct matching note on the stave. Fill up your aquarium with beautiful fish and avoid snagging seaweed!',
         };
       case 'Rhythm Rapids':
         return {
-          demoImage: 'https://images.unsplash.com/photo-1418489098061-ce87b5dc3aee?auto=format&fit=crop&w=600&q=80',
+          demoImage: '/images/Rhythm Rapids.png',
           heading: 'How to Play: Rhythm Rapids',
           description: 'Navigate the wild river rapids by keeping perfect rhythm! A metronome beat will play. Tap your spacebar or click the Rhythm button precisely in sync with the falling notes to paddle your kayak safely around obstacles. Lock into the groove!',
         };
       case 'Sight Read Soaring':
         return {
-          demoImage: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=600&q=80',
+          demoImage: '/images/Sight Read Soaring.png',
           heading: 'How to Play: Sight Read Soaring',
           description: 'Spread your wings and soar through a procedurally generated musical landscape! Your bird follows a continuous trail of sheet music notes. Play each consecutive note accurately to catch thermal drafts and climb above the clouds. Master sight-reading!',
         };
       case 'Pizzeria':
       case 'Music Pizzeria':
         return {
-          demoImage: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
+          demoImage: '/images/Music pizzeria.png',
           heading: 'How to Play: Music Pizzeria',
-          description: 'Bake mouth-watering pizzas for hungry customers by keying in the perfect clarinet fingering! Match the requested note by pressing the correct holes on your virtual clarinet fingering chart. Perfect fingerings earn you top tips and critical acclaim!',
+          description: 'Bake mouth-watering pizzas for hungry customers by keying in the perfect trumpet fingering! Match the requested note by pressing the correct holes on your virtual trumpet fingering chart. Perfect fingerings earn you top tips and critical acclaim!',
         };
       default:
         return {
-          demoImage: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+          demoImage: '/images/UI For Homepage.png',
           heading: `How to Play: ${gameTitle}`,
-          description: 'Explore musical concepts, practice note positions, and master your clarinet keys! Read the instructions on-screen, answer musical prompts, and rack up stars and XP to level up your Profile!',
+          description: 'Explore musical concepts, practice note positions, and master your trumpet keys! Read the instructions on-screen, answer musical prompts, and rack up stars and XP to level up your Profile!',
         };
     }
   };
@@ -138,11 +138,11 @@ export const GameEntryScreen: React.FC<GameEntryScreenProps> = ({
           {gameTitle}
         </h1>
         <p className="text-slate-200 mt-4 max-w-xl text-lg font-medium drop-shadow-md">
-          {gameTitle === 'Rocket Reading' && 'Fuel your clarinet spacecraft with the power of sight reading!'}
+          {gameTitle === 'Rocket Reading' && 'Fuel your trumpet spacecraft with the power of sight reading!'}
           {gameTitle === 'Finger Fishing' && 'Hook the correct treble clef notes to reel in wonderful sea creatures!'}
           {gameTitle === 'Rhythm Rapids' && 'Keep the rhythm steady to navigate the rapids successfully!'}
           {gameTitle === 'Sight Read Soaring' && 'Glide smoothly through a sequence of musical melodies!'}
-          {gameTitle === 'Pizzeria' && 'Assemble delicious toppings by matching the clarinet fingerings!'}
+          {gameTitle === 'Pizzeria' && 'Assemble delicious toppings by matching the trumpet fingerings!'}
         </p>
 
         {/* High Score Badge for Rocket Reading & general games */}

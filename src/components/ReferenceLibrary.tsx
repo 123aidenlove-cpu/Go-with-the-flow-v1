@@ -62,7 +62,7 @@ export const ReferenceLibrary: React.FC<ReferenceLibraryProps> = ({ onBack }) =>
           Help with the Notes?
         </h2>
         <p className="text-slate-500 mt-2 text-sm md:text-base font-medium max-w-lg mx-auto">
-          Unlock your musical potential! Choose a natural note to see its sheet music staff position and clarinet keys.
+          Unlock your musical potential! Choose a natural note to see its sheet music staff position and trumpet keys.
         </p>
       </div>
 
@@ -90,7 +90,7 @@ export const ReferenceLibrary: React.FC<ReferenceLibraryProps> = ({ onBack }) =>
                 When notes go way above the 5-line stave (like high C, D, or E), we use additional helper lines called <strong>ledger lines</strong>.
               </p>
               <p>
-                To play notes in this register on the clarinet, you cover your regular finger holes and engage the <strong>Register Key</strong> (on the back, operated by your left thumb). This acts as a octave vent that splits the air column, allowing the note to jump up by a musical interval of a twelfth!
+                To play notes in this register on the trumpet, you cover your regular finger holes and engage the <strong>Register Key</strong> (on the back, operated by your left thumb). This acts as a octave vent that splits the air column, allowing the note to jump up by a musical interval of a twelfth!
               </p>
               <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center gap-2">
                 <span className="text-xl">🚀</span>
@@ -125,7 +125,7 @@ export const ReferenceLibrary: React.FC<ReferenceLibraryProps> = ({ onBack }) =>
                 <li><strong>Natural (♮):</strong> Cancels a previous flat or sharp, returning the note to its normal "natural" pitch.</li>
               </ul>
               <p>
-                On the clarinet, flats and sharps are played using specialized side keys (spatula keys) or custom "forked" fingerings!
+                On the trumpet, flats and sharps are played using specialized side keys (spatula keys) or custom "forked" fingerings!
               </p>
             </div>
           )}

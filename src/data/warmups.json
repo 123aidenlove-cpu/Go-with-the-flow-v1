@@ -1,0 +1,26 @@
+{
+  "Flute": [
+    { "name": "Long Tones", "durationMins": 2, "description": "Focus on relaxed posture and steady airflow. Play low F, E, D, C." },
+    { "name": "Breathing", "durationMins": 1, "description": "Slow 4-count inhale, controlled 8-count exhale. Keep air unforced." }
+  ],
+  "Clarinet": [
+    { "name": "Long Tones", "durationMins": 2, "description": "Focus on a firm embouchure and relaxed shoulders. Low E to chalumeau register." },
+    { "name": "Breathing", "durationMins": 1, "description": "Slow 4-count inhale, controlled 8-count exhale. Support from diaphragm." }
+  ],
+  "Trumpet": [
+    { "name": "Buzzing", "durationMins": 2, "description": "Buzz on mouthpiece only. Match pitch with a piano if possible." },
+    { "name": "Long Tones", "durationMins": 2, "description": "Play low C, B, Bb, A, Ab, G, Gb, F. Maintain steady air." }
+  ],
+  "Violin": [
+    { "name": "Open Strings", "durationMins": 2, "description": "Bow open strings G, D, A, E. Focus on straight bow and relaxed grip." },
+    { "name": "Scales", "durationMins": 2, "description": "Play G major scale 2 octaves slowly. Intonation focus." }
+  ],
+  "Piano": [
+    { "name": "Hanon 1", "durationMins": 2, "description": "Play Hanon exercise 1 slowly, focusing on curved fingers and relaxed wrists." },
+    { "name": "Scales", "durationMins": 2, "description": "C, G, D major scales 2 octaves, hands together." }
+  ],
+  "Default": [
+    { "name": "General Warmup", "durationMins": 2, "description": "Long tones or basic scales to get your fingers and breath moving." },
+    { "name": "Breathing & Posture", "durationMins": 1, "description": "Check your posture, do a 4-in 8-out breathing exercise." }
+  ]
+}

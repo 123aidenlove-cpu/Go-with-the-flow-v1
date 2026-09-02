@@ -11,16 +11,35 @@ export interface Song {
 export type Screen = 
   | 'map'
   | 'concert-hall'
+  | 'practice-hub'
+  | 'teacher-student-profile'
+  | 'teacher-lesson-view'
   | 'pizzeria'
   | 'rocket-reading'
   | 'rhythm-rapids'
   | 'finger-fishing'
   | 'sight-read-soaring'
+  | 'sound-sleuth'
+  | 'scale-sand-dunes'
+  | 'listening-lagoon'
+  | 'clef-cliffs'
   | 'lesson-one'
   | 'reference-library'
   | 'ask-aiden'
-  | 'daily-challenge'
-  | 'parent-dashboard';
+  | 'expression-ninja'
+  | 'match-it'
+  | 'parent-dashboard'
+  | 'mockups'
+  | 'account'
+  | 'musictopia-castle'
+  | 'settings'
+  | 'level-page'
+  | 'shop-page'
+  | 'teacher-dashboard'
+  | 'teacher-syllabus'
+  | 'login'
+  | 'leaderboard'
+  | 'profile-selector';
 
 export interface GameProgress {
   pizzeriaLevel: number;

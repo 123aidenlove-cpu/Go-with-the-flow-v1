@@ -73,8 +73,8 @@ export const DailyChallenge: React.FC<DailyChallengeProps> = ({ onBack }) => {
                 Phase Complete!
               </h2>
               <p className="text-slate-400 text-sm mt-2 max-w-xs mx-auto">
-                {currentPhase === 1 && 'Rhythm practice complete! Moving to clarinet fingering theory...'}
-                {currentPhase === 2 && 'Clarinet fingerings verified! Final stage: Sight Reading...'}
+                {currentPhase === 1 && 'Rhythm practice complete! Moving to trumpet fingering theory...'}
+                {currentPhase === 2 && 'Trumpet fingerings verified! Final stage: Sight Reading...'}
                 {currentPhase === 3 && 'All daily music routines finished! Loading summary...'}
               </p>
             </motion.div>

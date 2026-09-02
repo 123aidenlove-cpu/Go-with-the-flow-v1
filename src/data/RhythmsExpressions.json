@@ -1,0 +1,334 @@
+[
+  {
+    "id": 1,
+    "introducedSymbols": [
+      {
+        "Level": "1",
+        "Category": "Notes",
+        "Name": "Crotchet (Quarter Note)",
+        "Notation": "\ud834\udd5f",
+        "Beats (4/4 time)": "1",
+        "Description": "A note lasting one beat",
+        "VexFlow_Duration": "q",
+        "type": "rhythm"
+      },
+      {
+        "Level": "1",
+        "Category": "Rests",
+        "Name": "Crotchet Rest",
+        "Notation": "\ud834\udd3d",
+        "Beats (4/4 time)": "1",
+        "Description": "A rest lasting one beat",
+        "VexFlow_Duration": "qr",
+        "type": "rhythm"
+      },
+      {
+        "Level": "1",
+        "Category": "Time Signatures",
+        "Name": "4/4 Time",
+        "Notation": "4-Apr",
+        "Beats (4/4 time)": "N/A",
+        "Description": "Four crotchet beats per bar",
+        "VexFlow_Duration": "4/4",
+        "type": "rhythm"
+      },
+      {
+        "Level": "1",
+        "Category": "Clef",
+        "Name": "Percussion Clef",
+        "Notation": "||",
+        "Beats (4/4 time)": "N/A",
+        "Description": "This Clef indicates the music is Rhythm Only",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "introducedSymbols": [
+      {
+        "Level": "2",
+        "Category": "Notes",
+        "Name": "Minim (Half Note)",
+        "Notation": "\ud834\udd5e",
+        "Beats (4/4 time)": "2",
+        "Description": "A note lasting two beats",
+        "VexFlow_Duration": "h",
+        "type": "rhythm"
+      },
+      {
+        "Level": "2",
+        "Category": "Rests",
+        "Name": "Minim Rest",
+        "Notation": "\ud834\udd3c",
+        "Beats (4/4 time)": "2",
+        "Description": "A rest lasting two beats",
+        "VexFlow_Duration": "hr",
+        "type": "rhythm"
+      },
+      {
+        "Level": "2",
+        "Category": "Time Signatures",
+        "Name": "Common Time",
+        "Notation": "C",
+        "Beats (4/4 time)": "N/A",
+        "Description": "Equivalent to 4/4 time",
+        "VexFlow_Duration": "C",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "introducedSymbols": [
+      {
+        "Level": "3",
+        "Category": "Notes",
+        "Name": "Semibreve (Whole Note)",
+        "Notation": "\ud834\udd5d",
+        "Beats (4/4 time)": "4",
+        "Description": "A note lasting four beats",
+        "VexFlow_Duration": "w",
+        "type": "rhythm"
+      },
+      {
+        "Level": "3",
+        "Category": "Rests",
+        "Name": "Semibreve Rest",
+        "Notation": "\ud834\udd3b",
+        "Beats (4/4 time)": "4",
+        "Description": "A rest lasting four beats",
+        "VexFlow_Duration": "wr",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "introducedSymbols": [
+      {
+        "Level": "4",
+        "Category": "Notes",
+        "Name": "Quaver (Eighth Note)",
+        "Notation": "\ud834\udd60",
+        "Beats (4/4 time)": "0.5",
+        "Description": "A note lasting half a beat",
+        "VexFlow_Duration": "8",
+        "type": "rhythm"
+      },
+      {
+        "Level": "4",
+        "Category": "Groupings",
+        "Name": "Quaver Pair",
+        "Notation": "\u266b",
+        "Beats (4/4 time)": "1",
+        "Description": "Two quavers beamed together",
+        "VexFlow_Duration": "8",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "introducedSymbols": [
+      {
+        "Level": "5",
+        "Category": "Notes",
+        "Name": "Dotted Minim",
+        "Notation": "\ud834\udd5e.",
+        "Beats (4/4 time)": "3",
+        "Description": "A minim plus half its value",
+        "VexFlow_Duration": "hd",
+        "type": "rhythm"
+      },
+      {
+        "Level": "5",
+        "Category": "Expressions",
+        "Name": "Tie",
+        "Notation": "\ufe35",
+        "Beats (4/4 time)": "N/A",
+        "Description": "Joins two notes of the same pitch to combine their values",
+        "VexFlow_Duration": "tie",
+        "type": "rhythm"
+      },
+      {
+        "Level": "5",
+        "Category": "Time Signatures",
+        "Name": "3/4 Time",
+        "Notation": "3-Apr",
+        "Beats (4/4 time)": "N/A",
+        "Description": "Three crotchet beats per bar",
+        "VexFlow_Duration": "3/4",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "introducedSymbols": [
+      {
+        "Level": "6",
+        "Category": "Notes",
+        "Name": "Dotted Crotchet",
+        "Notation": "\ud834\udd5f.",
+        "Beats (4/4 time)": "1.5",
+        "Description": "A crotchet plus half its value",
+        "VexFlow_Duration": "qd",
+        "type": "rhythm"
+      },
+      {
+        "Level": "6",
+        "Category": "Expressions",
+        "Name": "Slur",
+        "Notation": "\ufe35",
+        "Beats (4/4 time)": "N/A",
+        "Description": "Play the notes smoothly without tonguing or breaking the sound",
+        "VexFlow_Duration": "slur",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "introducedSymbols": [
+      {
+        "Level": "7",
+        "Category": "Time Signatures",
+        "Name": "2/4 Time",
+        "Notation": "2-Apr",
+        "Beats (4/4 time)": "N/A",
+        "Description": "Two crotchet beats per bar",
+        "VexFlow_Duration": "2/4",
+        "type": "rhythm"
+      },
+      {
+        "Level": "7",
+        "Category": "Time Signatures",
+        "Name": "Cut Common Time",
+        "Notation": "\ud834\udd35",
+        "Beats (4/4 time)": "N/A",
+        "Description": "2/2 time, two minim beats per bar",
+        "VexFlow_Duration": "C|",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "introducedSymbols": [
+      {
+        "Level": "8",
+        "Category": "Notes",
+        "Name": "Semiquaver (Sixteenth Note)",
+        "Notation": "\ud834\udd61",
+        "Beats (4/4 time)": "0.25",
+        "Description": "A note lasting a quarter of a beat",
+        "VexFlow_Duration": "16",
+        "type": "rhythm"
+      },
+      {
+        "Level": "8",
+        "Category": "Rests",
+        "Name": "Quaver Rest",
+        "Notation": "\ud834\udd3e",
+        "Beats (4/4 time)": "0.5",
+        "Description": "A rest lasting half a beat",
+        "VexFlow_Duration": "8r",
+        "type": "rhythm"
+      },
+      {
+        "Level": "8",
+        "Category": "Rests",
+        "Name": "Semiquaver Rest",
+        "Notation": "\ud834\udd3f",
+        "Beats (4/4 time)": "0.25",
+        "Description": "A rest lasting a quarter of a beat",
+        "VexFlow_Duration": "16r",
+        "type": "rhythm"
+      },
+      {
+        "Level": "8",
+        "Category": "Groupings",
+        "Name": "Semiquaver Group",
+        "Notation": "\u266c",
+        "Beats (4/4 time)": "1",
+        "Description": "Four semiquavers beamed together",
+        "VexFlow_Duration": "16",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "introducedSymbols": [
+      {
+        "Level": "9",
+        "Category": "Groupings",
+        "Name": "Triplet",
+        "Notation": "3",
+        "Beats (4/4 time)": "1",
+        "Description": "Three Quavers played in the time of two",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "introducedSymbols": [
+      {
+        "Level": "10",
+        "Category": "Time Signatures",
+        "Name": "6/8 Time",
+        "Notation": "6-Aug",
+        "Beats (4/4 time)": "N/A",
+        "Description": "Six quaver beats per bar (compound time)",
+        "VexFlow_Duration": "6/8",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "introducedSymbols": [
+      {
+        "Level": "11",
+        "Category": "Notes",
+        "Name": "Dotted Quaver",
+        "Notation": "\ud834\udd60.",
+        "Beats (4/4 time)": "0.75",
+        "Description": "A quaver plus half its value",
+        "VexFlow_Duration": "8d",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "introducedSymbols": [
+      {
+        "Level": "12",
+        "Category": "Groupings",
+        "Name": "Swing Quavers",
+        "Notation": "Swing",
+        "Beats (4/4 time)": "1",
+        "Description": "First quaver is slightly longer than the second",
+        "VexFlow_Duration": "swing",
+        "type": "rhythm"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "introducedSymbols": [
+      {
+        "Level": "13",
+        "Category": "Groupings",
+        "Name": "Super Triplet",
+        "Notation": "3",
+        "Beats (4/4 time)": "2",
+        "Description": "Three Crochets played in the time of two",
+        "type": "rhythm"
+      }
+    ]
+  }
+]

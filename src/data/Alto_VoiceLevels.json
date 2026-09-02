@@ -1,0 +1,448 @@
+[
+  {
+    "id": 1,
+    "description": "Level 1",
+    "introducedNotes": [
+      {
+        "label": "C4",
+        "writtenNote": "C4",
+        "fingering": "C4",
+        "fingeringDisplay": "C4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D4",
+        "writtenNote": "D4",
+        "fingering": "D4",
+        "fingeringDisplay": "D4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E4",
+        "writtenNote": "E4",
+        "fingering": "E4",
+        "fingeringDisplay": "E4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "description": "Level 2",
+    "introducedNotes": [
+      {
+        "label": "F4",
+        "writtenNote": "F4",
+        "fingering": "F4",
+        "fingeringDisplay": "F4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G4",
+        "writtenNote": "G4",
+        "fingering": "G4",
+        "fingeringDisplay": "G4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "description": "Level 3",
+    "introducedNotes": [
+      {
+        "label": "B3",
+        "writtenNote": "B3",
+        "fingering": "B3",
+        "fingeringDisplay": "B3",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "description": "Level 4",
+    "introducedNotes": [
+      {
+        "label": "A3",
+        "writtenNote": "A3",
+        "fingering": "A3",
+        "fingeringDisplay": "A3",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A4",
+        "writtenNote": "A4",
+        "fingering": "A4",
+        "fingeringDisplay": "A4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "description": "Level 5",
+    "introducedNotes": [
+      {
+        "label": "B4",
+        "writtenNote": "B4",
+        "fingering": "B4",
+        "fingeringDisplay": "B4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C5",
+        "writtenNote": "C5",
+        "fingering": "C5",
+        "fingeringDisplay": "C5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "description": "Level 6",
+    "introducedNotes": [
+      {
+        "label": "G3",
+        "writtenNote": "G3",
+        "fingering": "G3",
+        "fingeringDisplay": "G3",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "description": "Level 7",
+    "introducedNotes": [
+      {
+        "label": "F#4",
+        "writtenNote": "F#4",
+        "fingering": "F#4",
+        "fingeringDisplay": "F#4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "description": "Level 8",
+    "introducedNotes": [
+      {
+        "label": "Bb3",
+        "writtenNote": "Bb3",
+        "fingering": "Bb3",
+        "fingeringDisplay": "Bb3",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb4",
+        "writtenNote": "Bb4",
+        "fingering": "Bb4",
+        "fingeringDisplay": "Bb4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "description": "Level 9",
+    "introducedNotes": [
+      {
+        "label": "D5",
+        "writtenNote": "D5",
+        "fingering": "D5",
+        "fingeringDisplay": "D5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "description": "Level 10",
+    "introducedNotes": [
+      {
+        "label": "C#4",
+        "writtenNote": "C#4",
+        "fingering": "C#4",
+        "fingeringDisplay": "C#4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#5",
+        "writtenNote": "C#5",
+        "fingering": "C#5",
+        "fingeringDisplay": "C#5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "description": "Level 11",
+    "introducedNotes": [
+      {
+        "label": "Eb4",
+        "writtenNote": "Eb4",
+        "fingering": "Eb4",
+        "fingeringDisplay": "Eb4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb5",
+        "writtenNote": "Eb5",
+        "fingering": "Eb5",
+        "fingeringDisplay": "Eb5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "description": "Level 12",
+    "introducedNotes": [
+      {
+        "label": "G#3",
+        "writtenNote": "G#3",
+        "fingering": "G#3",
+        "fingeringDisplay": "G#3",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#4",
+        "writtenNote": "G#4",
+        "fingering": "G#4",
+        "fingeringDisplay": "G#4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "description": "Level 13",
+    "introducedNotes": [
+      {
+        "label": "Ab3",
+        "writtenNote": "Ab3",
+        "fingering": "Ab3",
+        "fingeringDisplay": "Ab3",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab4",
+        "writtenNote": "Ab4",
+        "fingering": "Ab4",
+        "fingeringDisplay": "Ab4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "description": "Level 14",
+    "introducedNotes": [
+      {
+        "label": "D#4",
+        "writtenNote": "D#4",
+        "fingering": "D#4",
+        "fingeringDisplay": "D#4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#5",
+        "writtenNote": "D#5",
+        "fingering": "D#5",
+        "fingeringDisplay": "D#5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "description": "Level 15",
+    "introducedNotes": [
+      {
+        "label": "Db4",
+        "writtenNote": "Db4",
+        "fingering": "Db4",
+        "fingeringDisplay": "Db4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db5",
+        "writtenNote": "Db5",
+        "fingering": "Db5",
+        "fingeringDisplay": "Db5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "description": "Level 16",
+    "introducedNotes": [
+      {
+        "label": "E5",
+        "writtenNote": "E5",
+        "fingering": "E5",
+        "fingeringDisplay": "E5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "description": "Level 17",
+    "introducedNotes": [
+      {
+        "label": "F5",
+        "writtenNote": "F5",
+        "fingering": "F5",
+        "fingeringDisplay": "F5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "description": "Level 18",
+    "introducedNotes": [
+      {
+        "label": "A#3",
+        "writtenNote": "A#3",
+        "fingering": "A#3",
+        "fingeringDisplay": "A#3",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#4",
+        "writtenNote": "A#4",
+        "fingering": "A#4",
+        "fingeringDisplay": "A#4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "description": "Level 19",
+    "introducedNotes": [
+      {
+        "label": "Gb4",
+        "writtenNote": "Gb4",
+        "fingering": "Gb4",
+        "fingeringDisplay": "Gb4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "description": "Level 20",
+    "introducedNotes": [
+      {
+        "label": "Cb4",
+        "writtenNote": "Cb4",
+        "fingering": "Cb4",
+        "fingeringDisplay": "Cb4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#3",
+        "writtenNote": "B#3",
+        "fingering": "B#3",
+        "fingeringDisplay": "B#3",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb5",
+        "writtenNote": "Cb5",
+        "fingering": "Cb5",
+        "fingeringDisplay": "Cb5",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#4",
+        "writtenNote": "B#4",
+        "fingering": "B#4",
+        "fingeringDisplay": "B#4",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "description": "Level 21",
+    "introducedNotes": [
+      {
+        "label": "Fb4",
+        "writtenNote": "Fb4",
+        "fingering": "Fb4",
+        "fingeringDisplay": "Fb4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#4",
+        "writtenNote": "E#4",
+        "fingering": "E#4",
+        "fingeringDisplay": "E#4",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb5",
+        "writtenNote": "Fb5",
+        "fingering": "Fb5",
+        "fingeringDisplay": "Fb5",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#5",
+        "writtenNote": "E#5",
+        "fingering": "E#5",
+        "fingeringDisplay": "E#5",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  }
+]

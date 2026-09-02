@@ -1,0 +1,831 @@
+[
+  {
+    "id": 1,
+    "title": "Level 1",
+    "targetNotes": "A, E",
+    "isUnlocked": true,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "A",
+        "writtenNote": "A4",
+        "fingering": "A0",
+        "description": "This is the note A. A sits in between the middle and second-to-bottom lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A0"
+      },
+      {
+        "label": "E",
+        "writtenNote": "E5",
+        "fingering": "E0",
+        "description": "This is the note E. E sits in between the top and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E0"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 2,
+    "title": "Level 2",
+    "targetNotes": "B, F#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "B",
+        "writtenNote": "B4",
+        "fingering": "A1",
+        "description": "This is the note B. B sits on the middle line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A1"
+      },
+      {
+        "label": "F#",
+        "writtenNote": "F#5",
+        "fingering": "E1",
+        "description": "This is the note F#. F# sits on the top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E1"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 3,
+    "title": "Level 3",
+    "targetNotes": "C#, D",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "C#",
+        "writtenNote": "C#5",
+        "fingering": "A2",
+        "description": "This is the note C#. C# sits in between the middle and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A2"
+      },
+      {
+        "label": "D",
+        "writtenNote": "D5",
+        "fingering": "A3",
+        "description": "This is the note D. D sits on the second-to-top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A3"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 4,
+    "title": "Level 4",
+    "targetNotes": "G#, G#, A",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "G#",
+        "writtenNote": "G#4",
+        "fingering": "D3+",
+        "description": "This is the note G#. G# sits on the second-to-bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D3+"
+      },
+      {
+        "label": "G#",
+        "writtenNote": "G#5",
+        "fingering": "E2",
+        "description": "This is the note G#. G# sits above the top line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E2"
+      },
+      {
+        "label": "A",
+        "writtenNote": "A5",
+        "fingering": "E3",
+        "description": "This is the note A. A sits on the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E3"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 5,
+    "title": "Level 5",
+    "targetNotes": "D",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "D",
+        "writtenNote": "D4",
+        "fingering": "D0",
+        "description": "This is the note D. D sits under the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D0"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 6,
+    "title": "Level 6",
+    "targetNotes": "E",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "E",
+        "writtenNote": "E4",
+        "fingering": "D1",
+        "description": "This is the note E. E sits on the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D1"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 7,
+    "title": "Level 7",
+    "targetNotes": "F#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "F#",
+        "writtenNote": "F#4",
+        "fingering": "D2",
+        "description": "This is the note F#. F# sits in between the bottom two lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D2"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 8,
+    "title": "Level 8",
+    "targetNotes": "G",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "G",
+        "writtenNote": "G4",
+        "fingering": "D3",
+        "description": "This is the note G. G sits on the second-to-bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D3"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 9,
+    "title": "Level 9",
+    "targetNotes": "B",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "B",
+        "writtenNote": "B5",
+        "fingering": "E4",
+        "description": "This is the note B. B sits above the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E4"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 10,
+    "title": "Level 10",
+    "targetNotes": "E",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "E",
+        "writtenNote": "E5",
+        "fingering": "A4",
+        "description": "This is the note E. E sits in between the top and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A4"
+      }
+    ],
+    "isExtra": false,
+    "keySignature": "A"
+  },
+  {
+    "id": 11,
+    "title": "Level 11",
+    "targetNotes": "C, G",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "C",
+        "writtenNote": "C5",
+        "fingering": "A2-",
+        "description": "This is the note C. C sits in between the middle and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A2-"
+      },
+      {
+        "label": "G",
+        "writtenNote": "G5",
+        "fingering": "E2-",
+        "description": "This is the note G. G sits above the top line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E2-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 12,
+    "title": "Level 12",
+    "targetNotes": "Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "Bb",
+        "writtenNote": "Bb4",
+        "fingering": "A1-",
+        "description": "This is the note Bb. Bb sits on the middle line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A1-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 13,
+    "title": "Level 13",
+    "targetNotes": "F",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "F",
+        "writtenNote": "F5",
+        "fingering": "E1-",
+        "description": "This is the note F. F sits on the top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E1-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 14,
+    "title": "Level 14",
+    "targetNotes": "G",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "G",
+        "writtenNote": "G3",
+        "fingering": "G0",
+        "description": "This is the note G. G sits under the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G0"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 15,
+    "title": "Level 15",
+    "targetNotes": "A",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "A",
+        "writtenNote": "A3",
+        "fingering": "G1",
+        "description": "This is the note A. A sits on the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G1"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 16,
+    "title": "Level 16",
+    "targetNotes": "B",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "B",
+        "writtenNote": "B3",
+        "fingering": "G2",
+        "description": "This is the note B. B sits under the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G2"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 17,
+    "title": "Level 17",
+    "targetNotes": "C",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "C",
+        "writtenNote": "C4",
+        "fingering": "G3",
+        "description": "This is the note C. C sits on the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G3"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 18,
+    "title": "Level 18",
+    "targetNotes": "D, A",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "D",
+        "writtenNote": "D4",
+        "fingering": "G4",
+        "description": "This is the note D. D sits under the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G4"
+      },
+      {
+        "label": "A",
+        "writtenNote": "A4",
+        "fingering": "D4",
+        "description": "This is the note A. A sits in between the middle and second-to-bottom lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D4"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 19,
+    "title": "Level 19",
+    "targetNotes": "Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "Eb",
+        "writtenNote": "Eb4",
+        "fingering": "D1-",
+        "description": "This is the note Eb. Eb sits on the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D1-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 20,
+    "title": "Level 20",
+    "targetNotes": "Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-indigo-900 border-2 border-indigo-600",
+    "textTheme": "text-indigo-300",
+    "introducedNotes": [
+      {
+        "label": "Bb",
+        "writtenNote": "Bb3",
+        "fingering": "G2-",
+        "description": "This is the note Bb. Bb sits under the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G2-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 21,
+    "title": "Level 21",
+    "targetNotes": "F",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "F",
+        "writtenNote": "F4",
+        "fingering": "D2-",
+        "description": "This is the note F. F sits in between the bottom two lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D2-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 22,
+    "title": "Level 22",
+    "targetNotes": "Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Bb",
+        "writtenNote": "Bb5",
+        "fingering": "E3+",
+        "description": "This is the note Bb. Bb sits above the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E4-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 23,
+    "title": "Level 23",
+    "targetNotes": "D#, Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "D#",
+        "writtenNote": "D#5",
+        "fingering": "A3+",
+        "description": "This is the note D#. D# sits on the second-to-top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A3+"
+      },
+      {
+        "label": "Eb",
+        "writtenNote": "Eb5",
+        "fingering": "A3+",
+        "description": "This is the note Eb. Eb sits in between the top and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A4-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 24,
+    "title": "Level 24",
+    "targetNotes": "Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Ab",
+        "writtenNote": "Ab4",
+        "fingering": "D3+",
+        "description": "This is the note Ab. Ab sits in between the middle and second-to-bottom lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D4-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 25,
+    "title": "Level 25",
+    "targetNotes": "C#, Db",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "C#",
+        "writtenNote": "C#4",
+        "fingering": "G3+",
+        "description": "This is the note C#. C# sits on the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G3+"
+      },
+      {
+        "label": "Db",
+        "writtenNote": "Db4",
+        "fingering": "G3+",
+        "description": "This is the note Db. Db sits under the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G4-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 26,
+    "title": "Level 26",
+    "targetNotes": "G#, Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "G#",
+        "writtenNote": "G#3",
+        "fingering": "G1-",
+        "description": "This is the note G#. G# sits under the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G1-"
+      },
+      {
+        "label": "Ab",
+        "writtenNote": "Ab3",
+        "fingering": "G1-",
+        "description": "This is the note Ab. Ab sits on the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G1-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 27,
+    "title": "Level 27",
+    "targetNotes": "C",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "C",
+        "writtenNote": "C6",
+        "fingering": "4+",
+        "description": "This is the note C. C sits on the 2nd leger line above the music stave.",
+        "isExtra": false
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 28,
+    "title": "Level 28",
+    "targetNotes": "D#, A#",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "D#",
+        "writtenNote": "D#4",
+        "fingering": "D1-",
+        "description": "This is the note D#. D# sits under the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D1-"
+      },
+      {
+        "label": "A#",
+        "writtenNote": "A#4",
+        "fingering": "A1-",
+        "description": "This is the note A#. A# sits in between the middle and second-to-bottom lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A1-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 29,
+    "title": "Level 29",
+    "targetNotes": "A#, A#",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "A#",
+        "writtenNote": "A#3",
+        "fingering": "G2-",
+        "description": "This is the note A#. A# sits on the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G2-"
+      },
+      {
+        "label": "A#",
+        "writtenNote": "A#5",
+        "fingering": "E3+",
+        "description": "This is the note A#. A# sits on the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E3+"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 30,
+    "title": "Level 30",
+    "targetNotes": "Db, Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-emerald-900 border-2 border-emerald-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Db",
+        "writtenNote": "Db5",
+        "fingering": "A2",
+        "description": "This is the note Db. Db sits on the second-to-top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A2"
+      },
+      {
+        "label": "Ab",
+        "writtenNote": "Ab5",
+        "fingering": "E2",
+        "description": "This is the note Ab. Ab sits on the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E2"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 31,
+    "title": "Level 31",
+    "targetNotes": "B#, Fb",
+    "isUnlocked": false,
+    "cardTheme": "bg-rose-900 border-2 border-rose-600",
+    "textTheme": "text-rose-300",
+    "introducedNotes": [
+      {
+        "label": "B#",
+        "writtenNote": "B#3",
+        "fingering": "G3",
+        "description": "This is the note B#. B# sits under the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G3"
+      },
+      {
+        "label": "Fb",
+        "writtenNote": "Fb5",
+        "fingering": "E0",
+        "description": "This is the note Fb. Fb sits on the top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E0"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 32,
+    "title": "Level 32",
+    "targetNotes": "Cb, Gb",
+    "isUnlocked": false,
+    "cardTheme": "bg-rose-900 border-2 border-rose-600",
+    "textTheme": "text-rose-300",
+    "introducedNotes": [
+      {
+        "label": "Cb",
+        "writtenNote": "Cb4",
+        "fingering": "G2",
+        "description": "This is the note Cb. Cb sits on the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G2"
+      },
+      {
+        "label": "Gb",
+        "writtenNote": "Gb4",
+        "fingering": "D2",
+        "description": "This is the note Gb. Gb sits on the second-to-bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D2"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 33,
+    "title": "Level 33",
+    "targetNotes": "Cb, Gb",
+    "isUnlocked": false,
+    "cardTheme": "bg-rose-900 border-2 border-rose-600",
+    "textTheme": "text-rose-300",
+    "introducedNotes": [
+      {
+        "label": "Cb",
+        "writtenNote": "Cb5",
+        "fingering": "A1",
+        "description": "This is the note Cb. Cb sits in between the middle and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A1"
+      },
+      {
+        "label": "Gb",
+        "writtenNote": "Gb5",
+        "fingering": "E1",
+        "description": "This is the note Gb. Gb sits above the top line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E1"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 34,
+    "title": "Level 34",
+    "targetNotes": "E#, E#",
+    "isUnlocked": false,
+    "cardTheme": "bg-rose-900 border-2 border-rose-600",
+    "textTheme": "text-rose-300",
+    "introducedNotes": [
+      {
+        "label": "E#",
+        "writtenNote": "E#4",
+        "fingering": "D2-",
+        "description": "This is the note E#. E# sits on the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D2-"
+      },
+      {
+        "label": "E#",
+        "writtenNote": "E#5",
+        "fingering": "E1-",
+        "description": "This is the note E#. E# sits in between the top and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "E1-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 35,
+    "title": "Level 35",
+    "targetNotes": "B#",
+    "isUnlocked": false,
+    "cardTheme": "bg-rose-900 border-2 border-rose-600",
+    "textTheme": "text-rose-300",
+    "introducedNotes": [
+      {
+        "label": "B#",
+        "writtenNote": "B#4",
+        "fingering": "A2-",
+        "description": "This is the note B#. B# sits on the middle line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A2-"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 36,
+    "title": "Level 36",
+    "targetNotes": "Fb",
+    "isUnlocked": false,
+    "cardTheme": "bg-rose-900 border-2 border-rose-600",
+    "textTheme": "text-rose-300",
+    "introducedNotes": [
+      {
+        "label": "Fb",
+        "writtenNote": "Fb4",
+        "fingering": "D1",
+        "description": "This is the note Fb. Fb sits in between the bottom two lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "D1"
+      }
+    ],
+    "isExtra": false
+  }
+]

@@ -19,7 +19,7 @@ export const AskAiden: React.FC<AskAidenProps> = ({ onBack }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'aiden',
-      text: "Hi! I am Aiden, your personal Clarinet guide. Having trouble with a note, squeaking, breathing, or your instrument? Ask me anything!",
+      text: "Hi! I am Aiden, your personal Trumpet guide. Having trouble with a note, squeaking, breathing, or your instrument? Ask me anything!",
     },
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -150,7 +150,7 @@ export const AskAiden: React.FC<AskAidenProps> = ({ onBack }) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyPress}
-          placeholder="Ask me anything: 'My clarinet is squeaking!', 'How to play Middle E?'..."
+          placeholder="Ask me anything: 'My trumpet is squeaking!', 'How to play Middle E?'..."
           className="flex-1 bg-slate-900 border border-slate-700 rounded-full px-5 py-3 text-slate-100 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-slate-500 font-sans"
         />
         <Button

@@ -1,0 +1,128 @@
+{
+  "violin": {
+    "name": "Violin",
+    "family": "Strings",
+    "posture_rhyme": "Up Like a Rocket, Down Like the Rain, Back and Forth like a choo choo train, Round and Round like the Rolling Sun, Pinky on Point, Corner on Thumb, Put it on my head and now I'm done.",
+    "audio_link": "/audio/maestro/violin_posture.mp3",
+    "allowed_challenges": ["LNC", "LBC", "BC", "PC"]
+  },
+  "viola": {
+    "name": "Viola",
+    "family": "Strings",
+    "posture_rhyme": "Up Like a Rocket, Down Like the Rain, Back and Forth like a choo choo train, Round and Round like the Rolling Sun, Pinky on Point, Corner on Thumb, Put it on my head and now I'm done.",
+    "audio_link": "/audio/maestro/viola_posture.mp3",
+    "allowed_challenges": ["LNC", "LBC", "BC", "PC"]
+  },
+  "cello": {
+    "name": "Cello",
+    "family": "Strings",
+    "posture_rhyme": "Sit on the edge of your seat, feet flat on the floor, hug the cello like a bear!",
+    "audio_link": "/audio/maestro/cello_posture.mp3",
+    "allowed_challenges": ["LNC", "LBC", "BC", "PC"]
+  },
+  "double_bass": {
+    "name": "Double Bass",
+    "family": "Strings",
+    "posture_rhyme": "Stand up tall, feet shoulder width apart, let the bass lean into you.",
+    "audio_link": "/audio/maestro/bass_posture.mp3",
+    "allowed_challenges": ["LNC", "LBC", "BC", "PC"]
+  },
+  "electric_bass": {
+    "name": "Electric Bass",
+    "family": "Electric Bass",
+    "posture_rhyme": "Strap securely, stand up straight, keep your wrists relaxed.",
+    "audio_link": "/audio/maestro/electric_bass_posture.mp3",
+    "allowed_challenges": ["LNC", "PC"]
+  },
+  "clarinet": {
+    "name": "Clarinet",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, instrument up and out from your body.",
+    "audio_link": "/audio/maestro/clarinet_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "flute": {
+    "name": "Flute",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, hold it parallel to the ground.",
+    "audio_link": "/audio/maestro/flute_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "saxophone": {
+    "name": "Saxophone",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, neck strap adjusted so the mouthpiece comes to you.",
+    "audio_link": "/audio/maestro/sax_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "trumpet": {
+    "name": "Trumpet",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, bell pointing straight ahead.",
+    "audio_link": "/audio/maestro/trumpet_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "trombone": {
+    "name": "Trombone",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, keep your slide arm relaxed.",
+    "audio_link": "/audio/maestro/trombone_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "french_horn": {
+    "name": "French Horn",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, right hand in the bell.",
+    "audio_link": "/audio/maestro/horn_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "oboe": {
+    "name": "Oboe",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, instrument at a 45-degree angle.",
+    "audio_link": "/audio/maestro/oboe_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "baritone_euphonium": {
+    "name": "Baritone/Euphonium",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, feet flat on the floor, bring the mouthpiece to you.",
+    "audio_link": "/audio/maestro/baritone_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "tuba": {
+    "name": "Tuba",
+    "family": "Wind",
+    "posture_rhyme": "Sit on the edge of your seat, feet flat on the floor, rest the tuba comfortably on your lap.",
+    "audio_link": "/audio/maestro/tuba_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "recorder": {
+    "name": "Recorder",
+    "family": "Wind",
+    "posture_rhyme": "Sit up straight, left hand on top, right hand on bottom.",
+    "audio_link": "/audio/maestro/recorder_posture.mp3",
+    "allowed_challenges": ["LNC", "TC"]
+  },
+  "voice": {
+    "name": "Voice",
+    "family": "Voice",
+    "posture_rhyme": "Stand up tall like a tree, feet shoulder width apart, shoulders relaxed.",
+    "audio_link": "/audio/maestro/voice_posture.mp3",
+    "allowed_challenges": ["LNC", "TT"]
+  },
+  "piano": {
+    "name": "Piano",
+    "family": "Piano",
+    "posture_rhyme": "Sit on the front half of the bench, feet flat on the floor, hands curved like holding a bubble.",
+    "audio_link": "/audio/maestro/piano_posture.mp3",
+    "allowed_challenges": ["LNC"]
+  },
+  "percussion": {
+    "name": "Percussion",
+    "family": "Percussion",
+    "posture_rhyme": "Stand evenly on both feet, grip the sticks loosely, keep wrists relaxed.",
+    "audio_link": "/audio/maestro/percussion_posture.mp3",
+    "allowed_challenges": ["LNC"]
+  }
+}

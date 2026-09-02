@@ -1,0 +1,54 @@
+# UI For Homepage - Exact Description
+
+## Overall Layout and Aesthetic
+The homepage is a vibrant, hand-drawn 2D cartoon map representing a musical theme park. The scene is brightly lit with a cheerful, inviting atmosphere. 
+- **Background**: The distant background features towering grey mountains with snow-capped peaks under a light blue sky dotted with fluffy white clouds. Below the mountains, a dense forest of rounded green trees spans the horizon.
+- **Water Features**: A bright blue river originates from the mountains on the right, cascading down and winding its way to the bottom center, where it forms a large lake or ocean. The water has stylized white contour lines indicating flow and depth. Along the river banks are grey rocks and various trees. At the bottom of the lake, colorful coral (red and pink) and rocks are visible.
+- **Pathways**: A prominent "yellow brick road" begins at the bottom left, crosses the river over a small grey stone bridge, passes directly in front of the Concert Hall, crosses another stone bridge over the river's right fork, and ends at a yellow circular platform on the right. Dirt paths branch off from the main road to connect to the other locations.
+
+## Interactive Locations (Points of Interest)
+
+### 1. Rocket Reading Launchpad
+- **Position**: Top left-center.
+- **Description**: A futuristic grey launchpad tower constructed of metal scaffolding with golden/brass pipe accents (resembling brass instruments). Gripped by the tower's mechanical arms is a tall rocket ship. The rocket has a red nose cone, a grey metallic body, and an orange fin base. A glowing blue window is visible on the rocket.
+- **Label Text**: "ROCKET READING LAUNCHPAD" in bold white text with a black outline, floating below the structure.
+
+### 2. Sight Read Soaring
+- **Position**: Middle left.
+- **Description**: An asphalt runway with white dashed centerlines extends diagonally from the left edge. Resting on the runway is a classic biplane. The plane has a bright red body, yellow wings, and a yellow propeller spinner.
+- **Label Text**: "SIGHT READ SOARING" floating below the runway.
+
+### 3. Music Making Pizzeria
+- **Position**: Bottom left.
+- **Description**: A cozy, single-story red brick building with a striped red-and-white awning over the front window. A sign above the awning reads "Papa's Pizzeris". On the flat roof sits a giant white chef's hat. Next to the hat is a white speech bubble containing two black musical eighth notes.
+- **Label Text**: "MUSIC MAKING PIZZERIA" floating below the building.
+
+### 4. Concert Hall (Directory)
+- **Position**: Exact center of the map.
+- **Description**: A grand, ornate golden theater facade. It features two classical pillars on the sides with intricate architectural details. The stage is framed by heavy, draped red velvet curtains pulled back with gold ties, revealing a dark red stage background.
+- **Label Text**: "CONCERT HALL (DIRECTORY)" floating above, and "CONCERT HALL" floating below the structure.
+
+### 5. Rhythm Rapids Shack & Rhythm Rapids
+- **Position**: Top right, along the upper section of the river.
+- **Description**: A rustic wooden log cabin/shack sits on the right bank of the river, surrounded by palm trees and jungle foliage. A wooden barrel sits on its front porch. Next to the shack, a wooden spoon or oar sticks out with a white speech bubble containing musical notes.
+- **Label Text**: "RHYTHM RAPIDS SHACK" floating above the cabin, and "RHYTHM RAPIDS" floating above the river water just below the cabin.
+
+### 6. Ask Aiden
+- **Position**: Top right corner.
+- **Description**: A large wooden signpost stuck in the grass. The sign boards read "ASK AIDEN". To the left of the sign stands Aiden, a cartoon girl with brown hair, wearing a brown aviator jacket, blue jeans, and aviator goggles on her forehead. She is waving her right hand. Floating high above the sign is a massive, bouncy orange question mark with a yellow outline.
+
+### 7. Finger Fishing
+- **Position**: Bottom right-center, extending into the lake.
+- **Description**: A wooden pier built on stilts extends from the right grassy bank into the blue water. A brown fishing rod is cast from the end of the pier, with the line dropping into the water ending in a red and white bobber. Next to the fishing rod is a white speech bubble containing a blue cartoon fish.
+- **Label Text**: "FINGER FISHING" floating below the pier in the water.
+
+### 8. Song 1 / Lesson 1 TBC
+- **Position**: Middle right edge.
+- **Description**: The yellow brick road ends at a raised circular platform. The platform has a thick grey stone base and a bright yellow top surface.
+- **Label Text**: "SONG 1/LESSON 1 TBC" written in black text directly on the yellow surface of the platform.
+
+## Implementation Strategy
+To recreate this exactly in the application:
+1. The image will be used as a high-resolution, full-screen background cover for the `WorldMap` component.
+2. Invisible, absolutely positioned `div` elements (or SVG polygons for precise shapes) will be mapped over each Point of Interest to act as interactive clickable hitboxes.
+3. Hover effects (such as a subtle scale transform, glowing drop-shadow, or custom cursor) will be applied to these hitboxes to indicate interactivity without disrupting the hand-drawn aesthetic.

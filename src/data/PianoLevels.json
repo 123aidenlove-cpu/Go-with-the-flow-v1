@@ -1,0 +1,1961 @@
+[
+  {
+    "id": 1,
+    "description": "Level 1",
+    "introducedNotes": [
+      {
+        "label": "C4",
+        "writtenNote": "C4",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C4",
+        "writtenNote": "C4",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "description": "Level 2",
+    "introducedNotes": [
+      {
+        "label": "D4",
+        "writtenNote": "D4",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E4",
+        "writtenNote": "E4",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "description": "Level 3",
+    "introducedNotes": [
+      {
+        "label": "F4",
+        "writtenNote": "F4",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G4",
+        "writtenNote": "G4",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "description": "Level 4",
+    "introducedNotes": [
+      {
+        "label": "G3",
+        "writtenNote": "G3",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A3",
+        "writtenNote": "A3",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B3",
+        "writtenNote": "B3",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "description": "Level 5",
+    "introducedNotes": [
+      {
+        "label": "A4",
+        "writtenNote": "A4",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B4",
+        "writtenNote": "B4",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C5",
+        "writtenNote": "C5",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "description": "Level 6",
+    "introducedNotes": [
+      {
+        "label": "C3",
+        "writtenNote": "C3",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D3",
+        "writtenNote": "D3",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E3",
+        "writtenNote": "E3",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F3",
+        "writtenNote": "F3",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "description": "Level 7",
+    "introducedNotes": [
+      {
+        "label": "D5",
+        "writtenNote": "D5",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E5",
+        "writtenNote": "E5",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F5",
+        "writtenNote": "F5",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G5",
+        "writtenNote": "G5",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "description": "Level 8",
+    "introducedNotes": [
+      {
+        "label": "A5",
+        "writtenNote": "A5",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B5",
+        "writtenNote": "B5",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C6",
+        "writtenNote": "C6",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "description": "Level 9",
+    "introducedNotes": [
+      {
+        "label": "G2",
+        "writtenNote": "G2",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A2",
+        "writtenNote": "A2",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B2",
+        "writtenNote": "B2",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "description": "Level 10",
+    "introducedNotes": [
+      {
+        "label": "C2",
+        "writtenNote": "C2",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D2",
+        "writtenNote": "D2",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E2",
+        "writtenNote": "E2",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F2",
+        "writtenNote": "F2",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "description": "Level 11",
+    "introducedNotes": [
+      {
+        "label": "F#2",
+        "writtenNote": "F#2",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#3",
+        "writtenNote": "F#3",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#4",
+        "writtenNote": "F#4",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#5",
+        "writtenNote": "F#5",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "description": "Level 12",
+    "introducedNotes": [
+      {
+        "label": "Bb2",
+        "writtenNote": "Bb2",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb3",
+        "writtenNote": "Bb3",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb3",
+        "writtenNote": "Bb3",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb4",
+        "writtenNote": "Bb4",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb5",
+        "writtenNote": "Bb5",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "description": "Level 13",
+    "introducedNotes": [
+      {
+        "label": "F3",
+        "writtenNote": "F3",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G3",
+        "writtenNote": "G3",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A3",
+        "writtenNote": "A3",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B3",
+        "writtenNote": "B3",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "description": "Level 14",
+    "introducedNotes": [
+      {
+        "label": "D4",
+        "writtenNote": "D4",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E4",
+        "writtenNote": "E4",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F4",
+        "writtenNote": "F4",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G4",
+        "writtenNote": "G4",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "description": "Level 15",
+    "introducedNotes": [
+      {
+        "label": "C#2",
+        "writtenNote": "C#2",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#3",
+        "writtenNote": "C#3",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#4",
+        "writtenNote": "C#4",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#4",
+        "writtenNote": "C#4",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#5",
+        "writtenNote": "C#5",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#6",
+        "writtenNote": "C#6",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "description": "Level 16",
+    "introducedNotes": [
+      {
+        "label": "Eb2",
+        "writtenNote": "Eb2",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb3",
+        "writtenNote": "Eb3",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb4",
+        "writtenNote": "Eb4",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb4",
+        "writtenNote": "Eb4",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb5",
+        "writtenNote": "Eb5",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "description": "Level 17",
+    "introducedNotes": [
+      {
+        "label": "G#2",
+        "writtenNote": "G#2",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#3",
+        "writtenNote": "G#3",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#4",
+        "writtenNote": "G#4",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#3",
+        "writtenNote": "G#3",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#4",
+        "writtenNote": "G#4",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#5",
+        "writtenNote": "G#5",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "description": "Level 18",
+    "introducedNotes": [
+      {
+        "label": "Ab2",
+        "writtenNote": "Ab2",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab3",
+        "writtenNote": "Ab3",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab4",
+        "writtenNote": "Ab4",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab3",
+        "writtenNote": "Ab3",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab4",
+        "writtenNote": "Ab4",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab5",
+        "writtenNote": "Ab5",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "description": "Level 19",
+    "introducedNotes": [
+      {
+        "label": "D6",
+        "writtenNote": "D6",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E6",
+        "writtenNote": "E6",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F6",
+        "writtenNote": "F6",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G6",
+        "writtenNote": "G6",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "description": "Level 20",
+    "introducedNotes": [
+      {
+        "label": "A1",
+        "writtenNote": "A1",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B1",
+        "writtenNote": "B1",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A6",
+        "writtenNote": "A6",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B6",
+        "writtenNote": "B6",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C7",
+        "writtenNote": "C7",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "description": "Level 21",
+    "introducedNotes": [
+      {
+        "label": "D#2",
+        "writtenNote": "D#2",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#3",
+        "writtenNote": "D#3",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#4",
+        "writtenNote": "D#4",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#4",
+        "writtenNote": "D#4",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#5",
+        "writtenNote": "D#5",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#6",
+        "writtenNote": "D#6",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "description": "Level 22",
+    "introducedNotes": [
+      {
+        "label": "Db2",
+        "writtenNote": "Db2",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db3",
+        "writtenNote": "Db3",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db4",
+        "writtenNote": "Db4",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db4",
+        "writtenNote": "Db4",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db5",
+        "writtenNote": "Db5",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db6",
+        "writtenNote": "Db6",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "description": "Level 23",
+    "introducedNotes": [
+      {
+        "label": "A#1",
+        "writtenNote": "A#1",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#2",
+        "writtenNote": "A#2",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#3",
+        "writtenNote": "A#3",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#3",
+        "writtenNote": "A#3",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#4",
+        "writtenNote": "A#4",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#5",
+        "writtenNote": "A#5",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#6",
+        "writtenNote": "A#6",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "description": "Level 24",
+    "introducedNotes": [
+      {
+        "label": "Gb2",
+        "writtenNote": "Gb2",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb3",
+        "writtenNote": "Gb3",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb4",
+        "writtenNote": "Gb4",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb3",
+        "writtenNote": "Gb3",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb4",
+        "writtenNote": "Gb4",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb5",
+        "writtenNote": "Gb5",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb6",
+        "writtenNote": "Gb6",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "description": "Level 25",
+    "introducedNotes": [
+      {
+        "label": "Cb2",
+        "writtenNote": "Cb2",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#1",
+        "writtenNote": "B#1",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb3",
+        "writtenNote": "Cb3",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#2",
+        "writtenNote": "B#2",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb4",
+        "writtenNote": "Cb4",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#3",
+        "writtenNote": "B#3",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb4",
+        "writtenNote": "Cb4",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#3",
+        "writtenNote": "B#3",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb5",
+        "writtenNote": "Cb5",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#4",
+        "writtenNote": "B#4",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb6",
+        "writtenNote": "Cb6",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#5",
+        "writtenNote": "B#5",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb7",
+        "writtenNote": "Cb7",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#6",
+        "writtenNote": "B#6",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "description": "Level 26",
+    "introducedNotes": [
+      {
+        "label": "Fb2",
+        "writtenNote": "Fb2",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#2",
+        "writtenNote": "E#2",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb3",
+        "writtenNote": "Fb3",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#3",
+        "writtenNote": "E#3",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb4",
+        "writtenNote": "Fb4",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#4",
+        "writtenNote": "E#4",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb4",
+        "writtenNote": "Fb4",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#4",
+        "writtenNote": "E#4",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb5",
+        "writtenNote": "Fb5",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#5",
+        "writtenNote": "E#5",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb6",
+        "writtenNote": "Fb6",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#6",
+        "writtenNote": "E#6",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "description": "Level 27",
+    "introducedNotes": [
+      {
+        "label": "C#7",
+        "writtenNote": "C#7",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db7",
+        "writtenNote": "Db7",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D7",
+        "writtenNote": "D7",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#7",
+        "writtenNote": "D#7",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb7",
+        "writtenNote": "Eb7",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E7",
+        "writtenNote": "E7",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb7",
+        "writtenNote": "Fb7",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#7",
+        "writtenNote": "E#7",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F7",
+        "writtenNote": "F7",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#7",
+        "writtenNote": "F#7",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb7",
+        "writtenNote": "Gb7",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G7",
+        "writtenNote": "G7",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#7",
+        "writtenNote": "G#7",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab7",
+        "writtenNote": "Ab7",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A7",
+        "writtenNote": "A7",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#7",
+        "writtenNote": "A#7",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb7",
+        "writtenNote": "Bb7",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B7",
+        "writtenNote": "B7",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb8",
+        "writtenNote": "Cb8",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#7",
+        "writtenNote": "B#7",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C8",
+        "writtenNote": "C8",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "description": "Level 28",
+    "introducedNotes": [
+      {
+        "label": "A0",
+        "writtenNote": "A0",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#0",
+        "writtenNote": "A#0",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb0",
+        "writtenNote": "Bb0",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B0",
+        "writtenNote": "B0",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb1",
+        "writtenNote": "Cb1",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#0",
+        "writtenNote": "B#0",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C1",
+        "writtenNote": "C1",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#1",
+        "writtenNote": "C#1",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db1",
+        "writtenNote": "Db1",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D1",
+        "writtenNote": "D1",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#1",
+        "writtenNote": "D#1",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb1",
+        "writtenNote": "Eb1",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E1",
+        "writtenNote": "E1",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb1",
+        "writtenNote": "Fb1",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#1",
+        "writtenNote": "E#1",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F1",
+        "writtenNote": "F1",
+        "fingering": "F",
+        "fingeringDisplay": "F",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#1",
+        "writtenNote": "F#1",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Gb1",
+        "writtenNote": "Gb1",
+        "fingering": "Gb",
+        "fingeringDisplay": "Gb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G1",
+        "writtenNote": "G1",
+        "fingering": "G",
+        "fingeringDisplay": "G",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#1",
+        "writtenNote": "G#1",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab1",
+        "writtenNote": "Ab1",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "description": "Level 29",
+    "introducedNotes": [
+      {
+        "label": "C3",
+        "writtenNote": "C3",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C#3",
+        "writtenNote": "C#3",
+        "fingering": "C#",
+        "fingeringDisplay": "C#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Db3",
+        "writtenNote": "Db3",
+        "fingering": "Db",
+        "fingeringDisplay": "Db",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D3",
+        "writtenNote": "D3",
+        "fingering": "D",
+        "fingeringDisplay": "D",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "D#3",
+        "writtenNote": "D#3",
+        "fingering": "D#",
+        "fingeringDisplay": "D#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb3",
+        "writtenNote": "Eb3",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E3",
+        "writtenNote": "E3",
+        "fingering": "E",
+        "fingeringDisplay": "E",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Fb3",
+        "writtenNote": "Fb3",
+        "fingering": "Fb",
+        "fingeringDisplay": "Fb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "E#3",
+        "writtenNote": "E#3",
+        "fingering": "E#",
+        "fingeringDisplay": "E#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "description": "Level 30",
+    "introducedNotes": [
+      {
+        "label": "A4",
+        "writtenNote": "A4",
+        "fingering": "A",
+        "fingeringDisplay": "A",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "A#4",
+        "writtenNote": "A#4",
+        "fingering": "A#",
+        "fingeringDisplay": "A#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb4",
+        "writtenNote": "Bb4",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B4",
+        "writtenNote": "B4",
+        "fingering": "B",
+        "fingeringDisplay": "B",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Cb5",
+        "writtenNote": "Cb5",
+        "fingering": "Cb",
+        "fingeringDisplay": "Cb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "B#4",
+        "writtenNote": "B#4",
+        "fingering": "B#",
+        "fingeringDisplay": "B#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "C5",
+        "writtenNote": "C5",
+        "fingering": "C",
+        "fingeringDisplay": "C",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "description": "Level 20.5",
+    "introducedNotes": [
+      {
+        "label": "Bb1",
+        "writtenNote": "Bb1",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#4",
+        "writtenNote": "F#4",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "bass",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#3",
+        "writtenNote": "F#3",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Eb6",
+        "writtenNote": "Eb6",
+        "fingering": "Eb",
+        "fingeringDisplay": "Eb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "F#6",
+        "writtenNote": "F#6",
+        "fingering": "F#",
+        "fingeringDisplay": "F#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "G#6",
+        "writtenNote": "G#6",
+        "fingering": "G#",
+        "fingeringDisplay": "G#",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Ab6",
+        "writtenNote": "Ab6",
+        "fingering": "Ab",
+        "fingeringDisplay": "Ab",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      },
+      {
+        "label": "Bb6",
+        "writtenNote": "Bb6",
+        "fingering": "Bb",
+        "fingeringDisplay": "Bb",
+        "clef": "treble",
+        "description": "",
+        "tip": ""
+      }
+    ]
+  }
+]

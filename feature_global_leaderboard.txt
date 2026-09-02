@@ -1,0 +1,5 @@
+1. All 4 major interactive games (Finger Fishing, Rhythm Rapids, Pizzeria, Sight Read Soaring) have been successfully patched using the same secure saveGameScore mechanism we used for Rocket Reading.
+
+2. The Global Leaderboard has been built (`src/components/GlobalLeaderboard.tsx`). It fetches the top 10 scores from Supabase and lists the rank, score, level reached, and the student's ID/Instrument.
+
+3. The leaderboard can be accessed from the World Map! Just click the new "🏆 Rankings" button located in the top-right corner, right underneath the "Student" profile button.

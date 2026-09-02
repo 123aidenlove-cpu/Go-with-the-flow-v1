@@ -1,181 +1,202 @@
 import React from 'react';
-import { ArrowLeft, Flame, Clock, BadgeCheck, Trophy, Sparkles, TrendingUp } from 'lucide-react';
-import { Button } from './ui/Button';
-import { Card } from './ui/Card';
-import { useProfile } from '../context/ProfileContext';
-import { ACHIEVEMENT_CATALOG } from '../utils/achievementManager';
+import { 
+  CreditCard, 
+  Settings, 
+  Bell, 
+  Heart, 
+  Clock, 
+  Award,
+  AlertCircle,
+  BookOpen,
+  Volume2,
+  Globe
+} from 'lucide-react';
+import { 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  BarChart,
+  Bar
+} from 'recharts';
 
-interface ParentDashboardProps {
-  onBack: () => void;
-}
+const weeklyProgressData = [
+  { name: 'Mon', score: 65, time: 20 },
+  { name: 'Tue', score: 70, time: 25 },
+  { name: 'Wed', score: 85, time: 40 },
+  { name: 'Thu', score: 80, time: 35 },
+  { name: 'Fri', score: 95, time: 50 },
+  { name: 'Sat', score: 90, time: 45 },
+  { name: 'Sun', score: 100, time: 60 },
+];
 
-export const ParentDashboard: React.FC<ParentDashboardProps> = ({ onBack }) => {
-  const { profile } = useProfile();
+const favoriteGamesData = [
+  { name: 'Rhythm Runner', value: 85 },
+  { name: 'Note Ninja', value: 60 },
+  { name: 'Pitch Perfect', value: 45 },
+];
 
-  // Get full objects for the last 3 unlocked achievements
-  const recentAchievements = [...profile.unlockedAchievements]
-    .reverse()
-    .slice(0, 3)
-    .map((id) => ACHIEVEMENT_CATALOG.find((a) => a.id === id))
-    .filter((a): a is typeof ACHIEVEMENT_CATALOG[0] => !!a);
-
+export default function ParentDashboard() {
   return (
-    <div className="w-full min-h-screen bg-slate-50 text-slate-800 p-6 flex flex-col items-center select-none" id="parent-dashboard-container">
-      {/* Header */}
-      <div className="w-full max-w-5xl flex items-center justify-between mb-8">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onBack}
-          aria-label="Back to Map"
-          className="bg-white hover:bg-slate-100 text-slate-700 border-slate-200"
-        >
-          <ArrowLeft size={16} className="mr-2" />
-          Back to Map
-        </Button>
-
-        <div className="flex items-center gap-2">
-          <TrendingUp className="text-slate-600 w-5 h-5" />
-          <h1 className="text-sm font-display font-black text-slate-500 uppercase tracking-widest">
-            Parent & Teacher Dashboard
-          </h1>
+    <div className="min-h-screen bg-slate-50 p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900">Parent Dashboard</h1>
+            <p className="text-slate-700">Track your child's musical journey.</p>
+          </div>
+          <div className="flex gap-4">
+            <button className="p-2 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow relative">
+              <Bell className="w-6 h-6 text-slate-600" />
+              <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+            <button className="p-2 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow">
+              <Settings className="w-6 h-6 text-slate-600" />
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="w-full max-w-5xl text-center md:text-left mb-8 border-b border-slate-200/60 pb-6">
-        <h2 className="text-3xl font-display font-black text-slate-900 tracking-tight">
-          How is {profile.name} doing?
-        </h2>
-        <p className="text-slate-500 mt-1.5 text-sm font-medium">
-          Real-time insights and competence metrics synced directly from their device.
-        </p>
-      </div>
-
-      {/* Main Stats Grid */}
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        
-        {/* Card 1: Practice Streak */}
-        <Card className="flex items-center gap-5 bg-white border border-slate-200 shadow-sm p-6">
-          <div className="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center text-3xl animate-pulse">
-            🔥
-          </div>
-          <div>
-            <h3 className="text-slate-400 text-xs font-black uppercase tracking-wider font-display">
-              Practice Streak
-            </h3>
-            <div className="text-3xl font-display font-black text-slate-900 mt-0.5">
-              {profile.streakDays} {profile.streakDays === 1 ? 'Day' : 'Days'}
-            </div>
-            <p className="text-xs text-slate-500 mt-1 font-sans">
-              Keep playing daily to earn bonus XP and high-retention medals!
-            </p>
-          </div>
-        </Card>
-
-        {/* Card 2: Total Practice Time */}
-        <Card className="flex items-center gap-5 bg-white border border-slate-200 shadow-sm p-6">
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-3xl">
-            ⏱️
-          </div>
-          <div>
-            <h3 className="text-slate-400 text-xs font-black uppercase tracking-wider font-display">
-              Total Practice Time
-            </h3>
-            <div className="text-3xl font-display font-black text-slate-900 mt-0.5">
-              45 mins <span className="text-slate-400 text-lg font-bold">this week</span>
-            </div>
-            <p className="text-xs text-slate-500 mt-1 font-sans">
-              Consistent 5-minute daily challenges are perfect for habit building!
-            </p>
-          </div>
-        </Card>
-
-        {/* Card 3: Mastered Notes */}
-        <Card className="bg-white border border-slate-200 shadow-sm p-6 md:col-span-1">
-          <h3 className="text-slate-400 text-xs font-black uppercase tracking-wider font-display flex items-center gap-1.5 border-b border-slate-100 pb-3 mb-4">
-            <BadgeCheck className="text-emerald-500 w-4 h-4" />
-            Mastered Notes & Skills
-          </h3>
-          
-          {profile.unlockedNodes.length === 0 ? (
-            <p className="text-xs text-slate-400">No notes completed yet. Keep trying!</p>
-          ) : (
-            <div className="flex flex-wrap gap-2.5">
-              {profile.unlockedNodes.map((node) => (
-                <div
-                  key={node}
-                  className="px-3.5 py-1.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-extrabold font-display rounded-full flex items-center gap-1.5 shadow-sm"
-                >
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                  {node} Mastery
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Metrics Area */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-3 bg-indigo-50 rounded-xl">
+                  <Clock className="w-6 h-6 text-indigo-500" />
                 </div>
-              ))}
-            </div>
-          )}
-          <p className="text-xs text-slate-500 mt-5 leading-relaxed">
-            These represent musical pitches your student can successfully identify, map fingerings for, and play in sync.
-          </p>
-        </Card>
-
-        {/* Card 4: Recent Achievements */}
-        <Card className="bg-white border border-slate-200 shadow-sm p-6 md:col-span-1">
-          <h3 className="text-slate-400 text-xs font-black uppercase tracking-wider font-display flex items-center gap-1.5 border-b border-slate-100 pb-3 mb-4">
-            <Trophy className="text-amber-500 w-4 h-4" />
-            Recent Badges Earned
-          </h3>
-
-          {recentAchievements.length === 0 ? (
-            <div className="text-center py-6 flex flex-col items-center justify-center">
-              <span className="text-3xl opacity-20">🏆</span>
-              <p className="text-xs text-slate-400 font-medium mt-1">
-                No achievements unlocked yet. Keep playing to earn trophies!
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {recentAchievements.map((badge) => (
-                <div
-                  key={badge.id}
-                  className="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl"
-                >
-                  <div className="text-2xl">{badge.icon}</div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-xs font-display font-black text-slate-800 truncate">
-                      {badge.title}
-                    </h4>
-                    <p className="text-[10px] text-slate-500 truncate mt-0.5">
-                      {badge.description}
-                    </p>
-                  </div>
-                  <span className="text-[10px] font-bold font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 border border-emerald-100 rounded">
-                    +{badge.xpReward} XP
-                  </span>
+                <div>
+                  <p className="text-sm text-slate-700 font-medium">Time Played</p>
+                  <p className="text-2xl font-bold text-slate-900">4.5 hrs</p>
                 </div>
-              ))}
+              </div>
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-3 bg-emerald-50 rounded-xl">
+                  <Award className="w-6 h-6 text-emerald-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-700 font-medium">Achievements</p>
+                  <p className="text-2xl font-bold text-slate-900">12 Earned</p>
+                </div>
+              </div>
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div className="p-3 bg-rose-50 rounded-xl">
+                  <Heart className="w-6 h-6 text-rose-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-700 font-medium">Favorite Game</p>
+                  <p className="text-lg font-bold text-slate-900 truncate">Rhythm Runner</p>
+                </div>
+              </div>
             </div>
-          )}
-        </Card>
 
-      </div>
+            {/* Progress Chart */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-indigo-500" />
+                Weekly Progress (Score vs Time)
+              </h2>
+              <div className="h-72">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={weeklyProgressData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                    <YAxis yAxisId="left" axisLine={false} tickLine={false} />
+                    <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} />
+                    <Tooltip cursor={{stroke: '#f1f5f9', strokeWidth: 2}} />
+                    <Line yAxisId="left" type="monotone" dataKey="score" stroke="#6366f1" strokeWidth={3} dot={{r: 4}} activeDot={{r: 6}} />
+                    <Line yAxisId="right" type="monotone" dataKey="time" stroke="#10b981" strokeWidth={3} dot={{r: 4}} activeDot={{r: 6}} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
 
-      {/* Progress Footer */}
-      <footer className="w-full max-w-5xl bg-slate-900 text-white rounded-2xl p-6 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="text-3xl">🦉</div>
-          <div>
-            <h4 className="font-display font-extrabold text-sm text-yellow-400">AidenOnboarding recommendation:</h4>
-            <p className="text-xs text-slate-300 mt-0.5 leading-relaxed max-w-md">
-              {profile.unlockedNodes.includes('Middle C')
-                ? 'Excellent work! Your student is pacing ahead of average clarinet curriculums. Introduce them to basic melodies.'
-                : 'Pacing nicely! Encourage them to practice 5 minutes daily on Middle E and Middle D.'}
-            </p>
+            {/* Favorite Games Chart */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <Heart className="w-5 h-5 text-rose-500" />
+                Most Played Games (Minutes)
+              </h2>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={favoriteGamesData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                    <XAxis type="number" axisLine={false} tickLine={false} />
+                    <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} width={100} />
+                    <Tooltip cursor={{fill: '#f1f5f9'}} />
+                    <Bar dataKey="value" fill="#f43f5e" radius={[0, 4, 4, 0]} barSize={24} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            
+            {/* Teacher Adventure Alerts */}
+            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-2xl shadow-sm text-white">
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <AlertCircle className="w-5 h-5 text-indigo-100" />
+                Teacher Alerts
+              </h2>
+              <div className="space-y-4">
+                <div className="p-4 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20">
+                  <h3 className="font-medium text-white">Rhythm Practice Due</h3>
+                  <p className="text-sm text-indigo-100 mt-1">Please ensure they complete 15 minutes of Rhythm Runner this weekend.</p>
+                  <p className="text-xs text-indigo-200 mt-2 font-medium">- Mr. Davis</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Parent Resources */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-emerald-500" />
+                Tips & Resources
+              </h2>
+              <div className="space-y-3">
+                {[
+                  'How to encourage daily practice', 
+                  'Understanding music theory basics', 
+                  'Proper posture for playing'
+                ].map((resource) => (
+                  <button key={resource} className="w-full text-left p-3 hover:bg-slate-50 rounded-xl transition-colors border border-transparent hover:border-slate-200 flex flex-col group">
+                    <span className="text-slate-700 font-medium text-sm">{resource}</span>
+                    <span className="text-emerald-500 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Read Article →</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Account & Settings */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+              <h2 className="text-lg font-semibold mb-4">Account & Settings</h2>
+              <div className="space-y-2">
+                <button className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl transition-colors text-slate-700">
+                  <CreditCard className="w-5 h-5 text-slate-700" />
+                  Billing & Subscriptions
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl transition-colors text-slate-700">
+                  <Volume2 className="w-5 h-5 text-slate-700" />
+                  App Sound Settings
+                </button>
+                <button className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-xl transition-colors text-slate-700">
+                  <Globe className="w-5 h-5 text-slate-700" />
+                  Language Preferences
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
-        <div className="text-center sm:text-right bg-slate-800 px-4 py-2 rounded-xl border border-slate-700/60 font-mono">
-          <span className="text-[10px] text-slate-400 uppercase font-bold">Total Stars Collected</span>
-          <div className="text-2xl font-black text-yellow-400">{profile.totalStars} ⭐</div>
-        </div>
-      </footer>
+      </div>
     </div>
   );
-};
+}

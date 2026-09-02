@@ -1,0 +1,1077 @@
+[
+  {
+    "id": 1,
+    "title": "Level 1",
+    "targetNotes": "E, F, G",
+    "isUnlocked": true,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "E",
+        "writtenNote": "E4",
+        "fingering": "LH1-thumb",
+        "description": "This is the note  E.  E sits on the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 1_ _"
+      },
+      {
+        "label": "F",
+        "writtenNote": "F4",
+        "fingering": "thumb",
+        "description": "This is the note  F.  F sits in between the bottom two lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb Only"
+      },
+      {
+        "label": "G",
+        "writtenNote": "G4",
+        "fingering": "",
+        "description": "This is the note  G.  G sits on the second-to-bottom line of the music stave. It is the simplest note to play on the clarinet!",
+        "isExtra": false,
+        "fingeringDisplay": "No fingers need to be pressed down at all."
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 2,
+    "title": "Level 2",
+    "targetNotes": "C, D",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "C",
+        "writtenNote": "C4",
+        "fingering": "LH1-LH2-LH3-thumb",
+        "description": "This is the note  C.  C sits on the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123"
+      },
+      {
+        "label": "D",
+        "writtenNote": "D4",
+        "fingering": "LH1-LH2-thumb",
+        "description": "This is the note  D.  D sits under the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 12_"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 3,
+    "title": "Level 3",
+    "targetNotes": "A",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "A",
+        "writtenNote": "A4",
+        "fingering": "A",
+        "description": "This is the note  A.  A sits in between the middle and second-to-bottom lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A key"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 4,
+    "title": "Level 4",
+    "targetNotes": "Low B",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Low B",
+        "writtenNote": "B3",
+        "fingering": "LH1-LH2-LH3-RH2-thumb",
+        "description": "This is the note Low B. Low B sits under the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, _2_"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 5,
+    "title": "Level 5",
+    "targetNotes": "Low Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Low Bb",
+        "writtenNote": "Bb3",
+        "fingering": "LH1-LH2-LH3-RH1-thumb",
+        "description": "This is the note Low Bb. Low Bb sits under the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 1_ _"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 6,
+    "title": "Level 6",
+    "targetNotes": "Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Bb",
+        "writtenNote": "Bb4",
+        "fingering": "A-register",
+        "description": "This is the note  Bb.  Bb sits on the middle line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A key, 8ve"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 7,
+    "title": "Level 7",
+    "targetNotes": "Low A",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Low A",
+        "writtenNote": "A3",
+        "fingering": "LH1-LH2-LH3-RH1-RH2-thumb",
+        "description": "This is the note Low A. Low A sits on the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 12_"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 8,
+    "title": "Level 8",
+    "targetNotes": "Low G",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Low G",
+        "writtenNote": "G3",
+        "fingering": "LH1-LH2-LH3-RH1-RH2-RH3-thumb",
+        "description": "This is the note Low G. Low G sits under the 2nd leger line underneath the music stave. It is often tricky to play, especially if you have small fingers, since the hole is so big and hard to fully cover. Take your time placing your right ring finger down and even use a mirror to help you see if there are any little gaps around the pad of your finger to cover up.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 123"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 9,
+    "title": "Level 9",
+    "targetNotes": "F#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "F#",
+        "writtenNote": "F#4",
+        "fingering": "LH1",
+        "description": "This is the note  F#.  F# sits in between the bottom two lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "No thumb, 1_ _"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 10,
+    "title": "Level 10",
+    "targetNotes": "C#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "C#",
+        "writtenNote": "C#4",
+        "fingering": "L4-LH1-LH2-LH3-thumb",
+        "description": "This is the note  C#.  C# sits on the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, L4 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 10.5,
+    "title": "Extra 1",
+    "targetNotes": "Eb, F#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-pink-400",
+    "introducedNotes": [
+      {
+        "label": "Eb",
+        "writtenNote": "Eb4",
+        "fingering": "LH1-LH2-L_Banana-thumb",
+        "description": "This is the note  Eb.  Eb sits on the bottom line of the music stave. Start by playing a D and then use your Ring finger to press down the banana shaped key below your middle finger. It should sound like an Eb (Played - Thumb, 12 +Side Key)",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb, 12, L Banana"
+      },
+      {
+        "label": "F#",
+        "writtenNote": "F#4",
+        "fingering": "SK1-SK2-thumb",
+        "description": "This is the note  F#.  F# sits in between the bottom two lines of the music stave. Start by playig an F and then use the upper part of your Right Index Finger to press down the bottom two Side keys (The bottom side key is used to play Eb) It should now sound like an F# (Played - No thumb, 1_ _)",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb, SK1, SK2"
+      }
+    ],
+    "isExtra": true
+  },
+  {
+    "id": 11,
+    "title": "Level 11",
+    "targetNotes": "Low F, High C",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low F",
+        "writtenNote": "F3",
+        "fingering": "LH1-LH2-LH3-R2-RH1-RH2-RH3-thumb",
+        "description": "This is the note Low F. Low F sits on the 3rd  leger line underneath the music stave. It is the second lowest note on the clarinet",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 123, R2 Pinky"
+      },
+      {
+        "label": "High C",
+        "writtenNote": "C5",
+        "fingering": "LH1-LH2-LH3-R2-RH1-RH2-RH3-register-thumb",
+        "description": "This is the note High C. High C sits in between the middle and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, R2 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 12,
+    "title": "Level 12",
+    "targetNotes": "High D, High E",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "High D",
+        "writtenNote": "D5",
+        "fingering": "LH1-LH2-LH3-RH1-RH2-RH3-register-thumb",
+        "description": "This is the note High D. High D sits on the second-to-top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123,"
+      },
+      {
+        "label": "High E",
+        "writtenNote": "E5",
+        "fingering": "LH1-LH2-LH3-RH1-RH2-register-thumb",
+        "description": "This is the note High E. High E sits in between the top and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 12_"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 13,
+    "title": "Level 13",
+    "targetNotes": "High F",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "High F",
+        "writtenNote": "F5",
+        "fingering": "LH1-LH2-LH3-RH1-register-thumb",
+        "description": "This is the note High F. High F sits on the top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 1_ _"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 14,
+    "title": "Level 14",
+    "targetNotes": "Low E, Long B",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low E",
+        "writtenNote": "E3",
+        "fingering": "L1-LH1-LH2-LH3-RH1-RH2-RH3-thumb",
+        "description": "This is the note Low E. Low E sits under the 3rd  leger line underneath the music stave. It is the lowest note on the clarinet",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 123, L1 Pinky"
+      },
+      {
+        "label": "Long B",
+        "writtenNote": "B4",
+        "fingering": "L1-LH1-LH2-LH3-RH1-RH2-RH3-register-thumb",
+        "description": "This is the note Long B. Long B sits on the middle line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, L1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 15,
+    "title": "Level 15",
+    "targetNotes": "D#, Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "D#",
+        "writtenNote": "D#4",
+        "fingering": "LH1-LH2-SK1-thumb",
+        "description": "This is the note  D#.  D# sits under the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 12, Side Key"
+      },
+      {
+        "label": "Eb",
+        "writtenNote": "Eb4",
+        "fingering": "LH1-LH2-SK1-thumb",
+        "description": "This is the note  Eb.  Eb sits on the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 12, Side Key"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 16,
+    "title": "Level 16",
+    "targetNotes": "G#, Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "G#",
+        "writtenNote": "G#4",
+        "fingering": "G#",
+        "description": "This is the note  G#.  G# sits on the second-to-bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G# key"
+      },
+      {
+        "label": "Ab",
+        "writtenNote": "Ab4",
+        "fingering": "G#",
+        "description": "This is the note  Ab.  Ab sits in between the middle and second-to-bottom lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "G# key"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 17,
+    "title": "Level 17",
+    "targetNotes": "Low F#, High C#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low F#",
+        "writtenNote": "F#3",
+        "fingering": "L2-LH1-LH2-LH3-RH1-RH2-RH3-thumb",
+        "description": "This is the note Low F#. Low F# sits on the 3rd  leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 123, L2 Pinky"
+      },
+      {
+        "label": "High C#",
+        "writtenNote": "C#5",
+        "fingering": "L2-LH1-LH2-LH3-RH1-RH2-RH3-register-thumb",
+        "description": "This is the note High C#. High C# sits in between the middle and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, L2 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 18,
+    "title": "Level 18",
+    "targetNotes": "High F#, High G",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "High F#",
+        "writtenNote": "F#5",
+        "fingering": "LH1-LH2-LH3-RH2-register-thumb",
+        "description": "This is the note High F#. High F# sits on the top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, _2_"
+      },
+      {
+        "label": "High G",
+        "writtenNote": "G5",
+        "fingering": "LH1-LH2-LH3-register-thumb",
+        "description": "This is the note High G. High G sits above the top line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 19,
+    "title": "Level 19",
+    "targetNotes": "Low G#, Low Ab, High D#, High Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low G#",
+        "writtenNote": "G#3",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-RH3-thumb",
+        "description": "This is the note Low G#. Low G# sits under the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 123, R1 Pinky"
+      },
+      {
+        "label": "Low Ab",
+        "writtenNote": "Ab3",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-RH3-thumb",
+        "description": "This is the note Low Ab. Low Ab sits on the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 123, R1 Pinky"
+      },
+      {
+        "label": "High D#",
+        "writtenNote": "D#5",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-RH3-register-thumb",
+        "description": "This is the note High D#. High D# sits on the second-to-top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, R1 Pinky"
+      },
+      {
+        "label": "High Eb",
+        "writtenNote": "Eb5",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-RH3-register-thumb",
+        "description": "This is the note High Eb. High Eb sits in between the top and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 20,
+    "title": "Level 20",
+    "targetNotes": "High A, High B, Top C",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "High A",
+        "writtenNote": "A5",
+        "fingering": "LH1-LH2-register-thumb",
+        "description": "This is the note High A. High A sits on the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 12_"
+      },
+      {
+        "label": "High B",
+        "writtenNote": "B5",
+        "fingering": "LH1-register-thumb",
+        "description": "This is the note High B. High B sits above the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 1_ _"
+      },
+      {
+        "label": "Top C",
+        "writtenNote": "C6",
+        "fingering": "register-thumb",
+        "description": "This is the note Top C. Top C sits on the 2nd leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve Only"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 20.5,
+    "title": "Extra 2",
+    "targetNotes": "Low B, High F#, High Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-pink-400",
+    "introducedNotes": [
+      {
+        "label": "Low B",
+        "writtenNote": "B3",
+        "fingering": "LH1-LH2-LH3-RH1-R_Banana-thumb",
+        "description": "This is the note Low B. Low B sits under the leger line underneath the music stave. Start by playing a Bb and then use your Ring finger to press down the banana shaped key between the bottom two ring holes. It should sound like a B (Played - Thumb, 123,_2_)",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb, 123, 1, R Banana"
+      },
+      {
+        "label": "High F#",
+        "writtenNote": "F#5",
+        "fingering": "LH1-LH2-LH3-RH1-R_Banana-register-thumb",
+        "description": "This is the note High F#. High F# sits on the top line of the music stave. Start by playing an F and then use your Ring finger to press down the banana shaped key between the bottom two ring holes. It should sound like a F# (Played - Thumb, 123,_2_)",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb+8ve, 123, 1, R Banana"
+      },
+      {
+        "label": "High Bb",
+        "writtenNote": "Bb5",
+        "fingering": "LH1-LH2-L_Banana-register-thumb",
+        "description": "This is the note High Bb. High Bb sits above the 1st leger line above the music stave.",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb+8ve, 12, L Banana"
+      }
+    ],
+    "isExtra": true
+  },
+  {
+    "id": 22,
+    "title": "Level 22",
+    "targetNotes": "High G#, High Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High G#",
+        "writtenNote": "G#5",
+        "fingering": "L4-LH1-LH2-LH3-register-thumb",
+        "description": "This is the note High G#. High G# sits above the top line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, L4 Pinky"
+      },
+      {
+        "label": "High Ab",
+        "writtenNote": "Ab5",
+        "fingering": "L4-LH1-LH2-LH3-register-thumb",
+        "description": "This is the note High Ab. High Ab sits on the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, L4 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 23,
+    "title": "Level 23",
+    "targetNotes": "High Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High Bb",
+        "writtenNote": "Bb5",
+        "fingering": "LH1-LH2-SK1-register-thumb",
+        "description": "This is the note High Bb. High Bb sits above the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 12, Side Key"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 24,
+    "title": "Level 24",
+    "targetNotes": "Low Gb, Gb, High Gb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Low Gb",
+        "writtenNote": "Gb3",
+        "fingering": "LH1-LH2-LH3-R3-RH1-RH2-RH3-thumb",
+        "description": "This is the note Low Gb. Low Gb sits under the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 123, R3 Pinky"
+      },
+      {
+        "label": "Gb",
+        "writtenNote": "Gb4",
+        "fingering": "LH1",
+        "description": "This is the note  Gb.  Gb sits on the second-to-bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "No thumb, 1_ _"
+      },
+      {
+        "label": "High Gb",
+        "writtenNote": "Gb5",
+        "fingering": "LH1-LH2-LH3-RH2-register-thumb",
+        "description": "This is the note High Gb. High Gb sits above the top line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, _2_"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 25,
+    "title": "Level 25",
+    "targetNotes": "Low A#, A#, High A#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Low A#",
+        "writtenNote": "A#3",
+        "fingering": "LH1-LH2-LH3-RH1-thumb",
+        "description": "This is the note Low A#. Low A# sits on the 2nd leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, 1_ _"
+      },
+      {
+        "label": "A#",
+        "writtenNote": "A#4",
+        "fingering": "A-register",
+        "description": "This is the note  A#.  A# sits in between the middle and second-to-bottom lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "A key, 8ve"
+      },
+      {
+        "label": "High A#",
+        "writtenNote": "A#5",
+        "fingering": "LH1-LH2-SK1-register-thumb",
+        "description": "This is the note High A#. High A# sits on the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 12, Side Key"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 26,
+    "title": "Level 26",
+    "targetNotes": "Db, High Db",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Db",
+        "writtenNote": "Db4",
+        "fingering": "L4-LH1-LH2-LH3-thumb",
+        "description": "This is the note  Db.  Db sits under the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, L4 Pinky"
+      },
+      {
+        "label": "High Db",
+        "writtenNote": "Db5",
+        "fingering": "LH1-LH2-LH3-R3-RH1-RH2-RH3-register-thumb",
+        "description": "This is the note High Db. High Db sits on the second-to-top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, R3 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 27,
+    "title": "Level 27",
+    "targetNotes": "Altissimo C#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo C#",
+        "writtenNote": "C#6",
+        "fingering": "LH2-LH3-RH1-RH2-register-thumb",
+        "description": "This is the note Altissimo C#. Altissimo C# sits on the 2nd leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 12_"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 28,
+    "title": "Level 28",
+    "targetNotes": "Altissimo D",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo D",
+        "writtenNote": "D6",
+        "fingering": "LH2-LH3-R1-RH1-register-thumb",
+        "description": "This is the note Altissimo D. Altissimo D sits above the 2nd leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 1_ _, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 29,
+    "title": "Level 29",
+    "targetNotes": "Altissimo E",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo E",
+        "writtenNote": "E6",
+        "fingering": "LH2-LH3-R1-register-thumb",
+        "description": "This is the note Altissimo E. Altissimo E sits on the 3rd  leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, _ _ _, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 30,
+    "title": "Level 30",
+    "targetNotes": "Altissimo F",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo F",
+        "writtenNote": "F6",
+        "fingering": "L4-LH2-LH3-R1-register-thumb",
+        "description": "This is the note Altissimo F. Altissimo F sits above the 3rd  leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, _ _ _, L4 Pinky, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 31,
+    "title": "Level 31",
+    "targetNotes": "Altissimo D#, Altissimo Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo D#",
+        "writtenNote": "D#6",
+        "fingering": "LH2-LH3-R1-RH1-R_Banana-register-thumb",
+        "description": "This is the note Altissimo D#. Altissimo D# sits above the 2nd leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 1, R Banana, R1 Pinky"
+      },
+      {
+        "label": "Altissimo Eb",
+        "writtenNote": "Eb6",
+        "fingering": "LH2-LH3-R1-RH1-R_Banana-register-thumb",
+        "description": "This is the note Altissimo Eb. Altissimo Eb sits on the 3rd  leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 1, R Banana, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 32,
+    "title": "Level 32",
+    "targetNotes": "Altissimo Db",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo Db",
+        "writtenNote": "Db6",
+        "fingering": "LH2-LH3-RH1-RH2-register-thumb",
+        "description": "This is the note Altissimo Db. Altissimo Db sits above the 2nd leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 12_"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 33,
+    "title": "Level 33",
+    "targetNotes": "Altissimo F#, Altissimo Gb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo F#",
+        "writtenNote": "F#6",
+        "fingering": "L4-LH2-R1-register-thumb",
+        "description": "This is the note Altissimo F#. Altissimo F# sits above the 3rd  leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _2_, _ _ _, L4 Pinky, R1 Pinky"
+      },
+      {
+        "label": "Altissimo Gb",
+        "writtenNote": "Gb6",
+        "fingering": "L4-LH2-R1-register-thumb",
+        "description": "This is the note Altissimo Gb. Altissimo Gb sits on the 4th leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _2_, _ _ _, L4 Pinky, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 34,
+    "title": "Level 34",
+    "targetNotes": "Altissimo G",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo G",
+        "writtenNote": "G6",
+        "fingering": "LH2-LH3-R1-RH1-RH2-register-thumb",
+        "description": "This is the note Altissimo G. Altissimo G sits on the 4th leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 12_, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 35,
+    "title": "Level 35",
+    "targetNotes": "Altissimo G#, Altissimo Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo G#",
+        "writtenNote": "G#6",
+        "fingering": "LH2-LH3-R1-RH1-R_Banana-register-thumb",
+        "description": "This is the note Altissimo G#. Altissimo G# sits on the 4th leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 1, R Banana, R1 Pinky"
+      },
+      {
+        "label": "Altissimo Ab",
+        "writtenNote": "Ab6",
+        "fingering": "LH2-LH3-R1-RH1-R_Banana-register-thumb",
+        "description": "This is the note Altissimo Ab. Altissimo Ab sits above the 4th leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, 1, R Banana, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 36,
+    "title": "Level 36",
+    "targetNotes": "Altissimo A",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo A",
+        "writtenNote": "A6",
+        "fingering": "LH2-LH3-R1-register-thumb",
+        "description": "This is the note Altissimo A. Altissimo A sits above the 4th leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, _ _ _, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 37,
+    "title": "Level 37",
+    "targetNotes": "Altissimo B",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Altissimo B",
+        "writtenNote": "B6",
+        "fingering": "LH1-LH2-R1-RH1-RH2-register-thumb",
+        "description": "This is the note Altissimo B. Altissimo B sits on the 5th leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 12_, 12_, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 38,
+    "title": "Level 38",
+    "targetNotes": "Super C",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Super C",
+        "writtenNote": "C7",
+        "fingering": "LH1-R1-RH1-register-thumb",
+        "description": "This is the note Super C. Super C sits above the 5th leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 1_ _, 1 _ _, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 39,
+    "title": "Level 39",
+    "targetNotes": "Low B#, Low Cb, B#, Cb, High B#, High Cb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Low B#",
+        "writtenNote": "B#3",
+        "fingering": "LH1-LH2-LH3-thumb",
+        "description": "This is the note Low B#. Low B# sits under the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123"
+      },
+      {
+        "label": "Low Cb",
+        "writtenNote": "Cb4",
+        "fingering": "LH1-LH2-LH3-RH2-thumb",
+        "description": "This is the note Low Cb. Low Cb sits on the leger line underneath the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 123, _2_"
+      },
+      {
+        "label": "B#",
+        "writtenNote": "B#4",
+        "fingering": "LH1-LH2-LH3-R2-RH1-RH2-RH3-register-thumb OR L3",
+        "description": "This is the note  B#.  B# sits on the middle line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, R2 or L3 Pinky"
+      },
+      {
+        "label": "Cb",
+        "writtenNote": "Cb5",
+        "fingering": "LH1-LH2-LH3-R4-RH1-RH2-RH3-register-thumb OR L1",
+        "description": "This is the note  Cb.  Cb sits in between the middle and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 123, R4 or L1 Pinky"
+      },
+      {
+        "label": "High B#",
+        "writtenNote": "B#5",
+        "fingering": "register-thumb",
+        "description": "This is the note High B#. High B# sits above the 1st leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve Only"
+      },
+      {
+        "label": "High Cb",
+        "writtenNote": "Cb6",
+        "fingering": "LH1-register-thumb",
+        "description": "This is the note High Cb. High Cb sits on the 2nd leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 1_ _"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 40,
+    "title": "Level 40",
+    "targetNotes": "E#, Fb, High E#, High Fb, Altissimo E#, Altissimo Fb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "E#",
+        "writtenNote": "E#4",
+        "fingering": "thumb",
+        "description": "This is the note  E#.  E# sits on the bottom line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb Only"
+      },
+      {
+        "label": "Fb",
+        "writtenNote": "Fb4",
+        "fingering": "LH1-thumb",
+        "description": "This is the note  Fb.  Fb sits in between the bottom two lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb, 1_ _"
+      },
+      {
+        "label": "High E#",
+        "writtenNote": "E#5",
+        "fingering": "LH1-LH2-LH3-RH1-register-thumb",
+        "description": "This is the note High E#. High E# sits in between the top and second-to-top lines of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 1_ _"
+      },
+      {
+        "label": "High Fb",
+        "writtenNote": "Fb5",
+        "fingering": "LH1-LH2-LH3-RH1-RH2-register-thumb",
+        "description": "This is the note High Fb. High Fb sits on the top line of the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, 123, 12_"
+      },
+      {
+        "label": "Altissimo E#",
+        "writtenNote": "E#6",
+        "fingering": "R1-register-thumb",
+        "description": "This is the note Altissimo E#. Altissimo E# sits on the 3rd  leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23 +Pinky, _ _ _, R1 Pinky"
+      },
+      {
+        "label": "Altissimo Fb",
+        "writtenNote": "Fb6",
+        "fingering": "LH2-LH3-R1-register-thumb",
+        "description": "This is the note Altissimo Fb. Altissimo Fb sits above the 3rd  leger line above the music stave.",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb+8ve, _23, _ _ _, R1 Pinky"
+      }
+    ],
+    "isExtra": false
+  }
+]

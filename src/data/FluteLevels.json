@@ -1,0 +1,843 @@
+[
+  {
+    "id": 1,
+    "title": "Level 1",
+    "targetNotes": "G, A, B",
+    "isUnlocked": true,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "G",
+        "writtenNote": "G4",
+        "fingering": "LH1-LH2-LH3-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, R1 (Eb)"
+      },
+      {
+        "label": "A",
+        "writtenNote": "A4",
+        "fingering": "LH1-LH2-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, R1 (Eb)"
+      },
+      {
+        "label": "B",
+        "writtenNote": "B4",
+        "fingering": "LH1-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 2,
+    "title": "Level 2",
+    "targetNotes": "Bb, C",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Bb",
+        "writtenNote": "Bb4",
+        "fingering": "LH1-R1-RH1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, RH1, R1 (Eb)"
+      },
+      {
+        "label": "C",
+        "writtenNote": "C5",
+        "fingering": "LH1-R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 3,
+    "title": "Level 3",
+    "targetNotes": "D",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "D",
+        "writtenNote": "D5",
+        "fingering": "LH2-LH3-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH2, LH3, RH1, RH2, RH3"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 4,
+    "title": "Level 4",
+    "targetNotes": "Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Eb",
+        "writtenNote": "Eb5",
+        "fingering": "LH2-LH3-R1-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH2, LH3, RH1, RH2, RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 5,
+    "title": "Level 5",
+    "targetNotes": "F",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "F",
+        "writtenNote": "F5",
+        "fingering": "LH1-LH2-LH3-R1-RH1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 6,
+    "title": "Level 6",
+    "targetNotes": "Low F",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "Low F",
+        "writtenNote": "F4",
+        "fingering": "LH1-LH2-LH3-R1-RH1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 7,
+    "title": "Level 7",
+    "targetNotes": "E",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "E",
+        "writtenNote": "E5",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 8,
+    "title": "Level 8",
+    "targetNotes": "F#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "F#",
+        "writtenNote": "F#5",
+        "fingering": "LH1-LH2-LH3-R1-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 9,
+    "title": "Level 9",
+    "targetNotes": "High G",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "High G",
+        "writtenNote": "G5",
+        "fingering": "LH1-LH2-LH3-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 10,
+    "title": "Level 10",
+    "targetNotes": "High A",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-purple-300",
+    "introducedNotes": [
+      {
+        "label": "High A",
+        "writtenNote": "A5",
+        "fingering": "LH1-LH2-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 10.5,
+    "title": "Extra 1",
+    "targetNotes": "A#, D#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-pink-400",
+    "introducedNotes": [
+      {
+        "label": "A#",
+        "writtenNote": "A#4",
+        "fingering": "LH1-R1-RH1-T1",
+        "description": "",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb B (T1), LH1, RH1, R1 (Eb)"
+      },
+      {
+        "label": "D#",
+        "writtenNote": "D#5",
+        "fingering": "LH2-LH3-R1-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb B (T1), LH2, LH3, RH1, RH2, RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": true
+  },
+  {
+    "id": 11,
+    "title": "Level 11",
+    "targetNotes": "High Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "High Bb",
+        "writtenNote": "Bb5",
+        "fingering": "LH1-R1-RH1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, RH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 12,
+    "title": "Level 12",
+    "targetNotes": "C#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "C#",
+        "writtenNote": "C#5",
+        "fingering": "R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 13,
+    "title": "Level 13",
+    "targetNotes": "Low F#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low F#",
+        "writtenNote": "F#4",
+        "fingering": "LH1-LH2-LH3-R1-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 14,
+    "title": "Level 14",
+    "targetNotes": "Low E",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low E",
+        "writtenNote": "E4",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 15,
+    "title": "Level 15",
+    "targetNotes": "Low D",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low D",
+        "writtenNote": "D4",
+        "fingering": "LH1-LH2-LH3-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, RH3"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 16,
+    "title": "Level 16",
+    "targetNotes": "Low C",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low C",
+        "writtenNote": "C4",
+        "fingering": "LH1-LH2-LH3-R2-R3-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, RH3, R2 (C#), R3 (c)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 17,
+    "title": "Level 17",
+    "targetNotes": "High B",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "High B",
+        "writtenNote": "B5",
+        "fingering": "LH1-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 18,
+    "title": "Level 18",
+    "targetNotes": "High C",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "High C",
+        "writtenNote": "C6",
+        "fingering": "LH1-R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 19,
+    "title": "Level 19",
+    "targetNotes": "Ab, High Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Ab",
+        "writtenNote": "Ab4",
+        "fingering": "L1-LH1-LH2-LH3-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, L1 (G#), R1 (Eb)"
+      },
+      {
+        "label": "High Ab",
+        "writtenNote": "Ab5",
+        "fingering": "L1-LH1-LH2-LH3-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, L1 (G#), R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 20,
+    "title": "Level 20",
+    "targetNotes": "Low Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-sky-300",
+    "introducedNotes": [
+      {
+        "label": "Low Eb",
+        "writtenNote": "Eb4",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 21,
+    "title": "Level 21",
+    "targetNotes": "Low C#, Low Db",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Low C#",
+        "writtenNote": "C#4",
+        "fingering": "LH1-LH2-LH3-R2-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, RH3, R2 (C#)"
+      },
+      {
+        "label": "Low Db",
+        "writtenNote": "Db4",
+        "fingering": "LH1-LH2-LH3-R2-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, RH3, R2 (C#)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 22,
+    "title": "Level 22",
+    "targetNotes": "High C#, High Db",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High C#",
+        "writtenNote": "C#6",
+        "fingering": "R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "R1 (Eb)"
+      },
+      {
+        "label": "High Db",
+        "writtenNote": "Db6",
+        "fingering": "R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 23,
+    "title": "Level 23",
+    "targetNotes": "High D",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High D",
+        "writtenNote": "D6",
+        "fingering": "LH2-LH3-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1),  LH2, LH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 24,
+    "title": "Level 24",
+    "targetNotes": "High D#, High Eb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High D#",
+        "writtenNote": "D#6",
+        "fingering": "L1-LH1-LH2-LH3-R1-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, L1 (G#), RH1, RH2, RH3, R1 (Eb)"
+      },
+      {
+        "label": "High Eb",
+        "writtenNote": "Eb6",
+        "fingering": "L1-LH1-LH2-LH3-R1-RH1-RH2-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, L1 (G#), RH1, RH2, RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 25,
+    "title": "Level 25",
+    "targetNotes": "High E",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High E",
+        "writtenNote": "E6",
+        "fingering": "LH1-LH2-R1-RH1-RH2-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2,  RH1, RH2, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 26,
+    "title": "Level 26",
+    "targetNotes": "High F",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High F",
+        "writtenNote": "F6",
+        "fingering": "LH1-LH3-R1-RH1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH3,  RH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 27,
+    "title": "Level 27",
+    "targetNotes": "High F#",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "High F#",
+        "writtenNote": "F#6",
+        "fingering": "LH1-LH3-R1-RH3-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH3,  RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 28,
+    "title": "Level 28",
+    "targetNotes": "Super G",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Super G",
+        "writtenNote": "G6",
+        "fingering": "LH1-LH2-LH3-R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH1, LH2, LH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 29,
+    "title": "Level 29",
+    "targetNotes": "Super G#, Super Ab",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Super G#",
+        "writtenNote": "G#6",
+        "fingering": "L1-LH2-LH3-R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH2, LH3, L1 (G#), R1 (Eb)"
+      },
+      {
+        "label": "Super Ab",
+        "writtenNote": "Ab6",
+        "fingering": "L1-LH2-LH3-R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH2, LH3, L1 (G#), R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 30,
+    "title": "Level 30",
+    "targetNotes": "Super A",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-emerald-300",
+    "introducedNotes": [
+      {
+        "label": "Super A",
+        "writtenNote": "A6",
+        "fingering": "LH2-R1-RH1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH2, RH1, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 30.5,
+    "title": "Extra 3",
+    "targetNotes": "High A#, Super Gb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-pink-400",
+    "introducedNotes": [
+      {
+        "label": "High A#",
+        "writtenNote": "A#5",
+        "fingering": "LH1-R1-RH1-T1",
+        "description": "",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb B (T1), LH1, RH1, R1 (Eb)"
+      },
+      {
+        "label": "Super Gb",
+        "writtenNote": "Gb6",
+        "fingering": "LH1-LH3-R1-RH3-T1",
+        "description": "",
+        "isExtra": true,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH3,  RH3, R1 (Eb)"
+      }
+    ],
+    "isExtra": true
+  },
+  {
+    "id": 31,
+    "title": "Level 31",
+    "targetNotes": "Super A#, Super Bb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Super A#",
+        "writtenNote": "A#6",
+        "fingering": "TBD",
+        "description": "",
+        "isExtra": false
+      },
+      {
+        "label": "Super Bb",
+        "writtenNote": "Bb6",
+        "fingering": "TBD",
+        "description": "",
+        "isExtra": false
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 32,
+    "title": "Level 32",
+    "targetNotes": "Super B",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Super B",
+        "writtenNote": "B6",
+        "fingering": "TBD",
+        "description": "",
+        "isExtra": false
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 33,
+    "title": "Level 33",
+    "targetNotes": "Super C",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Super C",
+        "writtenNote": "C7",
+        "fingering": "TBD",
+        "description": "",
+        "isExtra": false
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 34,
+    "title": "Level 34",
+    "targetNotes": "Low Fb, Fb, High Fb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "Low Fb",
+        "writtenNote": "Fb4",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, R1 (Eb)"
+      },
+      {
+        "label": "Fb",
+        "writtenNote": "Fb5",
+        "fingering": "LH1-LH2-LH3-R1-RH1-RH2-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2, LH3, RH1, RH2, R1 (Eb)"
+      },
+      {
+        "label": "High Fb",
+        "writtenNote": "Fb6",
+        "fingering": "LH1-LH2-R1-RH1-RH2-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, LH2,  RH1, RH2, R1 (Eb)"
+      }
+    ],
+    "isExtra": false
+  },
+  {
+    "id": 35,
+    "title": "Level 35",
+    "targetNotes": "B#, Cb, High B#, High Cb, Super B#, Super Cb",
+    "isUnlocked": false,
+    "cardTheme": "bg-slate-800 border-2 border-slate-600",
+    "textTheme": "text-amber-300",
+    "introducedNotes": [
+      {
+        "label": "B#",
+        "writtenNote": "B#4",
+        "fingering": "LH1-R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH1, R1 (Eb)"
+      },
+      {
+        "label": "Cb",
+        "writtenNote": "Cb5",
+        "fingering": "LH1-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, R1 (Eb)"
+      },
+      {
+        "label": "High B#",
+        "writtenNote": "B#5",
+        "fingering": "LH1-R1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "LH1, R1 (Eb)"
+      },
+      {
+        "label": "High Cb",
+        "writtenNote": "Cb6",
+        "fingering": "LH1-R1-T1",
+        "description": "",
+        "isExtra": false,
+        "fingeringDisplay": "Thumb B (T1), LH1, R1 (Eb)"
+      },
+      {
+        "label": "Super B#",
+        "writtenNote": "B#6",
+        "fingering": "TBD",
+        "description": "",
+        "isExtra": false
+      },
+      {
+        "label": "Super Cb",
+        "writtenNote": "Cb7",
+        "fingering": "TBD",
+        "description": "",
+        "isExtra": false
+      }
+    ],
+    "isExtra": false
+  }
+]

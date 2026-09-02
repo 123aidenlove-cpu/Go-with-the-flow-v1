@@ -1,11 +1,16 @@
 // Global Asset Manager for image and graphic URLs
 export const APP_ASSETS = {
   backgrounds: {
-    rocketGame: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80', // Beautiful outer space star background
-    oceanGame: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1200&q=80', // Serene ocean deep blue background
-    map: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80', // Parchment / map layout texture background
-    concertHall: 'https://images.unsplash.com/photo-1503095391758-11200cf53674?auto=format&fit=crop&w=1200&q=80', // Elegant theater red curtains
-    default: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80'
+    rhythmRapidsBackground: '/assets/images/games/rhythm_rapids_background.png',
+    rhythmRapidsRocksLeft: '/assets/images/games/rhythm_rapid_rocks_left.png',
+    rhythmRapidsRocksRight: '/assets/images/games/rhythm_rapid_rocks_right.png',
+    rocketGame: '/images/Reading Rocket.png',
+    oceanGame: '/images/Finger Fishing gameplay.png',
+    map: '/images/UI For Homepage.png',
+    concertHall: '/images/Concert Hall.png',
+    pizzeria: '/images/Pizzeria Background.png',
+    pizzeriaGameplay: '/images/Pizzeria Gameplay Background.png',
+    default: '/images/UI For Homepage.png'
   },
   ui: {
     playButton: 'https://img.icons8.com/color/144/play--v1.png',
@@ -18,12 +23,17 @@ export const APP_ASSETS = {
     flame: 'https://img.icons8.com/color/144/hot-article.png',
     trophy: 'https://img.icons8.com/color/144/trophy--v1.png',
     chestLocked: 'https://img.icons8.com/color/144/locked-chest.png',
-    chestUnlocked: 'https://img.icons8.com/color/144/open-chest.png'
+    chestUnlocked: 'https://img.icons8.com/color/144/open-chest.png',
+    quavits: '/images/quavits.png',
+    rareQuavits: '/images/rare_quavits.png',
+    noteHelp: '/images/notehelp.png'
   },
   sprites: {
     clarinetRocket: 'https://img.icons8.com/color/144/rocket--v1.png',
     fingerFish: 'https://img.icons8.com/color/144/fish.png',
-    alienUfo: 'https://img.icons8.com/color/144/ufo.png'
+    alienUfo: 'https://img.icons8.com/color/144/ufo.png',
+    avatars1: '/images/avatars1.png',
+    avatars2: '/images/avatars2.png'
   },
   instruments: {
     clarinet: 'https://img.icons8.com/color/144/clarinet.png',

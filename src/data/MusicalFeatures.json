@@ -1,0 +1,1191 @@
+[
+  {
+    "id": 1,
+    "introducedSymbols": [
+      {
+        "Level": "1",
+        "Category": "Dynamics",
+        "Name": "Piano",
+        "Symbol": "p",
+        "Description": "Soft",
+        "VexFlow_Hint": "p",
+        "type": "feature"
+      },
+      {
+        "Level": "1",
+        "Category": "Dynamics",
+        "Name": "Forte",
+        "Symbol": "f",
+        "Description": "Loud",
+        "VexFlow_Hint": "f",
+        "type": "feature"
+      },
+      {
+        "Level": "1",
+        "Category": "String Only",
+        "Name": "Down Bow",
+        "Symbol": "\u03a0",
+        "Description": "For strings: pull the bow downwards",
+        "VexFlow_Hint": "downbow",
+        "type": "feature"
+      },
+      {
+        "Level": "1",
+        "Category": "Tempo",
+        "Name": "Adagio",
+        "Symbol": "Adagio",
+        "Description": "Slow, at ease",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "introducedSymbols": [
+      {
+        "Level": "2",
+        "Category": "Dynamics",
+        "Name": "Mezzo Piano",
+        "Symbol": "mp",
+        "Description": "Moderately soft",
+        "VexFlow_Hint": "mp",
+        "type": "feature"
+      },
+      {
+        "Level": "2",
+        "Category": "Dynamics",
+        "Name": "Mezzo Forte",
+        "Symbol": "mf",
+        "Description": "Moderately loud",
+        "VexFlow_Hint": "mf",
+        "type": "feature"
+      },
+      {
+        "Level": "2",
+        "Category": "String Only",
+        "Name": "Up Bow",
+        "Symbol": "V",
+        "Description": "For strings: push the bow upwards",
+        "VexFlow_Hint": "upbow",
+        "type": "feature"
+      },
+      {
+        "Level": "2",
+        "Category": "Tempo",
+        "Name": "Allegro",
+        "Symbol": "Allegro",
+        "Description": "Fast, lively",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "introducedSymbols": [
+      {
+        "Level": "3",
+        "Category": "Articulations",
+        "Name": "Staccato",
+        "Symbol": ".",
+        "Description": "Play the note short and detached",
+        "VexFlow_Hint": "a.",
+        "type": "feature"
+      },
+      {
+        "Level": "3",
+        "Category": "String Only",
+        "Name": "Pizzicato",
+        "Symbol": "pizz.",
+        "Description": "Pluck the string instead of bowing",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "3",
+        "Category": "Tempo",
+        "Name": "Moderato",
+        "Symbol": "Moderato",
+        "Description": "Moderate",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "introducedSymbols": [
+      {
+        "Level": "4",
+        "Category": "Dynamics",
+        "Name": "Fortissimo",
+        "Symbol": "ff",
+        "Description": "Very loud",
+        "VexFlow_Hint": "ff",
+        "type": "feature"
+      },
+      {
+        "Level": "4",
+        "Category": "Articulations",
+        "Name": "Tenuto",
+        "Symbol": "_",
+        "Description": "Hold the note for its full value",
+        "VexFlow_Hint": "a-",
+        "type": "feature"
+      },
+      {
+        "Level": "4",
+        "Category": "String Only",
+        "Name": "Arco",
+        "Symbol": "arco",
+        "Description": "Use the bow to play",
+        "VexFlow_Hint": "degrees symbol small circle",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "introducedSymbols": [
+      {
+        "Level": "5",
+        "Category": "Dynamics",
+        "Name": "Pianissimo",
+        "Symbol": "pp",
+        "Description": "Very soft",
+        "VexFlow_Hint": "pp",
+        "type": "feature"
+      },
+      {
+        "Level": "5",
+        "Category": "Articulations",
+        "Name": "Accent",
+        "Symbol": ">",
+        "Description": "Play the note with a strong attack",
+        "VexFlow_Hint": "a>",
+        "type": "feature"
+      },
+      {
+        "Level": "5",
+        "Category": "String Only",
+        "Name": "Tremolo",
+        "Symbol": "///",
+        "Description": "Rapidly repeat the same note",
+        "VexFlow_Hint": "tremolo",
+        "type": "feature"
+      },
+      {
+        "Level": "5",
+        "Category": "String Only",
+        "Name": "Harmonic",
+        "Symbol": "Small Open Circle",
+        "Description": "Touch your finger to the string without fully pressing down.",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "introducedSymbols": [
+      {
+        "Level": "6",
+        "Category": "Dynamics",
+        "Name": "Crescendo",
+        "Symbol": "<",
+        "Description": "Gradually getting louder",
+        "VexFlow_Hint": "crescendo wedge",
+        "type": "feature"
+      },
+      {
+        "Level": "6",
+        "Category": "String Only",
+        "Name": "Col Legno",
+        "Symbol": "Col Legno",
+        "Description": "Play with the wooden side of the bow.",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "6",
+        "Category": "Tempo",
+        "Name": "Presto",
+        "Symbol": "Presto",
+        "Description": "Very fast",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "introducedSymbols": [
+      {
+        "Level": "7",
+        "Category": "Dynamics",
+        "Name": "Decrescendo",
+        "Symbol": ">",
+        "Description": "Gradually getting softer",
+        "VexFlow_Hint": "decrescendo wedge",
+        "type": "feature"
+      },
+      {
+        "Level": "7",
+        "Category": "Articulations",
+        "Name": "Fermata",
+        "Symbol": "\ud834\udd10",
+        "Description": "Hold the note longer than its normal value",
+        "VexFlow_Hint": "a@a",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "introducedSymbols": [
+      {
+        "Level": "8",
+        "Category": "Articulations",
+        "Name": "Marcato",
+        "Symbol": "^",
+        "Description": "Play the note with a very strong, sharp attack",
+        "VexFlow_Hint": "a^",
+        "type": "feature"
+      },
+      {
+        "Level": "8",
+        "Category": "Tempo",
+        "Name": "Andante",
+        "Symbol": "Andante",
+        "Description": "Walking pace",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "introducedSymbols": [
+      {
+        "Level": "9",
+        "Category": "Dynamics",
+        "Name": "Fortississimo",
+        "Symbol": "fff",
+        "Description": "Very, very loud",
+        "VexFlow_Hint": "fff",
+        "type": "feature"
+      },
+      {
+        "Level": "9",
+        "Category": "Tempo",
+        "Name": "Lento",
+        "Symbol": "Lento",
+        "Description": "Very slow",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "introducedSymbols": [
+      {
+        "Level": "10",
+        "Category": "Dynamics",
+        "Name": "Pianississimo",
+        "Symbol": "ppp",
+        "Description": "Very, very soft",
+        "VexFlow_Hint": "ppp",
+        "type": "feature"
+      },
+      {
+        "Level": "10",
+        "Category": "Tempo",
+        "Name": "Prestissimo",
+        "Symbol": "Prestissimo",
+        "Description": "As fast as possible",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "introducedSymbols": [
+      {
+        "Level": "11",
+        "Category": "Tempo",
+        "Name": "Largo",
+        "Symbol": "Largo",
+        "Description": "Broad, slow",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "11",
+        "Category": "Expressive",
+        "Name": "Dolce",
+        "Symbol": "Dolce",
+        "Description": "Sweetly",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "introducedSymbols": [
+      {
+        "Level": "12",
+        "Category": "Dynamics",
+        "Name": "Sforzando",
+        "Symbol": "sfz",
+        "Description": "Suddenly loud and accented",
+        "VexFlow_Hint": "sfz",
+        "type": "feature"
+      },
+      {
+        "Level": "12",
+        "Category": "Tempo",
+        "Name": "Vivace",
+        "Symbol": "Vivace",
+        "Description": "Lively, brisk",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "introducedSymbols": [
+      {
+        "Level": "13",
+        "Category": "Dynamics",
+        "Name": "Forte-piano",
+        "Symbol": "fp",
+        "Description": "Loud, then immediately soft",
+        "VexFlow_Hint": "fp",
+        "type": "feature"
+      },
+      {
+        "Level": "13",
+        "Category": "Articulations",
+        "Name": "Caesura",
+        "Symbol": "//",
+        "Description": "A breif pause with no sound",
+        "VexFlow_Hint": "//",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "introducedSymbols": [
+      {
+        "Level": "14",
+        "Category": "Ornaments",
+        "Name": "Trill",
+        "Symbol": "tr",
+        "Description": "Rapidly alternate between the written note and the note above",
+        "VexFlow_Hint": "tr",
+        "type": "feature"
+      },
+      {
+        "Level": "14",
+        "Category": "Tempo",
+        "Name": "Allegro moderato",
+        "Symbol": "Allegro moderato",
+        "Description": "Moderately quick",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "introducedSymbols": [
+      {
+        "Level": "15",
+        "Category": "Tempo",
+        "Name": "Grave",
+        "Symbol": "Grave",
+        "Description": "Very slow, solemn",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "15",
+        "Category": "Expressive",
+        "Name": "Espressivo",
+        "Symbol": "Espressivo",
+        "Description": "Expressively",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "introducedSymbols": [
+      {
+        "Level": "16",
+        "Category": "Ornaments",
+        "Name": "Grace Note",
+        "Symbol": "\u266a",
+        "Description": "A quick ornamental note played just before the main beat",
+        "VexFlow_Hint": "grace",
+        "type": "feature"
+      },
+      {
+        "Level": "16",
+        "Category": "Tempo",
+        "Name": "Allegretto",
+        "Symbol": "Allegretto",
+        "Description": "Moderately fast (slower than Allegro)",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "16",
+        "Category": "Expressive",
+        "Name": "Cantabile",
+        "Symbol": "Cantabile",
+        "Description": "In a singing style",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "introducedSymbols": [
+      {
+        "Level": "17",
+        "Category": "Ornaments",
+        "Name": "Glissando",
+        "Symbol": "gliss.",
+        "Description": "Slide smoothly between two notes",
+        "VexFlow_Hint": "glissando",
+        "type": "feature"
+      },
+      {
+        "Level": "17",
+        "Category": "Tempo",
+        "Name": "Larghissimo",
+        "Symbol": "Larghissimo",
+        "Description": "Extremely slow",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "17",
+        "Category": "Expressive",
+        "Name": "Sostenuto",
+        "Symbol": "Sostenuto",
+        "Description": "Sustained",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "introducedSymbols": [
+      {
+        "Level": "18",
+        "Category": "Tempo",
+        "Name": "Allegrissimo",
+        "Symbol": "Allegrissimo",
+        "Description": "Very fast",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "18",
+        "Category": "Expressive",
+        "Name": "Pesante",
+        "Symbol": "Pesante",
+        "Description": "Heavily",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "introducedSymbols": [
+      {
+        "Level": "19",
+        "Category": "Ornaments",
+        "Name": "Turn",
+        "Symbol": "\ud834\udd95",
+        "Description": "A sequence of notes rotating around the main note",
+        "VexFlow_Hint": "turn",
+        "type": "feature"
+      },
+      {
+        "Level": "19",
+        "Category": "Tempo",
+        "Name": "Andante moderato",
+        "Symbol": "Andante moderato",
+        "Description": "Between Andante and Moderato",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "19",
+        "Category": "Expressive",
+        "Name": "Animato",
+        "Symbol": "Animato",
+        "Description": "Animated",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "introducedSymbols": [
+      {
+        "Level": "20",
+        "Category": "Tempo",
+        "Name": "Marcia moderato",
+        "Symbol": "Marcia moderato",
+        "Description": "Moderate march tempo",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "20",
+        "Category": "Expressive",
+        "Name": "Scherzando",
+        "Symbol": "Scherzando",
+        "Description": "Playfully",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "introducedSymbols": [
+      {
+        "Level": "21",
+        "Category": "Tempo",
+        "Name": "Larghetto",
+        "Symbol": "Larghetto",
+        "Description": "Rather broadly (faster than Largo)",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "21",
+        "Category": "Expressive",
+        "Name": "Maestoso",
+        "Symbol": "Maestoso",
+        "Description": "Majestically",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "introducedSymbols": [
+      {
+        "Level": "22",
+        "Category": "Tempo",
+        "Name": "Adagietto",
+        "Symbol": "Adagietto",
+        "Description": "Rather slow (faster than Adagio)",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "22",
+        "Category": "Expressive",
+        "Name": "Con moto",
+        "Symbol": "Con moto",
+        "Description": "With motion",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "introducedSymbols": [
+      {
+        "Level": "23",
+        "Category": "Tempo",
+        "Name": "Vivacissimo",
+        "Symbol": "Vivacissimo",
+        "Description": "Very fast and lively",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "23",
+        "Category": "Expressive",
+        "Name": "Sotto voce",
+        "Symbol": "Sotto voce",
+        "Description": "In an undertone, subdued, under the voice.",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "introducedSymbols": [
+      {
+        "Level": "24",
+        "Category": "Tempo",
+        "Name": "Adagissimo",
+        "Symbol": "Adagissimo",
+        "Description": "Very slow (slower than Adagio)",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "24",
+        "Category": "Expressive",
+        "Name": "Semplice",
+        "Symbol": "Semplice",
+        "Description": "Simple, unaffected",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "introducedSymbols": [
+      {
+        "Level": "25",
+        "Category": "Tempo",
+        "Name": "Andantino",
+        "Symbol": "Andantino",
+        "Description": "Slightly faster than Andante",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "25",
+        "Category": "Expressive",
+        "Name": "Morendo",
+        "Symbol": "Morendo",
+        "Description": "Dying away",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "introducedSymbols": [
+      {
+        "Level": "26",
+        "Category": "Expressive",
+        "Name": "Grandioso",
+        "Symbol": "Grandioso",
+        "Description": "Grandly",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "26",
+        "Category": "Expressive",
+        "Name": "Nobilmente",
+        "Symbol": "Nobilmente",
+        "Description": "Nobly",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "introducedSymbols": [
+      {
+        "Level": "27",
+        "Category": "Expressive",
+        "Name": "Solenne",
+        "Symbol": "Solenne",
+        "Description": "Solemnly",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "27",
+        "Category": "Expressive",
+        "Name": "Trionfante",
+        "Symbol": "Trionfante",
+        "Description": "Triumphantly",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "introducedSymbols": [
+      {
+        "Level": "28",
+        "Category": "Expressive",
+        "Name": "Con brio",
+        "Symbol": "Con brio",
+        "Description": "With vigour/spirit",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "28",
+        "Category": "Expressive",
+        "Name": "Con fuoco",
+        "Symbol": "Con fuoco",
+        "Description": "With fire",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "introducedSymbols": [
+      {
+        "Level": "29",
+        "Category": "Expressive",
+        "Name": "Con anima",
+        "Symbol": "Con anima",
+        "Description": "With soul/feeling",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "29",
+        "Category": "Expressive",
+        "Name": "Con spirito",
+        "Symbol": "Con spirito",
+        "Description": "With spirit",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "introducedSymbols": [
+      {
+        "Level": "30",
+        "Category": "Expressive",
+        "Name": "Con grazia",
+        "Symbol": "Con grazia",
+        "Description": "With grace",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "30",
+        "Category": "Expressive",
+        "Name": "Con forza",
+        "Symbol": "Con forza",
+        "Description": "With force",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "introducedSymbols": [
+      {
+        "Level": "31",
+        "Category": "Expressive",
+        "Name": "Brillante",
+        "Symbol": "Brillante",
+        "Description": "Brilliant, sparkling",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "31",
+        "Category": "Expressive",
+        "Name": "Brioso",
+        "Symbol": "Brioso",
+        "Description": "Spirited",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "introducedSymbols": [
+      {
+        "Level": "32",
+        "Category": "Expressive",
+        "Name": "Agitato",
+        "Symbol": "Agitato",
+        "Description": "Agitated",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "32",
+        "Category": "Expressive",
+        "Name": "Furioso",
+        "Symbol": "Furioso",
+        "Description": "Furious",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "introducedSymbols": [
+      {
+        "Level": "33",
+        "Category": "Expressive",
+        "Name": "Feroce",
+        "Symbol": "Feroce",
+        "Description": "Ferocious",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "33",
+        "Category": "Expressive",
+        "Name": "Energico",
+        "Symbol": "Energico",
+        "Description": "Energetic",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "introducedSymbols": [
+      {
+        "Level": "34",
+        "Category": "Expressive",
+        "Name": "Vigoroso",
+        "Symbol": "Vigoroso",
+        "Description": "Vigorous",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "34",
+        "Category": "Expressive",
+        "Name": "Risoluto",
+        "Symbol": "Risoluto",
+        "Description": "Resolute",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "introducedSymbols": [
+      {
+        "Level": "35",
+        "Category": "Expressive",
+        "Name": "Marziale",
+        "Symbol": "Marziale",
+        "Description": "Martial, march-like",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "35",
+        "Category": "Expressive",
+        "Name": "Giocoso",
+        "Symbol": "Giocoso",
+        "Description": "Playful, jocular",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "introducedSymbols": [
+      {
+        "Level": "36",
+        "Category": "Expressive",
+        "Name": "Gioioso",
+        "Symbol": "Gioioso",
+        "Description": "Joyful",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "36",
+        "Category": "Expressive",
+        "Name": "Amabile",
+        "Symbol": "Amabile",
+        "Description": "Amiable, lovable",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "introducedSymbols": [
+      {
+        "Level": "37",
+        "Category": "Expressive",
+        "Name": "Grazioso",
+        "Symbol": "Grazioso",
+        "Description": "Graceful",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "37",
+        "Category": "Expressive",
+        "Name": "Tranquillo",
+        "Symbol": "Tranquillo",
+        "Description": "Calm",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "introducedSymbols": [
+      {
+        "Level": "38",
+        "Category": "Expressive",
+        "Name": "Calmato",
+        "Symbol": "Calmato",
+        "Description": "Calmed",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "38",
+        "Category": "Expressive",
+        "Name": "Sereno",
+        "Symbol": "Sereno",
+        "Description": "Serene",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "introducedSymbols": [
+      {
+        "Level": "39",
+        "Category": "Expressive",
+        "Name": "Delicato",
+        "Symbol": "Delicato",
+        "Description": "Delicate",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "39",
+        "Category": "Expressive",
+        "Name": "Tenero",
+        "Symbol": "Tenero",
+        "Description": "Tender",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "introducedSymbols": [
+      {
+        "Level": "40",
+        "Category": "Expressive",
+        "Name": "Languido",
+        "Symbol": "Languido",
+        "Description": "Languid",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "40",
+        "Category": "Expressive",
+        "Name": "Mesto",
+        "Symbol": "Mesto",
+        "Description": "Sad, mournful",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "introducedSymbols": [
+      {
+        "Level": "41",
+        "Category": "Expressive",
+        "Name": "Dolente",
+        "Symbol": "Dolente",
+        "Description": "Sorrowful",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "41",
+        "Category": "Expressive",
+        "Name": "Lacrimoso",
+        "Symbol": "Lacrimoso",
+        "Description": "Tearful",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "introducedSymbols": [
+      {
+        "Level": "42",
+        "Category": "Expressive",
+        "Name": "Lugubre",
+        "Symbol": "Lugubre",
+        "Description": "Lugubrious, mournful",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "42",
+        "Category": "Expressive",
+        "Name": "Patetico",
+        "Symbol": "Patetico",
+        "Description": "Pathetic (evoking pathos)",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "introducedSymbols": [
+      {
+        "Level": "43",
+        "Category": "Expressive",
+        "Name": "Misterioso",
+        "Symbol": "Misterioso",
+        "Description": "Mysteriously",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "43",
+        "Category": "Expressive",
+        "Name": "Religioso",
+        "Symbol": "Religioso",
+        "Description": "Religiously, reverently",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "introducedSymbols": [
+      {
+        "Level": "44",
+        "Category": "Expressive",
+        "Name": "Pomposo",
+        "Symbol": "Pomposo",
+        "Description": "Pompously",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "44",
+        "Category": "Expressive",
+        "Name": "Spiritoso",
+        "Symbol": "Spiritoso",
+        "Description": "Spirited",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "introducedSymbols": [
+      {
+        "Level": "45",
+        "Category": "Expressive",
+        "Name": "Rustico",
+        "Symbol": "Rustico",
+        "Description": "Rustic",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "45",
+        "Category": "Expressive",
+        "Name": "Serioso",
+        "Symbol": "Serioso",
+        "Description": "Serious",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "introducedSymbols": [
+      {
+        "Level": "46",
+        "Category": "Expressive",
+        "Name": "Elegante",
+        "Symbol": "Elegante",
+        "Description": "Elegant",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "46",
+        "Category": "Expressive",
+        "Name": "Appassionato",
+        "Symbol": "Appassionato",
+        "Description": "Passionately",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "introducedSymbols": [
+      {
+        "Level": "47",
+        "Category": "Expressive",
+        "Name": "Cantando",
+        "Symbol": "Cantando",
+        "Description": "In a singing manner",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      },
+      {
+        "Level": "47",
+        "Category": "Expressive",
+        "Name": "Ridicolo",
+        "Symbol": "Ridicolo",
+        "Description": "Ridiculous, comic",
+        "VexFlow_Hint": "text",
+        "type": "feature"
+      }
+    ]
+  }
+]

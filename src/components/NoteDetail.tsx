@@ -3,75 +3,42 @@ import { ArrowLeft, BookOpen, Music, ShieldAlert } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Card } from './ui/Card';
 import { Analytics } from '../utils/analyticsService';
+import { DynamicScore } from './ui/DynamicScore';
+import { FingeringChart } from './ui/FingeringChart';
+import { BrassFingeringChart } from './ui/BrassFingeringChart';
+import { FluteFingeringChart } from './ui/FluteFingeringChart';
+import { SaxophoneFingeringChart } from './ui/SaxophoneFingeringChart';
+import { ViolinFingeringChart } from './ui/ViolinFingeringChart';
+import { CelloFingeringChart } from './ui/CelloFingeringChart';
+import { PianoFingeringChart } from './ui/PianoFingeringChart';
+import { VoicePitchDisplay } from './ui/VoicePitchDisplay';
+import { NoteType } from './MusicalGlossary';
+import { formatAccidentals, formatVexFlowKey } from '../utils/musicFormatter';
+import { useInstrument } from '../contexts/InstrumentContext';
 
 interface NoteDetailProps {
-  noteName: string;
+  note: NoteType;
   onBack: () => void;
 }
 
-interface NoteInfo {
-  desc: string;
-  staveOffset: number; // Position from top of the stave container in px
-  hasLedgerLine?: boolean;
-  // Fingering array: [Thumb, L1, L2, L3, R1, R2, R3]
-  fingers: boolean[];
-  fingeringDesc: string;
-}
+import masterDescriptions from '../data/masterDescriptions.json';
 
-const NOTE_INFO_MAP: Record<string, NoteInfo> = {
-  'C': {
-    desc: 'Middle C is the anchor note of the piano and clarinet. On sheet music, it sits on a short ledger line below the five main stave lines, looking like a little planet with a ring!',
-    staveOffset: 84, // sits well below bottom line
-    hasLedgerLine: true,
-    fingers: [true, true, true, true, true, true, true], // all covered
-    fingeringDesc: 'Thumb (back), all 3 Left Hand holes, and all 3 Right Hand holes are covered.',
-  },
-  'D': {
-    desc: 'Middle D sits in the cozy space directly underneath the bottom line of the stave. It sounds deep, warm, and rich.',
-    staveOffset: 72, // sits right below bottom line
-    fingers: [true, true, true, true, true, true, false], // all except R3
-    fingeringDesc: 'Thumb (back), all 3 Left Hand holes, and top 2 Right Hand holes are covered.',
-  },
-  'E': {
-    desc: 'Middle E sits exactly on the bottom-most line (the 1st line) of the musical stave. It is the very first note clarinet students learn!',
-    staveOffset: 60, // sits on bottom line (Line 1)
-    fingers: [true, true, false, false, false, false, false], // Thumb + L1
-    fingeringDesc: 'Thumb (back) and the top Left Hand pointer finger hole are covered.',
-  },
-  'F': {
-    desc: 'Middle F sits in the space between the 1st line (bottom) and the 2nd line of the stave. It has a beautiful, resonant voice.',
-    staveOffset: 48, // sits in bottom space (Space 1)
-    fingers: [true, true, true, true, false, false, false], // Thumb + LH all
-    fingeringDesc: 'Thumb (back) and all 3 Left Hand holes are covered.',
-  },
-  'G': {
-    desc: 'The note G sits on the 2nd line from the bottom of the stave. It is the "open" note of the clarinet because you do not press any key to play it!',
-    staveOffset: 36, // sits on second line (Line 2)
-    fingers: [false, false, false, false, false, false, false], // all open
-    fingeringDesc: 'All holes are open! Do not press any holes down.',
-  },
-  'A': {
-    desc: 'Note A sits in the space between the 2nd and 3rd line of the stave. It is bright, airy, and beautiful.',
-    staveOffset: 24, // sits in second space
-    fingers: [false, true, false, false, false, false, false], // L1 throat A
-    fingeringDesc: 'Press the front throat A key or Left Hand pointer finger hole.',
-  },
-  'B': {
-    desc: 'Note B sits right in the middle on the 3rd line of the stave. It is a high-spirited note that bridges low and high registers.',
-    staveOffset: 12, // sits on third line
-    fingers: [true, true, true, true, true, true, true], // using register key
-    fingeringDesc: 'Thumb (back), all LH, all RH, plus the speaker/register key on the back!',
-  },
-};
+export const NoteDetail: React.FC<NoteDetailProps> = ({ note, onBack }) => {
+  const [activeFingeringIndex, setActiveFingeringIndex] = React.useState(0);
+  const displayString = note.fingeringDisplay || note.fingering;
+  const fingerings = displayString.split(/ OR | or /);
+  const currentFingering = fingerings[activeFingeringIndex] || fingerings[0];
+  
+  const { instrument } = useInstrument();
+  const bassClefInstruments = ['Trombone', 'Tuba', 'Baritone/Euphonium', 'Cello', 'Double Bass', 'Bass Guitar'];
+  const clef = bassClefInstruments.includes(instrument) ? 'bass' : 'treble';
+const masterDesc = (masterDescriptions as any)[clef.charAt(0).toUpperCase() + clef.slice(1)]?.[note.writtenNote] || note.description;
 
-export const NoteDetail: React.FC<NoteDetailProps> = ({ noteName, onBack }) => {
-  // Fallback to 'G' if not found
-  const info = NOTE_INFO_MAP[noteName.toUpperCase()] || NOTE_INFO_MAP['G'];
-
+  const isSuperHigh = note.writtenNote === 'B6' || note.writtenNote === 'C7';
   // Trigger Analytics event on mount
   React.useEffect(() => {
-    Analytics.trackHelpMenuOpened(noteName);
-  }, [noteName]);
+    Analytics.trackHelpMenuOpened(note.label);
+  }, [note]);
 
   return (
     <div className="w-full bg-slate-50 min-h-screen text-slate-800 p-6 flex flex-col items-center select-none" id="note-detail-container">
@@ -99,140 +66,108 @@ export const NoteDetail: React.FC<NoteDetailProps> = ({ noteName, onBack }) => {
         {/* Title */}
         <div className="text-center md:text-left border-b border-slate-100 pb-5">
           <h2 className="text-3xl md:text-4xl font-display font-black text-slate-900 tracking-tight flex items-center justify-center md:justify-start gap-3">
-            <span className="bg-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center text-2xl font-mono shadow-md animate-pulse">
-              {noteName}
+            <span className="bg-blue-600 text-white min-w-12 h-12 px-4 rounded-2xl flex items-center justify-center text-2xl font-mono shadow-md animate-pulse">
+              {formatAccidentals(note.label)}
             </span>
-            The Note {noteName}
+            The Note {formatAccidentals(note.label)}
           </h2>
           <p className="text-sm text-slate-400 mt-1 uppercase tracking-wider font-semibold font-display">
-            Clarinet Reference Guide
+            {instrument} Reference Guide
           </p>
         </div>
 
-        {/* 3 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        {/* 2 Columns: Stave & Fingering */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
           
-          {/* Column 1: Description */}
-          <div className="flex flex-col justify-between bg-slate-50 rounded-2xl p-6 border border-slate-100">
-            <div>
-              <h3 className="text-lg font-display font-bold text-slate-800 mb-3 flex items-center gap-2 border-b border-slate-200/60 pb-2">
-                <Music className="text-blue-500 w-5 h-5" />
-                Description
-              </h3>
-              <p className="text-slate-600 text-sm md:text-base leading-relaxed font-sans">
-                {info.desc}
-              </p>
-            </div>
-            
-            <div className="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-100 flex items-start gap-2.5">
-              <ShieldAlert className="text-blue-600 w-5 h-5 shrink-0 mt-0.5" />
-              <p className="text-xs text-blue-800 font-medium leading-relaxed">
-                <strong>Pedagogy Tip:</strong> Keep your fingers close to the holes even when not playing so you can close them quickly and smoothly!
-              </p>
-            </div>
-          </div>
-
-          {/* Column 2: The Stave */}
-          <div className="flex flex-col items-center bg-slate-50 rounded-2xl p-6 border border-slate-100 text-center">
-            <h3 className="text-lg font-display font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-200/60 pb-2 w-full justify-center">
+          {/* Column 1: The Stave */}
+          <div className="flex flex-col items-center bg-slate-50 rounded-2xl p-8 border border-slate-100 text-center shadow-sm">
+            <h3 className="text-xl font-display font-black text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-200/60 pb-2 w-full justify-center">
               <span>🎼</span>
               Sheet Music Stave
             </h3>
 
             {/* Stave Drawing Canvas */}
-            <div className="relative w-56 h-40 bg-[#fffdfa] border-2 border-slate-200 rounded-xl shadow-inner flex items-center justify-center">
-              {/* 5 lines */}
-              <div className="relative w-44 h-24">
-                <div className="absolute inset-x-0 top-0 h-[1.5px] bg-slate-900" />
-                <div className="absolute inset-x-0 top-[18px] h-[1.5px] bg-slate-900" />
-                <div className="absolute inset-x-0 top-[36px] h-[1.5px] bg-slate-900" />
-                <div className="absolute inset-x-0 top-[54px] h-[1.5px] bg-slate-900" />
-                <div className="absolute inset-x-0 top-[72px] h-[1.5px] bg-slate-900" />
-
-                {/* Treble Clef */}
-                <span className="absolute left-1 top-[-2px] text-4xl font-bold text-slate-800 pointer-events-none select-none">
-                  🎼
-                </span>
-
-                {/* Ledger Line for Middle C */}
-                {info.hasLedgerLine && (
-                  <div
-                    className="absolute left-[88px] h-[2px] w-10 bg-slate-950"
-                    style={{ top: `${info.staveOffset + 5}px` }}
-                  />
-                )}
-
-                {/* Whole Note (Semibreve) positioned programmatically */}
-                <div
-                  className="absolute left-[98px] w-[18px] h-3.5 border-[3px] border-slate-950 rounded-full rotate-[-12deg] bg-white flex items-center justify-center transition-all duration-300"
-                  style={{ top: `${info.staveOffset - 2}px` }}
-                >
-                  {/* Subtle inner center shading */}
-                  <div className="w-1.5 h-1 bg-slate-100 rounded-full" />
-                </div>
+            <div className={`relative w-72 ${isSuperHigh ? 'h-72' : 'h-56'} bg-[#fffdfa] border-4 border-slate-200 rounded-xl shadow-inner flex items-center justify-center overflow-hidden`}>
+              <div className={`scale-[1.5] origin-center -ml-2 ${isSuperHigh ? 'mt-4' : '-mt-2'}`}>
+                <DynamicScore clef={(note.clef || clef) as any} 
+                  notes={[{ keys: [formatVexFlowKey(note.writtenNote, note.clef || clef)], duration: "w" }]} 
+                  width={140} 
+                  height={isSuperHigh ? 220 : 130} 
+                />
               </div>
             </div>
 
-            <p className="text-xs text-slate-500 mt-4 leading-relaxed font-mono font-medium bg-white px-3 py-1.5 border border-slate-200/60 rounded-lg">
-              Treble Clef: Note {noteName}
+            <p className="text-sm text-slate-500 mt-6 font-mono font-bold bg-white px-4 py-2 border border-slate-200/60 rounded-xl">
+              Written As: {formatAccidentals(note.writtenNote)}
             </p>
           </div>
 
-          {/* Column 3: The Fingering Chart */}
-          <div className="flex flex-col items-center bg-slate-50 rounded-2xl p-6 border border-slate-100 text-center">
-            <h3 className="text-lg font-display font-bold text-slate-800 mb-4 flex items-center gap-2 border-b border-slate-200/60 pb-2 w-full justify-center">
+          {/* Column 2: The Fingering Chart */}
+          <div className="flex flex-col items-center bg-slate-50 rounded-2xl p-8 border border-slate-100 text-center shadow-sm">
+            <h3 className="text-xl font-display font-black text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-200/60 pb-2 w-full justify-center">
               <span>🥢</span>
               Fingering Chart
             </h3>
 
-            {/* Vertical Clarinet Fingering Visualizer (Non-Interactive) */}
-            <div className="relative w-28 py-4 bg-white border border-slate-200 rounded-2xl flex flex-col items-center gap-3 shadow-sm scale-105">
-              {/* Back Thumb (Left offset) */}
-              <div className="flex items-center w-full justify-start pl-4">
-                <div
-                  className={`w-5 h-5 rounded-full border-2 border-slate-800 transition-all ${
-                    info.fingers[0] ? 'bg-slate-900' : 'bg-slate-50'
-                  }`}
-                />
-                <span className="text-[8px] font-bold uppercase font-mono text-slate-500 ml-1.5">Thumb</span>
-              </div>
-
-              <div className="w-5/6 h-[1.5px] bg-slate-100" />
-
-              {/* Left Hand (3 stacked circles) */}
-              <div className="flex flex-col gap-1.5 items-center">
-                <span className="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Left Hand</span>
-                {[1, 2, 3].map((idx) => (
-                  <div
-                    key={idx}
-                    className={`w-5 h-5 rounded-full border-2 border-slate-800 transition-all ${
-                      info.fingers[idx] ? 'bg-slate-900' : 'bg-slate-50'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <div className="w-5/6 h-[1.5px] bg-slate-100" />
-
-              {/* Right Hand (3 stacked circles) */}
-              <div className="flex flex-col gap-1.5 items-center">
-                <span className="text-[7px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Right Hand</span>
-                {[4, 5, 6].map((idx) => (
-                  <div
-                    key={idx}
-                    className={`w-5 h-5 rounded-full border-2 border-slate-800 transition-all ${
-                      info.fingers[idx] ? 'bg-slate-900' : 'bg-slate-50'
-                    }`}
-                  />
-                ))}
-              </div>
+            <div className="w-full flex flex-col items-center justify-center min-h-[224px]">
+              {instrument === 'Clarinet' && <FingeringChart fingeringString={currentFingering} />}
+              {(instrument === 'Trumpet' || instrument === 'Baritone/Euphonium') && <BrassFingeringChart fingeringString={currentFingering} />}
+              {instrument === 'Flute' && <FluteFingeringChart fingeringString={currentFingering} />}
+              {instrument === 'Alto Saxophone' && <SaxophoneFingeringChart fingeringString={currentFingering} />}
+              {instrument === 'Tenor Saxophone' && <SaxophoneFingeringChart fingeringString={currentFingering} />}
+              {instrument === 'Violin' && <ViolinFingeringChart fingeringString={currentFingering} showNoteNames={true} />}
+              {instrument === 'Cello' && <CelloFingeringChart fingeringString={currentFingering} showNoteNames={true} />}
+              {instrument === 'Piano' && <PianoFingeringChart fingeringString={currentFingering} showNoteNames={true} />}
+              {instrument.includes('Voice') && <VoicePitchDisplay fingeringString={currentFingering} />}
+              {(!['Clarinet', 'Trumpet', 'Flute', 'Alto Saxophone', 'Tenor Saxophone', 'Violin', 'Cello', 'Piano', 'Soprano Voice', 'Alto Voice', 'Tenor Voice', 'Bass Voice', 'Baritone/Euphonium'].includes(instrument)) && (
+                <p className="text-slate-400 italic">Chart for {instrument} coming soon!</p>
+              )}
             </div>
 
-            <p className="text-xs text-slate-600 mt-5 font-semibold bg-white px-3 py-2 border border-slate-100 rounded-xl leading-snug">
-              {info.fingeringDesc}
+            {fingerings.length > 1 && (
+              <Button
+                variant="primary"
+                className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all active:scale-95"
+                onClick={() => setActiveFingeringIndex((prev) => (prev + 1) % fingerings.length)}
+              >
+                🔄 View Alternate Fingering
+              </Button>
+            )}
+
+            <p className="text-sm text-slate-600 mt-6 font-semibold bg-white px-4 py-3 border border-slate-100 rounded-xl leading-snug w-full">
+              <strong>Code:</strong> {currentFingering}
             </p>
           </div>
 
+        </div>
+
+        {/* Bottom Section: Description & Tips */}
+        <div className="flex flex-col bg-blue-50/50 rounded-2xl p-8 border border-blue-100 mt-4">
+          <h3 className="text-xl font-display font-black text-slate-800 mb-4 flex items-center gap-2 border-b border-blue-200 pb-3">
+            <BookOpen className="text-blue-500 w-6 h-6" />
+            Description & Details
+          </h3>
+          <p className="text-slate-700 text-lg leading-relaxed font-sans font-medium mb-6 whitespace-pre-line">
+            {formatAccidentals(masterDesc)}
+          </p>
+          
+          {/* Fingering & Tips */}
+          <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 flex flex-col gap-8 items-start">
+            <div className="flex-1 w-full">
+              <h3 className="text-xl font-display font-black text-slate-800 mb-4 flex items-center gap-2">
+                <span className="bg-amber-100 text-amber-600 p-2 rounded-xl">💡</span>
+                Fingering Guide
+              </h3>
+              <p className="text-slate-600 font-medium text-lg leading-relaxed mb-4">
+                <strong>Curriculum Shorthand:</strong> <span className="font-mono bg-slate-100 px-2 py-1 rounded text-slate-800">{currentFingering || 'Not specified'}</span>
+              </p>
+              <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl">
+                <p className="text-blue-800 font-medium">
+                  <em>More advanced keys (register key, side keys, and pinkies) will automatically appear in the chart above if required by the note.</em>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </Card>
     </div>

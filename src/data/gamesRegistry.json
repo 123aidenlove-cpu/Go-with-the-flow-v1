@@ -1,0 +1,90 @@
+[
+  {
+    "id": "rocket_reading",
+    "title": "Rocket Reading",
+    "description": "Blast into space by reading notes quickly!",
+    "status": "active",
+    "icon": "rocket",
+    "min_level": 1
+  },
+  {
+    "id": "finger_fishing",
+    "title": "Finger Fishing",
+    "description": "Catch fish by getting your fingerings right.",
+    "status": "active",
+    "icon": "fish",
+    "min_level": 1
+  },
+  {
+    "id": "rhythm_rapids",
+    "title": "Rhythm Rapids",
+    "description": "Paddle past obstacles by playing the correct rhythm.",
+    "status": "active",
+    "icon": "water",
+    "min_level": 1
+  },
+  {
+    "id": "music_pizzeria",
+    "title": "Music Pizzeria",
+    "description": "Bake pizzas using music theory!",
+    "status": "development",
+    "icon": "pizza",
+    "min_level": 2
+  },
+  {
+    "id": "music_mountain",
+    "title": "Music Mountain",
+    "description": "Climb the mountain with perfect pitch.",
+    "status": "development",
+    "icon": "mountain",
+    "min_level": 2
+  },
+  {
+    "id": "listening_lagoon",
+    "title": "Listening Lagoon",
+    "description": "Train your ears in the lagoon.",
+    "status": "development",
+    "icon": "ear",
+    "min_level": 2
+  },
+  {
+    "id": "repertoire_recognition",
+    "title": "Repertoire Recognition",
+    "description": "Recognize the songs you learn.",
+    "status": "development",
+    "icon": "music_note",
+    "min_level": 1
+  },
+  {
+    "id": "clef_cliffs",
+    "title": "Clef Cliffs",
+    "description": "Jump onto the correct trampoline based on the clef.",
+    "status": "development",
+    "icon": "clef",
+    "min_level": 3
+  },
+  {
+    "id": "scale_sand_dunes",
+    "title": "Scale Sand Dunes",
+    "description": "Surf the dunes by playing your scales.",
+    "status": "development",
+    "icon": "sun",
+    "min_level": 3
+  },
+  {
+    "id": "expression_ninja",
+    "title": "Expression Ninja",
+    "description": "Slice through dynamics and articulation.",
+    "status": "development",
+    "icon": "sword",
+    "min_level": 4
+  },
+  {
+    "id": "sound_sleuth",
+    "title": "Sound Sleuth",
+    "description": "Combine rhythm and melody to find the clues.",
+    "status": "development",
+    "icon": "magnifying_glass",
+    "min_level": 5
+  }
+]

@@ -1,376 +1,717 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { saveGameScore } from '../utils/supabaseSync';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, RotateCcw, Heart, Info } from 'lucide-react';
+import { ArrowLeft, Play, Volume2, Heart } from 'lucide-react';
+import { APP_ASSETS } from '../config/assets';
+import { SmartImage } from './ui/SmartImage';
+import { UniversalGameHomepage, LevelCardData } from './ui/UniversalGameHomepage';
+import { DynamicScore, VexNoteDef } from './ui/DynamicScore';
+import { NoteHelpOverlay } from './ui/NoteHelpOverlay';
+import { NoteHelpButton } from './ui/NoteHelpButton';
+import { addXP } from '../utils/economy';
+import { RhythmsExpressions } from '../data';
 
 interface RhythmRapidsProps {
   onBack: () => void;
-  onComplete?: () => void;
   isDailyChallenge?: boolean;
-  onChallengeComplete?: (score: number, accuracy: number) => void;
+  onChallengeComplete?: (score: any) => void;
+  onComplete?: () => void;
 }
 
-interface ObstacleOption {
-  id: number;
-  label: string;
-  notes: string[]; // e.g. ['crotchet', 'crotchet', 'quaver-pair', 'crotchet']
-  beats: string;
-}
+// Helper to synthesize a woodblock-like tick
+const playRhythm = (notes: VexNoteDef[], timeSignature: string) => {
+  const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+  if (!AudioContext) return;
+  const ctx = new AudioContext();
+  
+  let tempo = 120; // BPM
+  const beatDuration = (timeSignature === '6/8' ? 1.5 : 1) * (60 / tempo); // duration of a beat in seconds
 
-export default function RhythmRapids({
-  onBack,
-  onComplete,
-  isDailyChallenge = false,
-  onChallengeComplete,
-}: RhythmRapidsProps) {
-  const [metersPaddled, setMetersPaddled] = useState(0);
+  let beatsPerBar = 4;
+  if (timeSignature === '3/4') beatsPerBar = 3;
+  if (timeSignature === '6/8') beatsPerBar = 2;
+  if (timeSignature === '2/4') beatsPerBar = 2;
+
+  let startTime = ctx.currentTime + 0.1;
+
+  // Play count-in (light ticks)
+  for (let i = 0; i < beatsPerBar; i++) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = 'sine'; // Sine wave for a pure click
+    osc.frequency.setValueAtTime(i === 0 ? 1500 : 1000, startTime + i * beatDuration);
+    osc.frequency.exponentialRampToValueAtTime(100, startTime + i * beatDuration + 0.02);
+    
+    gain.gain.setValueAtTime(0, startTime + i * beatDuration);
+    gain.gain.linearRampToValueAtTime(0.5, startTime + i * beatDuration + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.01, startTime + i * beatDuration + 0.03);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(startTime + i * beatDuration);
+    osc.stop(startTime + i * beatDuration + 0.04);
+  }
+  
+  startTime += beatsPerBar * beatDuration;
+
+  // Pre-calculate playback events, grouping tied notes into single sustained events
+  interface PlaybackEvent {
+    isRest: boolean;
+    durationS: number;
+  }
+  const events: PlaybackEvent[] = [];
+  let activeTieEvent: PlaybackEvent | null = null;
+  
+  notes.forEach((note) => {
+    if (note.isBarline) return;
+    
+    let beats = 1;
+    const dur = note.duration.replace('r', '');
+    if (dur === 'w') beats = 4;
+    else if (dur === 'h') beats = 2;
+    else if (dur === 'hd') beats = 3;
+    else if (dur === 'q') beats = 1;
+    else if (dur === 'qd') beats = 1.5;
+    else if (dur === '8') beats = 0.5;
+    else if (dur === '8d') beats = 0.75;
+    else if (dur === '16') beats = 0.25;
+    
+    if (note.isTriplet) beats *= (2.0 / 3.0);
+    
+    const durationS = beats * beatDuration;
+    const isRest = note.duration.includes('r');
+    
+    if (activeTieEvent) {
+       activeTieEvent.durationS += durationS;
+       if (note.tieStop) {
+          activeTieEvent = null;
+       }
+    } else {
+       const newEvent = { isRest, durationS };
+       events.push(newEvent);
+       if (note.tieStart) {
+           activeTieEvent = newEvent;
+       }
+    }
+  });
+  
+  events.forEach((event) => {
+    if (!event.isRest) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(392.00, startTime); // Middle G
+      
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(0.8, startTime + 0.02);
+      
+      // Decay smoothly over the full duration of the event (whether single or tied)
+      const sustainS = Math.max(0.1, event.durationS - 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + sustainS);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc.start(startTime);
+      osc.stop(startTime + sustainS + 0.1);
+    }
+    startTime += event.durationS;
+  });
+};
+
+export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComplete }: RhythmRapidsProps) {
+  const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [lives, setLives] = useState(3);
   const [gameOver, setGameOver] = useState(false);
-  const [targetIndex, setTargetIndex] = useState<number>(0);
-  const [options, setOptions] = useState<ObstacleOption[]>([]);
-  const [canoeLane, setCanoeLane] = useState<'left' | 'right' | 'center'>('center');
-  const [revealOutcome, setRevealOutcome] = useState<'safe' | 'crash' | null>(null);
-  const [lastSelectedIdx, setLastSelectedIdx] = useState<number | null>(null);
+  const [levelComplete, setLevelComplete] = useState(false);
+  
+  const [challenge, setChallenge] = useState<{
+    correctRhythm: VexNoteDef[];
+    wrongRhythm: VexNoteDef[];
+    timeSignature: string;
+    correctSide: 'left' | 'right';
+  } | null>(null);
+  
+  const [gamePhase, setGamePhase] = useState<'stage-select' | 'preview' | 'playing'>('stage-select');
+  const [showNoteHelp, setShowNoteHelp] = useState(false);
+  const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
 
-  const rhythms: ObstacleOption[] = [
-    {
-      id: 1,
-      label: 'Pattern A',
-      notes: ['crotchet', 'crotchet', 'quaver-pair', 'crotchet'],
-      beats: '1, 1, 0.5+0.5, 1'
-    },
-    {
-      id: 2,
-      label: 'Pattern B',
-      notes: ['crotchet', 'quaver-pair', 'crotchet', 'crotchet'],
-      beats: '1, 0.5+0.5, 1, 1'
-    },
-    {
-      id: 3,
-      label: 'Pattern C',
-      notes: ['quaver-pair', 'crotchet', 'crotchet', 'crotchet'],
-      beats: '0.5+0.5, 1, 1, 1'
-    },
-    {
-      id: 4,
-      label: 'Pattern D',
-      notes: ['crotchet', 'crotchet', 'crotchet', 'quaver-pair'],
-      beats: '1, 1, 1, 0.5+0.5'
-    }
+  const getAvailableSymbols = (level: number) => {
+    const symbols: any[] = [];
+    RhythmsExpressions.filter((l: any) => l.id <= level).forEach((l: any) => {
+      if (l.introducedSymbols) {
+        symbols.push(...l.introducedSymbols.filter((s: any) => 
+          (s.Category === 'Notes' || s.Category === 'Rests' || s.Category === 'Groupings') &&
+          true // Allow ties now
+        ));
+      }
+    });
+    return symbols;
+  };
+
+  type RhythmBlock = {
+    beats: number;
+    baseProb: number;
+    notes: VexNoteDef[];
+    reqSymbols: string[];
+  };
+
+  const RHYTHM_BLOCKS: RhythmBlock[] = [
+    { beats: 1, baseProb: 0.15, notes: [{ duration: 'q', keys: ['b/4'] }], reqSymbols: ['Crotchet (Quarter Note)'] },
+    { beats: 1, baseProb: 0.10, notes: [{ duration: 'qr', keys: ['b/4'] }], reqSymbols: ['Crotchet Rest'] },
+    { beats: 1, baseProb: 0.15, notes: [{ duration: '8', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }], reqSymbols: ['Quaver Pair'] },
+    { beats: 1, baseProb: 0.05, notes: [{ duration: '8', keys: ['b/4'] }, { duration: '8r', keys: ['b/4'] }], reqSymbols: ['Quaver (Eighth Note)', 'Quaver Rest'] },
+    { beats: 1, baseProb: 0.05, notes: [{ duration: '8r', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }], reqSymbols: ['Quaver (Eighth Note)', 'Quaver Rest'] },
+    { beats: 1, baseProb: 0.05, notes: [{ duration: '8', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }], reqSymbols: ['Quaver (Eighth Note)', 'Semiquaver (Sixteenth Note)'] },
+    { beats: 1, baseProb: 0.05, notes: [{ duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }], reqSymbols: ['Quaver (Eighth Note)', 'Semiquaver (Sixteenth Note)'] },
+    { beats: 1, baseProb: 0.02, notes: [{ duration: '16', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }], reqSymbols: ['Quaver (Eighth Note)', 'Semiquaver (Sixteenth Note)'] },
+    { beats: 1, baseProb: 0.10, notes: [{ duration: '8', keys: ['b/4'], isTriplet: true }, { duration: '8', keys: ['b/4'], isTriplet: true }, { duration: '8', keys: ['b/4'], isTriplet: true }], reqSymbols: ['Triplet'] },
+    { beats: 1, baseProb: 0.02, notes: [{ duration: '8r', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }], reqSymbols: ['Quaver Rest', 'Semiquaver (Sixteenth Note)'] },
+    { beats: 1, baseProb: 0.02, notes: [{ duration: '16r', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }], reqSymbols: ['Semiquaver Rest', 'Semiquaver (Sixteenth Note)'] },
+    { beats: 1, baseProb: 0.06, notes: [{ duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }], reqSymbols: ['Semiquaver Group'] },
+    
+    { beats: 2, baseProb: 0.10, notes: [{ duration: 'h', keys: ['b/4'] }], reqSymbols: ['Minim (Half Note)'] },
+    { beats: 2, baseProb: 0.05, notes: [{ duration: 'hr', keys: ['b/4'] }], reqSymbols: ['Minim Rest'] },
+    { beats: 2, baseProb: 0.05, notes: [{ duration: 'q', keys: ['b/4'], isTriplet: true }, { duration: 'q', keys: ['b/4'], isTriplet: true }, { duration: 'q', keys: ['b/4'], isTriplet: true }], reqSymbols: ['Super Triplet'] },
+    
+    { beats: 4, baseProb: 0.05, notes: [{ duration: 'w', keys: ['b/4'] }], reqSymbols: ['Semibreve (Whole Note)'] },
+    { beats: 4, baseProb: 0.02, notes: [{ duration: 'wr', keys: ['b/4'] }], reqSymbols: ['Semibreve Rest'] },
+
+    { beats: 3, baseProb: 0.05, notes: [{ duration: 'hd', keys: ['b/4'] }], reqSymbols: ['Dotted Minim'] },
+    { beats: 2, baseProb: 0.08, notes: [{ duration: 'qd', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }], reqSymbols: ['Dotted Crotchet', 'Quaver Pair'] },
+    { beats: 1, baseProb: 0.05, notes: [{ duration: '8d', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }], reqSymbols: ['Dotted Quaver'] }
   ];
 
-  const generateChallenge = () => {
-    // Select two random patterns
-    const idx1 = Math.floor(Math.random() * rhythms.length);
-    let idx2 = Math.floor(Math.random() * rhythms.length);
-    while (idx2 === idx1) {
-      idx2 = Math.floor(Math.random() * rhythms.length);
+  const SIX_EIGHT_BLOCKS: RhythmBlock[] = [
+    { beats: 1, baseProb: 0.1, notes: [{ duration: 'qd', keys: ['b/4'] }], reqSymbols: ['Dotted Crotchet'] },
+    { beats: 1, baseProb: 0.1, notes: [{ duration: '8', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }], reqSymbols: ['Quaver Pair'] },
+    { beats: 1, baseProb: 0.05, notes: [{ duration: 'q', keys: ['b/4'] }, { duration: '8', keys: ['b/4'] }], reqSymbols: ['Crotchet (Quarter Note)', 'Quaver Pair'] },
+    { beats: 1, baseProb: 0.05, notes: [{ duration: '8', keys: ['b/4'] }, { duration: 'q', keys: ['b/4'] }], reqSymbols: ['Crotchet (Quarter Note)', 'Quaver Pair'] },
+    { beats: 1, baseProb: 0.1, notes: [{ duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }, { duration: '16', keys: ['b/4'] }], reqSymbols: ['Semiquaver Group'] },
+    { beats: 2, baseProb: 0.05, notes: [{ duration: 'hd', keys: ['b/4'] }], reqSymbols: ['Dotted Minim'] }
+  ];
+
+  const flattenBlocksToNotes = (phraseBlocks: RhythmBlock[], beatsPerBar: number, numBars: number, applyTies: boolean, level: number): VexNoteDef[] => {
+    const allNotes: VexNoteDef[] = [];
+    let currentBarBeats = 0;
+    let barCount = 0;
+    
+    for (let i = 0; i < phraseBlocks.length; i++) {
+       const b = phraseBlocks[i];
+       allNotes.push(...JSON.parse(JSON.stringify(b.notes)));
+       currentBarBeats += b.beats;
+       
+       if (currentBarBeats >= beatsPerBar) {
+          barCount++;
+          if (barCount < numBars) {
+             allNotes.push({ keys: ['b/4'], duration: 'b', isBarline: true });
+          }
+          currentBarBeats = 0;
+       }
+    }
+    
+    if (applyTies && level >= 5) {
+      for (let i = 0; i < allNotes.length - 2; i++) {
+        if (allNotes[i+1].isBarline && !allNotes[i].duration.includes('r') && !allNotes[i+2].duration.includes('r')) {
+          if (Math.random() < 0.3) {
+            allNotes[i].tieStart = true;
+            allNotes[i+2].tieStop = true;
+          }
+        }
+      }
+    }
+    
+    return allNotes;
+  };
+
+  const generateRhythmBlocks = (availableSymbolsList: any[], beatsPerBar: number, numBars: number, level: number, timeSig: string): RhythmBlock[] => {
+    const phraseBlocks: RhythmBlock[] = [];
+    const availableSymbolNames = availableSymbolsList.map(s => s.Name);
+    
+    let baseBlocks = timeSig === '6/8' ? SIX_EIGHT_BLOCKS : RHYTHM_BLOCKS;
+    
+    let validBlocks = baseBlocks.filter(b => b.reqSymbols.every(req => availableSymbolNames.includes(req)));
+    if (validBlocks.length === 0) {
+      validBlocks = [{ beats: 1, baseProb: 1, notes: [{ duration: timeSig === '6/8' ? 'qd' : 'q', keys: ['b/4'] }], reqSymbols: [] }];
     }
 
-    const opt1 = rhythms[idx1];
-    const opt2 = rhythms[idx2];
+    const totalBaseProb = validBlocks.reduce((sum, b) => sum + b.baseProb, 0);
+    const normalizedBlocks = validBlocks.map(b => ({
+      ...b,
+      normalizedProb: b.baseProb / totalBaseProb
+    }));
     
-    setOptions([opt1, opt2]);
-    // Pick one as the target
-    const targetIdx = Math.random() > 0.5 ? 0 : 1;
-    setTargetIndex(targetIdx);
-    setRevealOutcome(null);
-    setLastSelectedIdx(null);
-    setCanoeLane('center');
+    for (let bar = 0; bar < numBars; bar++) {
+      let currentBeats = 0;
+      let attempts = 0;
+      
+      while (currentBeats < beatsPerBar && attempts < 100) {
+        attempts++;
+        const remainingBeats = beatsPerBar - currentBeats;
+        const fittingBlocks = normalizedBlocks.filter(b => b.beats <= remainingBeats);
+        
+        if (fittingBlocks.length === 0) {
+          phraseBlocks.push({ beats: 1, baseProb: 1, notes: [{ duration: timeSig === '6/8' ? 'qdr' : 'qr', keys: ['b/4'] }], reqSymbols: [] });
+          currentBeats += 1;
+          continue;
+        }
+
+        const fittingProbSum = fittingBlocks.reduce((sum, b) => sum + b.normalizedProb, 0);
+        let roll = Math.random() * fittingProbSum;
+        let selectedBlock = fittingBlocks[0];
+        
+        for (const b of fittingBlocks) {
+          roll -= b.normalizedProb;
+          if (roll <= 0) {
+            selectedBlock = b;
+            break;
+          }
+        }
+        
+        phraseBlocks.push(selectedBlock);
+        currentBeats += selectedBlock.beats;
+      }
+    }
+    
+    return phraseBlocks;
+  };
+
+  const generateChallenge = (level: number) => {
+    let tsOptions = ['4/4'];
+    let numBars = 1;
+    
+    if (level >= 5 && level <= 6) {
+      tsOptions = ['4/4', '3/4'];
+    } else if (level >= 7 && level <= 9) {
+      tsOptions = ['4/4', '3/4', '2/4'];
+    } else if (level >= 10) {
+      tsOptions = ['4/4', '3/4', '2/4', '6/8'];
+    }
+
+    const timeSig = tsOptions[Math.floor(Math.random() * tsOptions.length)];
+    let beatsPerBar = 4;
+    if (timeSig === '3/4') beatsPerBar = 3;
+    if (timeSig === '2/4') beatsPerBar = 2;
+    if (timeSig === '6/8') beatsPerBar = 2;
+    
+    if (timeSig === '4/4') {
+        if (level >= 2) numBars = 2;
+        else numBars = 1;
+    } else if (timeSig === '3/4') {
+        if (level >= 7) numBars = 3;
+        else if (level >= 2) numBars = 2;
+        else numBars = 1;
+    } else if (timeSig === '2/4') {
+        if (level >= 7) numBars = 4;
+        else if (level >= 2) numBars = 3;
+        else numBars = 2;
+    } else if (timeSig === '6/8') {
+        numBars = 3;
+    }
+
+    const symbols = getAvailableSymbols(level);
+    
+    const correctBlocks = generateRhythmBlocks(symbols, beatsPerBar, numBars, level, timeSig);
+    const correctRhythm = flattenBlocksToNotes(correctBlocks, beatsPerBar, numBars, true, level);
+    
+    let wrongBlocks = JSON.parse(JSON.stringify(correctBlocks));
+      
+      if (wrongBlocks.length >= 2) {
+          const availableSymbolNames = symbols.map((sym: any) => sym.Name);
+          let baseBlocks = timeSig === '6/8' ? SIX_EIGHT_BLOCKS : RHYTHM_BLOCKS;
+          const validReplacements = baseBlocks.filter(b => b.reqSymbols.every(req => availableSymbolNames.includes(req)));
+          
+          let mutated = false;
+          let attempts = 0;
+          
+          while (!mutated && attempts < 50) {
+              attempts++;
+              
+              let currentPairs: number[][] = [];
+              for (let x = 0; x < wrongBlocks.length; x++) {
+                  for (let y = x + 1; y < wrongBlocks.length; y++) {
+                      if (wrongBlocks[x].beats === wrongBlocks[y].beats && JSON.stringify(wrongBlocks[x].notes) !== JSON.stringify(wrongBlocks[y].notes)) {
+                          currentPairs.push([x, y]);
+                      }
+                  }
+              }
+              
+              if (currentPairs.length > 0) {
+                  const numSwaps = level >= 4 ? 2 : 1;
+                  for (let i=0; i<numSwaps; i++) {
+                     let pairs: number[][] = [];
+                     for (let x = 0; x < wrongBlocks.length; x++) {
+                         for (let y = x + 1; y < wrongBlocks.length; y++) {
+                             if (wrongBlocks[x].beats === wrongBlocks[y].beats && JSON.stringify(wrongBlocks[x].notes) !== JSON.stringify(wrongBlocks[y].notes)) {
+                                 pairs.push([x, y]);
+                             }
+                         }
+                     }
+                     if (pairs.length > 0) {
+                         const pair = pairs[Math.floor(Math.random() * pairs.length)];
+                         const temp = wrongBlocks[pair[0]];
+                         wrongBlocks[pair[0]] = wrongBlocks[pair[1]];
+                         wrongBlocks[pair[1]] = temp;
+                         mutated = true;
+                     }
+                  }
+              } else if (validReplacements.length > 1) {
+                  const idx1 = Math.floor(Math.random() * wrongBlocks.length);
+                  const blockToReplace = wrongBlocks[idx1];
+                  const sameDurationReplacements = validReplacements.filter(b => b.beats === blockToReplace.beats);
+                  
+                  if (sameDurationReplacements.length > 1) {
+                      let newBlock = sameDurationReplacements[Math.floor(Math.random() * sameDurationReplacements.length)];
+                      let escape = 0;
+                      while (JSON.stringify(newBlock.notes) === JSON.stringify(blockToReplace.notes) && escape < 20) {
+                          newBlock = sameDurationReplacements[Math.floor(Math.random() * sameDurationReplacements.length)];
+                          escape++;
+                      }
+                      if (JSON.stringify(newBlock.notes) !== JSON.stringify(blockToReplace.notes)) {
+                          wrongBlocks[idx1] = newBlock;
+                          mutated = true;
+                      }
+                  }
+              }
+              
+              if (!mutated) {
+                  let newRhythm = generateRhythmBlocks(symbols, beatsPerBar, numBars, level, timeSig);
+                  let esc = 0;
+                  while (JSON.stringify(newRhythm) === JSON.stringify(correctBlocks) && esc < 10) {
+                      newRhythm = generateRhythmBlocks(symbols, beatsPerBar, numBars, level, timeSig);
+                      esc++;
+                  }
+                  if (JSON.stringify(newRhythm) !== JSON.stringify(correctBlocks)) {
+                      wrongBlocks = newRhythm;
+                      mutated = true;
+                  }
+              }
+          }
+      }
+      
+      const wrongRhythm = flattenBlocksToNotes(wrongBlocks, beatsPerBar, numBars, false, level);
+    
+    setChallenge({
+      correctRhythm,
+      wrongRhythm,
+      timeSignature: timeSig,
+      correctSide: Math.random() > 0.5 ? 'left' : 'right'
+    });
   };
 
   useEffect(() => {
-    generateChallenge();
-  }, []);
+    if (selectedLevel !== null && !gameOver && !levelComplete) {
+      generateChallenge(selectedLevel);
+    }
+  }, [selectedLevel, correctAnswers, gameOver, levelComplete]);
 
-  // 1-minute timer for daily challenge
-  useEffect(() => {
-    if (!isDailyChallenge || gameOver) return;
-    const timer = setTimeout(() => {
-      setGameOver(true);
-      if (onChallengeComplete) {
-        onChallengeComplete(metersPaddled, 100); // 100% accuracy for completion
-      }
-    }, 60000); // 1 minute limit
-    return () => clearTimeout(timer);
-  }, [isDailyChallenge, gameOver, metersPaddled, onChallengeComplete]);
-
-  const handleSelectOption = (idx: number) => {
-    if (revealOutcome || gameOver) return;
-
-    setLastSelectedIdx(idx);
-    const isCorrect = idx === targetIndex;
-    setCanoeLane(idx === 0 ? 'left' : 'right');
-
-    if (isCorrect) {
-      setRevealOutcome('safe');
+  const handleChoice = (side: 'left' | 'right') => {
+    if (feedback !== null || !challenge) return;
+    
+    if (side === challenge.correctSide) {
+      setFeedback('correct');
+      addXP(10); // Reward XP
       setTimeout(() => {
-        setMetersPaddled((prev) => {
-          const next = prev + 50;
-          if (isDailyChallenge && next >= 250) {
-            if (onChallengeComplete) {
-              onChallengeComplete(next, 100);
-            }
-          } else if (next >= 250 && onComplete) {
-            onComplete();
-          }
-          return next;
-        });
-        generateChallenge();
+        setFeedback(null);
+        const newScore = correctAnswers + 1;
+        setCorrectAnswers(newScore);
+        
+        // Extra life logic
+        if (newScore > 0 && newScore % 5 === 0) {
+          setLives(prev => Math.min(3, prev + 1));
+        }
+        
+        if (newScore >= 15) {
+          setLevelComplete(true);
+          if (onChallengeComplete && isDailyChallenge) onChallengeComplete(15);
+        }
       }, 1500);
     } else {
-      setRevealOutcome('crash');
+      setFeedback('wrong');
       setTimeout(() => {
-        setLives((prev) => {
-          const next = prev - 1;
-          if (next <= 0) {
-            setGameOver(true);
-          }
-          return next;
-        });
-        generateChallenge();
-      }, 1500);
+        setFeedback(null);
+        const nextLives = lives - 1;
+        setLives(nextLives);
+        if (nextLives <= 0) {
+          setGameOver(true);
+        } else {
+          // Generate a new challenge to prevent brute force
+          if (selectedLevel) generateChallenge(selectedLevel);
+        }
+      }, 2500);
     }
   };
 
-  const handleRestart = () => {
-    setMetersPaddled(0);
+  // Convert RhythmsExpressions to LevelCards
+  const levelCards: LevelCardData[] = RhythmsExpressions.map((levelData: any) => ({
+    id: levelData.id,
+    title: `Level ${levelData.id}`,
+    description: `Master ${levelData.introducedSymbols?.map((s: any) => s.Name).join(', ') || 'new rhythms'}!`,
+    isUnlocked: true,
+    cardTheme: 'bg-cyan-50',
+    textTheme: 'text-cyan-900',
+    progress: 0,
+    targetRhythms: levelData.introducedSymbols?.map((s: any) => s.Notation).filter(Boolean).join(', ') || ''
+  }));
+
+  if (selectedLevel === null) {
+    return (
+      <UniversalGameHomepage
+        gameTitle="Rhythm Rapids"
+        titleColorClass="text-cyan-400 drop-shadow-lg"
+        backgroundClass="bg-[url('/assets/images/games/rhythm_rapids_background.png')] bg-cover bg-center"
+        levels={levelCards}
+        onLevelSelect={(id) => {
+          setSelectedLevel(id);
+          setGamePhase('preview');
+        }}
+        onNoteHelp={() => setShowNoteHelp(true)}
+        onBack={onBack}
+      />
+    );
+  }
+
+  const restartGame = () => {
+    setSelectedLevel(null);
+    setCorrectAnswers(0);
     setLives(3);
     setGameOver(false);
-    generateChallenge();
-  };
-
-  const renderRhythmNotes = (notes: string[]) => {
-    return (
-      <div className="flex items-center gap-3 justify-center py-2 bg-white/10 rounded-lg px-4 border border-black/5 shadow-inner">
-        {notes.map((note, idx) => (
-          <div key={idx} className="flex flex-col items-center">
-            {note === 'crotchet' ? (
-              <span className="text-3xl font-bold select-none text-neutral-800">♩</span>
-            ) : (
-              <span className="text-3xl font-bold select-none text-neutral-800">♫</span>
-            )}
-            <span className="text-[9px] font-mono font-bold text-neutral-500">
-              {note === 'crotchet' ? '1' : '0.5+0.5'}
-            </span>
-          </div>
-        ))}
-      </div>
-    );
+    setLevelComplete(false);
   };
 
   return (
-    <div className="min-h-screen bg-emerald-800 relative overflow-hidden flex flex-col" id="rhythm-rapids-arena">
-      {/* Background river stream layout */}
-      <div className="absolute inset-x-[10%] inset-y-0 bg-sky-500/90 z-0 shadow-2xl border-l-8 border-r-8 border-emerald-950 flex justify-between px-8">
-        {/* River current wave lines */}
-        <div className="w-[1px] h-full border-l-2 border-dashed border-sky-300 opacity-30 animate-pulse" />
-        <div className="w-[1px] h-full border-l-2 border-dashed border-sky-300 opacity-30 animate-pulse" />
-        <div className="w-[1px] h-full border-l-2 border-dashed border-sky-300 opacity-30 animate-pulse" />
+    <div className="relative w-full h-screen overflow-hidden bg-slate-900 font-sans">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <SmartImage 
+          src={APP_ASSETS.backgrounds.rhythmRapidsBackground} 
+          alt="Rhythm Rapids Background"
+          className="w-full h-full object-cover object-bottom"
+        />
+        {/* Dynamic Overlay if wrong */}
+        <AnimatePresence>
+          {feedback === 'wrong' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-10"
+            >
+              <SmartImage 
+                src={challenge?.correctSide === 'right' ? APP_ASSETS.backgrounds.rhythmRapidsRocksLeft : APP_ASSETS.backgrounds.rhythmRapidsRocksRight}
+                alt="Crash Rocks"
+                className="w-full h-full object-cover object-bottom"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Jungle foliage borders */}
-      <div className="absolute left-0 inset-y-0 w-[10%] bg-gradient-to-r from-emerald-950 to-emerald-900 z-10 flex flex-col justify-around text-center pointer-events-none opacity-90">
-        <span className="text-3xl">🌴</span>
-        <span className="text-3xl">🌿</span>
-        <span className="text-3xl">🐒</span>
-        <span className="text-3xl">🍃</span>
-      </div>
-      <div className="absolute right-0 inset-y-0 w-[10%] bg-gradient-to-l from-emerald-950 to-emerald-900 z-10 flex flex-col justify-around text-center pointer-events-none opacity-90">
-        <span className="text-3xl">🌴</span>
-        <span className="text-3xl">🐍</span>
-        <span className="text-3xl">🌿</span>
-        <span className="text-3xl">🦜</span>
-      </div>
-
-      {/* Top HUD Row */}
-      <div className="relative z-20 flex items-center justify-between p-6 bg-emerald-950/90 backdrop-blur-md border-b border-emerald-800">
+      {/* Header */}
+      <div className="absolute top-8 left-8 z-50 flex items-center gap-4">
         <button
-          id="rapids-back-btn"
-          onClick={onBack}
-          className="flex items-center gap-2 px-4 py-2 font-sans font-semibold text-emerald-100 transition-all rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 shadow border border-white/10"
+          onClick={restartGame}
+          className="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-white px-5 py-3 rounded-2xl shadow-xl transition-all border-2 border-white/20 backdrop-blur-md font-black uppercase tracking-wider"
         >
-          <ArrowLeft className="w-5 h-5" />
-          Back to Map
+          <ArrowLeft className="w-6 h-6" /> Quit
+        </button>
+        <NoteHelpButton onClick={() => setShowNoteHelp(true)} className="bg-slate-800/80 border-white/20 backdrop-blur-md hover:bg-slate-700 w-14 h-14" />
+      </div>  
+      
+      {/* Canoe Lives UI */}
+      <div className="absolute top-6 right-6 z-30 flex flex-col items-center gap-2">
+            <div className="flex gap-3">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${i < lives ? 'bg-orange-500 shadow-lg scale-100' : 'bg-slate-700/50 scale-90 opacity-50'}`}>
+                  <span className="text-2xl">🛶</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border-2 border-white/50 text-white font-black text-xl tracking-widest shadow-lg">
+                SCORE: {correctAnswers}/15
+            </div>
+      </div>
+
+      {/* Main Gameplay Area */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pt-20">
+        
+        {/* Audio Prompt Button */}
+        <button 
+          onClick={() => {
+              if (challenge) playRhythm(challenge.correctRhythm, challenge.timeSignature);
+          }}
+          disabled={feedback !== null}
+          className="mb-12 bg-white hover:bg-cyan-50 shadow-2xl rounded-full px-10 py-5 flex items-center gap-4 transition-all hover:scale-105 active:scale-95 group border-4 border-cyan-400"
+        >
+          <div className="bg-cyan-500 rounded-full w-16 h-16 flex items-center justify-center group-hover:bg-cyan-600">
+            <Volume2 className="w-8 h-8 text-white" />
+          </div>
+          <div className="flex flex-col items-start">
+              <span className="text-xl font-black text-slate-800 uppercase tracking-widest">Listen to the Rhythm</span>
+              <span className="text-md font-bold text-slate-500">and then choose the correct box</span>
+          </div>
         </button>
 
-        <h1 className="hidden sm:block text-xl font-black text-white uppercase tracking-wider font-sans">
-          🛶 Rhythm Rapids Shack
-        </h1>
-
-        <div className="flex items-center gap-6" id="rapids-tracker">
-          {/* Paddled Distance Counter */}
-          <div className="text-right">
-            <span className="text-[10px] font-bold text-sky-300 uppercase tracking-widest block">Paddled</span>
-            <span className="font-mono text-lg font-black text-white">{metersPaddled}m</span>
-          </div>
-
-          {/* Canoe Lives Tracker */}
-          <div className="flex gap-1 bg-black/30 p-2 rounded-xl border border-white/5">
-            {[1, 2, 3].map((heart) => (
-              <Heart
-                key={heart}
-                className={`w-5 h-5 ${
-                  heart <= lives ? 'text-red-500 fill-red-500' : 'text-neutral-500'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Active gameplay space */}
-      <div className="flex-1 relative z-10 flex flex-col justify-between items-center p-4">
-        
-        {/* Instruction overlay / Prompt */}
-        <div className="w-full max-w-md bg-white border-2 border-sky-400 p-4 rounded-2xl shadow-xl text-center mb-4" id="rapids-prompt-box">
-          <div className="flex items-center justify-center gap-1.5 text-sky-800 mb-1">
-            <Info className="w-4 h-4" />
-            <span className="text-xs font-black uppercase tracking-wider">Listen to the rhythm sequence:</span>
-          </div>
-          {options.length > 0 && (
-            <div className="space-y-2">
-              <p className="font-sans text-sm font-bold text-neutral-800">
-                Paddler, guide your canoe through the obstacle with this sequence:
-              </p>
-              <div className="inline-flex gap-2 bg-sky-50 px-3 py-1.5 rounded-xl border border-sky-100">
-                {options[targetIndex]?.notes.map((note, i) => (
-                  <span key={i} className="text-xl font-bold font-mono text-sky-950">
-                    {note === 'crotchet' ? '♩' : '♫'}
-                  </span>
-                ))}
-              </div>
-              <p className="text-[10px] font-mono font-bold text-sky-600 uppercase">
-                Beats: {options[targetIndex]?.beats}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* River Obstacle Nodes (Side-by-side targets) */}
-        <div className="grid grid-cols-2 gap-8 w-full max-w-2xl px-6 my-auto" id="river-obstacles">
-          {options.map((opt, index) => {
-            const isSelected = lastSelectedIdx === index;
-            const isTarget = targetIndex === index;
-
-            return (
-              <div key={index} className="relative flex flex-col items-center">
-                <motion.div
-                  whileHover={!revealOutcome ? { scale: 1.04 } : {}}
-                  whileTap={!revealOutcome ? { scale: 0.98 } : {}}
-                  onClick={() => handleSelectOption(index)}
-                  className={`w-full bg-white/95 border-4 rounded-2xl shadow-xl p-5 cursor-pointer flex flex-col justify-between h-40 transition-all ${
-                    revealOutcome && isSelected
-                      ? isTarget
-                        ? 'border-emerald-500 shadow-emerald-200 bg-emerald-50'
-                        : 'border-rose-500 shadow-rose-200 bg-rose-50'
-                      : 'border-neutral-300 hover:border-sky-400'
-                  }`}
-                  id={`obstacle-${index}`}
+        {/* The Two Rhythm Boxes */}
+        <div className="flex gap-12 mt-12 w-full max-w-[1800px] px-8 justify-center">
+            
+            {/* LEFT BOX */}
+            <AnimatePresence>
+            {(feedback !== 'correct' || challenge?.correctSide === 'left') && (
+                <motion.button
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ 
+                        y: feedback === 'correct' && challenge?.correctSide === 'left' ? -200 : 0, 
+                        opacity: feedback === 'correct' && challenge?.correctSide === 'right' ? 0 : 1 
+                    }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => handleChoice('left')}
+                    disabled={feedback !== null}
+                    className={`bg-white rounded-3xl p-6 shadow-2xl border-b-8 border-slate-300 w-full max-w-4xl transition-all hover:scale-[1.02] active:scale-[0.98]
+                        ${feedback === 'wrong' && challenge?.correctSide === 'right' ? 'bg-red-100 border-red-500 scale-[0.95]' : ''}
+                        ${feedback === 'wrong' && challenge?.correctSide === 'left' ? 'bg-green-100 border-green-500 scale-105' : ''}
+                    `}
                 >
-                  <div className="flex justify-between items-center border-b border-neutral-100 pb-2">
-                    <span className="text-xs font-black text-neutral-400 uppercase tracking-wider">Obstacle {index + 1}</span>
-                    <span className="text-xs font-bold text-sky-600">4/4 Rhythm</span>
-                  </div>
+                    {challenge && (
+                        <div className="scale-110 transform origin-top w-[650px] mx-auto">
+                            <DynamicScore 
+                                notes={challenge.correctSide === 'left' ? challenge.correctRhythm : challenge.wrongRhythm}
+                                timeSignature={challenge.timeSignature}
+                                clef="percussion"
+                                width={650}
+                                height={150}
+                            />
+                        </div>
+                    )}
+                </motion.button>
+            )}
+            </AnimatePresence>
 
-                  <div className="my-auto">
-                    {renderRhythmNotes(opt.notes)}
-                  </div>
-
-                  <div className="text-center text-[10px] font-mono text-neutral-400 uppercase font-black">
-                    Tap to steers canoe
-                  </div>
-                </motion.div>
-
-                {/* Outcome reveal layer overlay directly below the cards */}
-                <AnimatePresence>
-                  {revealOutcome && isSelected && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`absolute bottom-[-40px] px-4 py-1.5 rounded-full text-xs font-black uppercase text-white shadow-md ${
-                        isTarget ? 'bg-emerald-500' : 'bg-rose-500'
-                      }`}
-                    >
-                      {isTarget ? '💧 Safe Water' : '🪨 Crashed Rocks'}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Canoe Avatar Moving Lane Animation */}
-        <div className="relative w-full h-24 max-w-md flex justify-between px-12 items-center" id="river-lanes">
-          {/* Canoe Visual representation */}
-          <motion.div
-            className="absolute left-0 right-0 mx-auto flex flex-col items-center"
-            animate={{
-              x: canoeLane === 'left' ? -120 : canoeLane === 'right' ? 120 : 0,
-              y: [0, -3, 3, 0]
-            }}
-            transition={{
-              x: { type: 'spring', stiffness: 100 },
-              y: { repeat: Infinity, duration: 1.5, ease: 'easeInOut' }
-            }}
-          >
-            <span className="text-5xl" role="img" aria-label="Canoe paddler">🛶</span>
-            <span className="text-[10px] uppercase font-black font-sans text-white bg-sky-950/70 px-2 py-0.5 rounded-full border border-sky-400/20 shadow mt-1">
-              Paddler
-            </span>
-          </motion.div>
+            {/* RIGHT BOX */}
+            <AnimatePresence>
+            {(feedback !== 'correct' || challenge?.correctSide === 'right') && (
+                <motion.button
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ 
+                        y: feedback === 'correct' && challenge?.correctSide === 'right' ? -200 : 0, 
+                        opacity: feedback === 'correct' && challenge?.correctSide === 'left' ? 0 : 1 
+                    }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => handleChoice('right')}
+                    disabled={feedback !== null}
+                    className={`bg-white rounded-3xl p-6 shadow-2xl border-b-8 border-slate-300 w-full max-w-4xl transition-all hover:scale-[1.02] active:scale-[0.98]
+                        ${feedback === 'wrong' && challenge?.correctSide === 'left' ? 'bg-red-100 border-red-500 scale-[0.95]' : ''}
+                        ${feedback === 'wrong' && challenge?.correctSide === 'right' ? 'bg-green-100 border-green-500 scale-105' : ''}
+                    `}
+                >
+                    {challenge && (
+                        <div className="scale-110 transform origin-top w-[650px] mx-auto">
+                            <DynamicScore 
+                                notes={challenge.correctSide === 'right' ? challenge.correctRhythm : challenge.wrongRhythm}
+                                timeSignature={challenge.timeSignature}
+                                clef="percussion"
+                                width={650}
+                                height={150}
+                            />
+                        </div>
+                    )}
+                </motion.button>
+            )}
+            </AnimatePresence>
         </div>
 
       </div>
 
-      {/* Game Over Screen */}
+      {/* Overlays */}
       <AnimatePresence>
+        {feedback === 'correct' && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5, y: -50 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
+          >
+            <div className="bg-white px-12 py-6 rounded-full shadow-2xl border-4 border-cyan-400">
+                <h2 className="text-4xl font-black text-cyan-600 uppercase tracking-widest whitespace-nowrap">Great Rhythm!</h2>
+                <p className="text-center text-slate-500 font-bold mt-2">Keep on paddling!</p>
+            </div>
+          </motion.div>
+        )}
+
+        {feedback === 'wrong' && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5, y: -50 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
+          >
+            <div className="bg-white px-12 py-6 rounded-3xl shadow-2xl border-4 border-red-500 text-center">
+                <h2 className="text-5xl font-black text-red-600 uppercase tracking-widest whitespace-nowrap mb-4">Oops!</h2>
+                <p className="text-2xl text-slate-700 font-bold">You paddled the wrong way!</p>
+                <div className="text-6xl mt-4">💥</div>
+            </div>
+          </motion.div>
+        )}
+
         {gameOver && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-neutral-950/90 z-30 flex items-center justify-center p-4"
-            id="rapids-game-over-overlay"
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
           >
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              className="p-8 text-center bg-white border-4 border-rose-500 rounded-3xl max-w-sm shadow-2xl"
-            >
-              <div className="inline-flex p-4 bg-rose-100 text-rose-600 rounded-full mb-4">
-                <RotateCcw className="w-12 h-12" />
-              </div>
-              <h2 className="text-2xl font-black text-rose-950 uppercase">Canoe Capsized</h2>
-              <p className="mt-2 text-sm text-neutral-600">
-                You hit crashed rocks and capsized! Excellent effort. You paddled an impressive:
-              </p>
+            <div className="bg-white p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl border-b-8 border-slate-300">
+              <h2 className="text-5xl font-black text-slate-800 mb-4">Canoe Sank!</h2>
+              <p className="text-xl text-slate-600 mb-8 font-bold">You lost all your lives. Try again!</p>
+              <button
+                onClick={() => {
+                  setGameOver(false);
+                  setCorrectAnswers(0);
+                  setLives(3);
+                }}
+                className="w-full bg-cyan-500 hover:bg-cyan-400 text-white font-black text-2xl py-6 rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Try Again
+              </button>
+              <button
+                onClick={() => setSelectedLevel(null)}
+                className="w-full mt-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-black text-xl py-4 rounded-2xl transition-all"
+              >
+                Change Level
+              </button>
+            </div>
+          </motion.div>
+        )}
 
-              <div className="my-5 p-3 bg-sky-50 border border-sky-200 rounded-xl">
-                <span className="font-mono text-2xl font-black text-sky-950">{metersPaddled} meters</span>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  id="rapids-restart"
-                  onClick={handleRestart}
-                  className="flex-1 px-4 py-2.5 font-sans font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-md active:scale-95"
-                >
-                  Restart Run
-                </button>
-                <button
-                  id="rapids-exit"
-                  onClick={onBack}
-                  className="px-4 py-2.5 font-sans font-semibold text-neutral-500 border border-neutral-300 hover:bg-neutral-50 rounded-xl transition-all"
-                >
-                  Exit Map
-                </button>
-              </div>
-            </motion.div>
+        {levelComplete && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          >
+            <div className="bg-white p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl border-b-8 border-slate-300">
+              <div className="text-6xl mb-6">🏆</div>
+              <h2 className="text-5xl font-black text-slate-800 mb-4">Level Cleared!</h2>
+              <p className="text-xl text-slate-600 mb-8 font-bold">You successfully navigated the rapids!</p>
+              <button
+                onClick={() => {
+                  setSelectedLevel(null);
+                  setLevelComplete(false);
+                  setCorrectAnswers(0);
+                  setLives(3);
+                }}
+                className="w-full bg-cyan-500 hover:bg-cyan-400 text-white font-black text-2xl py-6 rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Continue Journey
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
+      <NoteHelpOverlay isOpen={showNoteHelp} onClose={() => setShowNoteHelp(false)} defaultView="symbols" />
     </div>
   );
 }

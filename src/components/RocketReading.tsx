@@ -1,19 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Rocket, ShieldAlert, RotateCcw, Award, HelpCircle, AlertTriangle, Play } from 'lucide-react';
-import { NoteDetail } from './NoteDetail';
-import { DifficultyEngine } from '../utils/difficultyManager';
+import { ArrowLeft, ShieldAlert, RotateCcw, Award, HelpCircle, Info, Play, Shield } from 'lucide-react';
 import { AudioManager } from '../utils/audioManager';
-import { Analytics } from '../utils/analyticsService';
+import { APP_ASSETS } from '../config/assets';
+import { DynamicScore } from './ui/DynamicScore';
+import { Curriculums } from '../data';
+import { useInstrument } from '../contexts/InstrumentContext';
+import { UniversalGameHomepage, LevelCardData } from './ui/UniversalGameHomepage';
+import { NoteHelpOverlay } from './ui/NoteHelpOverlay';
+import { NoteHelpButton } from './ui/NoteHelpButton';
+import { addXP } from '../utils/economy';
+import { saveGameScore } from '../utils/supabaseSync';
+import { formatAccidentals, formatVexFlowKey } from '../utils/musicFormatter';
+import masterDescriptions from '../data/masterDescriptions.json';
+import { FingeringChart } from './ui/FingeringChart';
+import { BrassFingeringChart } from './ui/BrassFingeringChart';
+import { FluteFingeringChart } from './ui/FluteFingeringChart';
+import { SaxophoneFingeringChart } from './ui/SaxophoneFingeringChart';
+import { ViolinFingeringChart } from './ui/ViolinFingeringChart';
+import { CelloFingeringChart } from './ui/CelloFingeringChart';
+import { PianoFingeringChart } from './ui/PianoFingeringChart';
+import { VoicePitchDisplay } from './ui/VoicePitchDisplay';
 
 interface RocketReadingProps {
   onBack: () => void;
-  onComplete?: () => void;
   isDailyChallenge?: boolean;
-  onChallengeComplete?: (score: number, accuracy: number) => void;
+  onChallengeComplete?: (score: any) => void;
+  onComplete?: () => void;
 }
 
-type NoteType = 'D' | 'E' | 'F' | 'G' | 'A' | 'B' | 'C';
+export type NoteType = { label: string; writtenNote: string; description?: string; fingering?: string; };
 
 interface FeedbackPop {
   id: number;
@@ -21,107 +37,70 @@ interface FeedbackPop {
   type: 'success' | 'error';
 }
 
-export default function RocketReading({
-  onBack,
-  onComplete,
-  isDailyChallenge = false,
-  onChallengeComplete,
-}: RocketReadingProps) {
-  // Core states
-  const [air, setAir] = useState(100);
+export default function RocketReading({ onBack, onComplete }: RocketReadingProps) {
+  const { instrument } = useInstrument();
+  const bassClefInstruments = ['Trombone', 'Tuba', 'Baritone/Euphonium', 'Cello', 'Double Bass', 'Bass Guitar'];
+  const clef = bassClefInstruments.includes(instrument) ? 'bass' : 'treble';
+  const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculums['Clarinet'] || [];
+  const rocketLevelsData: any[] = Array.isArray(rawData) ? rawData : (rawData as any).default || [];
+  
+  const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const [shields, setShields] = useState(3);
   const [altitude, setAltitude] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const [targetNote, setTargetNote] = useState<NoteType>('E');
-  const [options, setOptions] = useState<NoteType[]>(['D', 'E']);
+  const [targetNote, setTargetNote] = useState<NoteType | null>(null);
+  const [options, setOptions] = useState<NoteType[]>([]);
   const [feedback, setFeedback] = useState<FeedbackPop | null>(null);
   const feedbackIdCounter = useRef(0);
-
-  // High score tracking
   const [bestAltitude, setBestAltitude] = useState(0);
-
-  // In-Game Help & Pause state
+  const [levelProgress, setLevelProgress] = useState<Record<number, number>>({});
+  
+  const [airLevel, setAirLevel] = useState(100);
+  const [correctNotesCount, setCorrectNotesCount] = useState(0);
+  
   const [isPaused, setIsPaused] = useState(false);
-  const [helpNoteRequested, setHelpNoteRequested] = useState<string | null>(null);
   const [resumeCountdown, setResumeCountdown] = useState<number | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [levelCleared, setLevelCleared] = useState(false);
+  const [isInfiniteMode, setIsInfiniteMode] = useState(false);
 
-  // Adaptive Difficulty states
-  const [currentDifficulty, setCurrentDifficulty] = useState(1);
-  const [correctHits, setCorrectHits] = useState(0);
-  const [totalAttempts, setTotalAttempts] = useState(0);
-  const [correctStreak, setCorrectStreak] = useState(0);
-  const [recentAccuracy, setRecentAccuracy] = useState(100);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [gamePhase, setGamePhase] = useState<'stage-select' | 'preview' | 'playing'>('stage-select');
+  const [showNoteHelp, setShowNoteHelp] = useState(false);
+  const [selectedPreviewNote, setSelectedPreviewNote] = useState<NoteType | null>(null);
+  const [flashTargetNote, setFlashTargetNote] = useState(false);
 
-  // Load High Score on mount
   useEffect(() => {
     const savedBest = localStorage.getItem('rocketHighScore');
-    if (savedBest) {
-      setBestAltitude(parseInt(savedBest, 10));
-    }
+    if (savedBest) setBestAltitude(parseInt(savedBest, 10));
+    
+    const savedProgress = localStorage.getItem('rocketLevelProgress');
+    if (savedProgress) setLevelProgress(JSON.parse(savedProgress));
   }, []);
 
-  // 1-Minute Daily Challenge Timer
   useEffect(() => {
-    if (!isDailyChallenge || gameOver || isPaused) return;
+    if (gameOver || isPaused || resumeCountdown !== null || selectedLevel === null || levelCleared || gamePhase === 'preview') return;
+    
+    const drainRate = 0.5 + (correctNotesCount * 0.05);
 
-    const timer = setTimeout(() => {
-      setGameOver(true);
-      AudioManager.playSuccess();
-      if (onChallengeComplete) {
-        const accuracy = totalAttempts > 0 ? (correctHits / totalAttempts) * 100 : 0;
-        onChallengeComplete(altitude, accuracy);
-      }
-    }, 60000); // 1 minute limit
-
-    return () => clearTimeout(timer);
-  }, [isDailyChallenge, gameOver, isPaused, altitude, correctHits, totalAttempts, onChallengeComplete]);
-
-  // Interval for draining air supply
-  useEffect(() => {
-    if (gameOver || isPaused || resumeCountdown !== null) return;
-
-    const timer = setInterval(() => {
-      setAir((prev) => {
-        // Base rate
-        const baseRate = 1 + Math.floor(altitude / 1000);
-        // Multiply by fall speed/difficulty multiplier
-        const speedMultiplier = DifficultyEngine.getFallSpeed(currentDifficulty);
-        const rate = Math.max(1, Math.round(baseRate * speedMultiplier * 0.45));
-
-        const nextAir = prev - rate;
-        if (nextAir <= 0) {
+    const interval = setInterval(() => {
+      setAirLevel(prev => {
+        const next = prev - drainRate;
+        if (next <= 0) {
           setGameOver(true);
-          clearInterval(timer);
-          
-          // Trigger high score updates
-          const storedBest = localStorage.getItem('rocketHighScore') || '0';
-          const bestNum = parseInt(storedBest, 10);
-          if (altitude > bestNum) {
-            localStorage.setItem('rocketHighScore', String(altitude));
-            setBestAltitude(altitude);
-          }
-
-          if (isDailyChallenge && onChallengeComplete) {
-            const accuracy = totalAttempts > 0 ? (correctHits / totalAttempts) * 100 : 0;
-            onChallengeComplete(altitude, accuracy);
-          }
-
           return 0;
         }
-        return nextAir;
+        return next;
       });
-    }, 150);
+    }, 200);
 
-    return () => clearInterval(timer);
-  }, [gameOver, isPaused, resumeCountdown, altitude, currentDifficulty, isDailyChallenge, onChallengeComplete, correctHits, totalAttempts]);
+    return () => clearInterval(interval);
+  }, [gameOver, isPaused, resumeCountdown, selectedLevel, levelCleared, correctNotesCount, gamePhase]);
 
-  // Resume countdown timer effect
   useEffect(() => {
     if (resumeCountdown === null) return;
-
     if (resumeCountdown > 0) {
       const timer = setTimeout(() => {
-        setResumeCountdown((prev) => (prev !== null ? prev - 1 : null));
+        setResumeCountdown(prev => prev !== null ? prev - 1 : null);
         AudioManager.playClick();
       }, 1000);
       return () => clearTimeout(timer);
@@ -131,197 +110,189 @@ export default function RocketReading({
     }
   }, [resumeCountdown]);
 
-  // Generate target note and options
+  useEffect(() => {
+    if (selectedLevel !== null) {
+      setGamePhase('preview');
+      setSelectedPreviewNote(null);
+      setShields(3);
+      setAltitude(0);
+      setAirLevel(100);
+      setCorrectNotesCount(0);
+      setGameOver(false);
+      setLevelCleared(false);
+    }
+  }, [selectedLevel]);
+
+  const hasSavedScoreRef = useRef(false);
+  useEffect(() => {
+    if (selectedLevel !== null) hasSavedScoreRef.current = false;
+  }, [selectedLevel]);
+
+  useEffect(() => {
+    if ((gameOver || levelCleared) && selectedLevel !== null && !hasSavedScoreRef.current) {
+      saveGameScore('Rocket Reading', selectedLevel, altitude, 0);
+      hasSavedScoreRef.current = true;
+    }
+  }, [gameOver, levelCleared, selectedLevel, altitude]);
+
   const generateLevel = () => {
-    const notes: NoteType[] = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    const selectedTarget = notes[Math.floor(Math.random() * notes.length)];
+    if (!selectedLevel) return;
+
+    const availableLevels = rocketLevelsData.filter(l => l.id <= selectedLevel);
+    const newNotes = rocketLevelsData.find(l => l.id === selectedLevel)?.introducedNotes || [];
     
-    // Pick another note for the wrong option
-    let wrongOption = notes[Math.floor(Math.random() * notes.length)];
-    while (wrongOption === selectedTarget) {
-      wrongOption = notes[Math.floor(Math.random() * notes.length)];
+    let allAvailable: NoteType[] = [];
+    availableLevels.forEach(lvl => {
+      allAvailable = allAvailable.concat(lvl.introducedNotes as any[]);
+    });
+
+    if (allAvailable.length === 0) return;
+
+    let selectedTarget: NoteType;
+
+    if (selectedLevel <= 4 || newNotes.length === 0) {
+      selectedTarget = allAvailable[Math.floor(Math.random() * allAvailable.length)];
+    } else {
+      const r = Math.random();
+      if (r < 0.4) {
+        selectedTarget = newNotes[Math.floor(Math.random() * newNotes.length)];
+      } else {
+        const oldNotes = allAvailable.filter(n => !newNotes.some(nn => nn.label === n.label && nn.writtenNote === n.writtenNote));
+        if (oldNotes.length > 0) {
+          selectedTarget = oldNotes[Math.floor(Math.random() * oldNotes.length)];
+        } else {
+          selectedTarget = newNotes[Math.floor(Math.random() * newNotes.length)];
+        }
+      }
+    }
+
+    let wrongOption = allAvailable[Math.floor(Math.random() * allAvailable.length)];
+    let attempts = 0;
+    while (wrongOption.label === selectedTarget.label && wrongOption.writtenNote === selectedTarget.writtenNote && attempts < 50) {
+      wrongOption = allAvailable[Math.floor(Math.random() * allAvailable.length)];
+      attempts++;
     }
 
     setTargetNote(selectedTarget);
-    // Shuffle options left/right
-    const opts = Math.random() > 0.5 ? [selectedTarget, wrongOption] : [wrongOption, selectedTarget];
-    setOptions(opts);
+    setOptions(Math.random() > 0.5 ? [selectedTarget, wrongOption] : [wrongOption, selectedTarget]);
+    
+    setFlashTargetNote(true);
+    setTimeout(() => setFlashTargetNote(false), 800);
   };
-
-  useEffect(() => {
-    generateLevel();
-  }, []);
 
   const handleChoice = (note: NoteType) => {
     if (gameOver || isPaused || resumeCountdown !== null) return;
 
-    const isCorrect = note === targetNote;
+    const isCorrect = note.label === targetNote?.label && note.writtenNote === targetNote?.writtenNote;
     feedbackIdCounter.current += 1;
 
-    setTotalAttempts((t) => t + 1);
-
     if (isCorrect) {
-      AudioManager.playClick();
-      setCorrectHits((c) => c + 1);
-      setCorrectStreak((s) => {
-        const nextStreak = s + 1;
-        // Calculate recent accuracy
-        const total = totalAttempts + 1;
-        const correct = correctHits + 1;
-        const accuracy = (correct / total) * 100;
-        setRecentAccuracy(accuracy);
+      if (note.writtenNote) {
+        AudioManager.playNote(note.writtenNote, instrument);
+      } else {
+        AudioManager.playClick();
+      }
+      
+      addXP(10);
+      const nextCorrect = correctNotesCount + 1;
+      setCorrectNotesCount(nextCorrect);
+      setAirLevel(prev => Math.min(100, prev + 20));
 
-        // Every 5 spawns, run difficulty check
-        if (total % 5 === 0) {
-          setCurrentDifficulty((prevDiff) => {
-            const nextDiff = DifficultyEngine.calculateNextLevel(prevDiff, accuracy, nextStreak);
-            if (nextDiff > prevDiff) {
-              setToastMessage('Speed Up! 🚀');
-              setTimeout(() => setToastMessage(null), 2000);
-            } else if (nextDiff < prevDiff) {
-              setToastMessage('Taking it easy... 💨');
-              setTimeout(() => setToastMessage(null), 2000);
-            }
-            return nextDiff;
-          });
-        }
-
-        return nextStreak;
-      });
-
-      setAltitude((prev) => {
-        const next = prev + 100;
-        if (next >= 1000 && onComplete && !isDailyChallenge) {
-          onComplete(); // Lesson advancement trigger
-        }
-        return next;
-      });
-      setAir((prev) => Math.min(prev + 20, 100));
-      setFeedback({
-        id: feedbackIdCounter.current,
-        text: '+20 Air! 🚀',
-        type: 'success',
-      });
-    } else {
-      AudioManager.playError();
-      setCorrectStreak(0);
-      const total = totalAttempts + 1;
-      const accuracy = (correctHits / total) * 100;
-      setRecentAccuracy(accuracy);
-
-      // Every 5 spawns, run difficulty check
-      if (total % 5 === 0) {
-        setCurrentDifficulty((prevDiff) => {
-          const nextDiff = DifficultyEngine.calculateNextLevel(prevDiff, accuracy, 0);
-          if (nextDiff < prevDiff) {
-            setToastMessage('Taking it easy... 💨');
-            setTimeout(() => setToastMessage(null), 2000);
+      if (selectedLevel !== null) {
+        const percentage = Math.min(100, Math.floor((nextCorrect / 30) * 100));
+        setLevelProgress(prev => {
+          const current = prev[selectedLevel] || 0;
+          if (percentage > current) {
+            const nextProg = { ...prev, [selectedLevel]: percentage };
+            localStorage.setItem('rocketLevelProgress', JSON.stringify(nextProg));
+            return nextProg;
           }
-          return nextDiff;
+          return prev;
         });
       }
 
-      setAir((prev) => Math.max(prev - 20, 0));
-      setFeedback({
-        id: feedbackIdCounter.current,
-        text: '-20 Air! 💥',
-        type: 'error',
+      if (nextCorrect > 0 && nextCorrect % 10 === 0) {
+        setShields(s => Math.min(4, s + 1));
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 2000);
+      }
+
+      setAltitude(prev => {
+        const next = prev + 100;
+        
+        if (next > bestAltitude) {
+          localStorage.setItem('rocketHighScore', String(next));
+          setBestAltitude(next);
+        }
+
+        return next;
       });
+
+      if (nextCorrect >= 30 && !isInfiniteMode) {
+        setLevelCleared(true);
+        if (onComplete) onComplete();
+      }
+
+      setFeedback({ id: feedbackIdCounter.current, text: 'Blast! 🚀', type: 'success' });
+    } else {
+      AudioManager.playError();
+      setAirLevel(prev => {
+        const next = prev - 5;
+        if (next <= 0) setGameOver(true);
+        return next;
+      });
+      setShields(prev => {
+        const next = prev - 1;
+        if (next <= 0) setGameOver(true);
+        return Math.max(0, next);
+      });
+      setFeedback({ id: feedbackIdCounter.current, text: 'Asteroid Hit! 💥', type: 'error' });
     }
 
-    // Auto clear feedback
-    setTimeout(() => {
-      setFeedback(null);
-    }, 600);
-
-    // Load next question
+    setTimeout(() => setFeedback(null), 600);
     generateLevel();
-  };
-
-  const handlePause = () => {
-    setIsPaused(true);
-    setHelpNoteRequested(null);
-  };
-
-  const handleResumeClick = () => {
-    setHelpNoteRequested(null);
-    setResumeCountdown(3);
   };
 
   const restartGame = () => {
-    setAir(100);
+    setShields(3);
     setAltitude(0);
     setGameOver(false);
+    setLevelCleared(false);
+    setIsInfiniteMode(false);
+    setShowConfetti(false);
     setFeedback(null);
-    setCurrentDifficulty(1);
-    setCorrectHits(0);
-    setTotalAttempts(0);
-    setCorrectStreak(0);
-    setRecentAccuracy(100);
-    generateLevel();
+    setAirLevel(100);
+    setCorrectNotesCount(0);
+    setGamePhase('preview');
   };
 
-  // Render stave helper for choice box
-  const renderMiniStave = (note: NoteType) => {
-    let topPosition = 'top-[45px]'; // fallback
-    let extraLedger = false;
+  const devModeUnlockAll = true;
+  const rocketLevels = rocketLevelsData.map(l => ({
+    ...l,
+    isUnlocked: devModeUnlockAll ? true : l.isUnlocked,
+    completionPercentage: levelProgress[l.id] || 0
+  }));
 
-    if (note === 'C') {
-      topPosition = 'top-[74px]';
-      extraLedger = true;
-    } else if (note === 'D') {
-      topPosition = 'top-[62px]';
-    } else if (note === 'E') {
-      topPosition = 'top-[53px]';
-    } else if (note === 'F') {
-      topPosition = 'top-[43px]';
-    } else if (note === 'G') {
-      topPosition = 'top-[34px]';
-    } else if (note === 'A') {
-      topPosition = 'top-[24px]';
-    } else if (note === 'B') {
-      topPosition = 'top-[14px]';
-    }
-
+  if (selectedLevel === null) {
     return (
-      <div className="relative w-full h-24 bg-white border-2 border-neutral-300 rounded-xl flex items-center justify-center p-2 shadow hover:border-amber-400 hover:shadow-lg transition-all duration-200">
-        <div className="relative w-40 h-16">
-          {/* 5 thin black lines */}
-          <div className="absolute inset-x-0 top-1.5 h-[1px] bg-neutral-900" />
-          <div className="absolute inset-x-0 top-5 h-[1px] bg-neutral-900" />
-          <div className="absolute inset-x-0 top-8.5 h-[1px] bg-neutral-900" />
-          <div className="absolute inset-x-0 top-12 h-[1px] bg-neutral-900" />
-          <div className="absolute inset-x-0 top-[62px] h-[1px] bg-neutral-900" />
-          
-          {/* Treble clef logo */}
-          <span className="absolute left-1 top-[-2px] text-2xl font-bold select-none text-neutral-800">🎼</span>
-          
-          {/* Ledger line for C */}
-          {extraLedger && (
-            <div className="absolute left-[58px] top-[79px] h-[1.5px] w-6 bg-neutral-950" />
-          )}
-
-          {/* Note Head placement */}
-          <div
-            style={{ top: topPosition }}
-            className="absolute left-16 w-4 h-3 bg-neutral-900 rounded-full rotate-[-15deg] flex items-center justify-center transition-all"
-          >
-            <div className="absolute left-[14px] bottom-[3px] w-[1px] h-10 bg-neutral-900" />
-          </div>
-        </div>
-      </div>
+      <UniversalGameHomepage
+        gameTitle="Rocket Reading"
+        titleColorClass="text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]"
+        backgroundClass="bg-black bg-[url('/images/Reading%20Rocket.png')] bg-cover bg-center"
+        levels={rocketLevels as any}
+        onLevelSelect={(id) => {
+          setSelectedLevel(id);
+          setGamePhase('preview');
+        }}
+        onNoteHelp={() => setShowNoteHelp(true)}
+        onBack={onBack}
+      />
     );
-  };
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 flex flex-col justify-between" id="rocket-reading-arena">
-      {/* Moving Starry Background Speed connected dynamically */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-40 z-0 transition-all duration-500"
-        style={{
-          transform: `translateY(${(altitude % 500) * -0.5}px)`,
-        }}
-      >
+      <div className="absolute inset-0 pointer-events-none opacity-40 z-0 transition-all duration-500" style={{ transform: `translateY(${(altitude % 500) * -0.5}px)` }}>
         <div className="absolute w-1 h-1 bg-white rounded-full top-[10%] left-[20%] animate-ping" />
         <div className="absolute w-1 h-1 bg-white rounded-full top-[30%] left-[70%] animate-pulse" />
         <div className="absolute w-1 h-1 bg-white rounded-full top-[50%] left-[40%] animate-ping" />
@@ -329,287 +300,279 @@ export default function RocketReading({
         <div className="absolute w-1.5 h-1.5 bg-blue-300 rounded-full top-[25%] left-[90%] animate-ping" />
       </div>
 
-      {/* Speed Toast Notification */}
-      {toastMessage && (
-        <div className="absolute top-24 left-1/2 transform -translate-x-1/2 bg-indigo-600 border border-indigo-400 px-5 py-2.5 rounded-full shadow-2xl text-white font-display font-bold animate-bounce z-40">
-          {toastMessage}
+      <AnimatePresence>
+        {showConfetti && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5, y: -50 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0 }}
+            className="absolute inset-0 pointer-events-none z-40 flex items-center justify-center flex-col"
+          >
+            <div className="text-8xl">✨</div>
+            <h2 className="text-4xl font-black text-yellow-400 mt-4 drop-shadow-xl">+1 Energy Shield!</h2>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <NoteHelpOverlay isOpen={showNoteHelp} onClose={() => setShowNoteHelp(false)} defaultView="notes" />
+
+      {selectedLevel !== null && gamePhase === 'preview' && (
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-900/95 backdrop-blur-md p-6">
+          <div className="max-w-2xl w-full bg-slate-800 rounded-3xl p-8 shadow-2xl border border-white/10 flex flex-col items-center text-center">
+            
+            <div className="flex items-center gap-4 mb-6 bg-slate-900 p-4 rounded-2xl w-full border border-slate-700">
+              <img src="/astronaut_aiden_1784462702713.jpg" alt="Aiden" className="w-24 h-24 object-cover rounded-full border-2 border-purple-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-bounce" />
+              <div className="text-left">
+                <h3 className="text-3xl font-black text-white">Commander Aiden</h3>
+                <p className="text-cyan-300 font-bold text-lg">"Click on the correct note to keep flying higher! Review your targets before we launch."</p>
+              </div>
+            </div>
+
+            <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-wider">Level {selectedLevel} Targets</h2>
+            
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              {rocketLevels.find(l => l.id === selectedLevel)?.introducedNotes?.map((n: any, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedPreviewNote(n)}
+                  className={`px-6 py-3 rounded-xl font-mono font-black text-2xl transition-all ${selectedPreviewNote?.label === n.label ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.6)]' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}
+                >
+                  {formatAccidentals(n.label)}
+                </button>
+              ))}
+            </div>
+
+            {selectedPreviewNote && (() => {
+              const masterDesc = (masterDescriptions as any)[clef.charAt(0).toUpperCase() + clef.slice(1)]?.[selectedPreviewNote.writtenNote] || selectedPreviewNote.description || "No description available.";
+              const fingeringString = (selectedPreviewNote.fingeringDisplay || selectedPreviewNote.fingering || "").split(' OR ')[0];
+
+              return (
+                <div className="bg-slate-900 p-6 rounded-2xl w-full mb-8 border border-indigo-500/30 text-left relative overflow-hidden">
+                  <div className="absolute right-0 top-0 opacity-10 text-9xl leading-none font-black translate-x-4 -translate-y-4">
+                    {formatAccidentals(selectedPreviewNote.label)}
+                  </div>
+                  <h4 className="text-3xl font-black text-indigo-400 mb-4">{formatAccidentals(selectedPreviewNote.label)}</h4>
+                  <p className="text-slate-300 mb-4 text-lg"><span className="text-white font-bold">Description:</span> {masterDesc}</p>
+                  
+                  <div className="flex flex-col items-start">
+                    <span className="text-white font-bold text-lg mb-2">Fingering:</span>
+                    {fingeringString ? (
+                      <div className="transform scale-[0.6] origin-top-left -mb-[20%] lg:-mb-[10%]">
+                        {instrument === 'Clarinet' && <FingeringChart fingeringString={fingeringString} />}
+                        {(instrument === 'Trumpet' || instrument === 'Baritone/Euphonium') && <BrassFingeringChart fingeringString={fingeringString} />}
+                        {instrument === 'Flute' && <FluteFingeringChart fingeringString={fingeringString} />}
+                        {instrument === 'Alto Saxophone' && <SaxophoneFingeringChart fingeringString={fingeringString} />}
+                        {instrument === 'Tenor Saxophone' && <SaxophoneFingeringChart fingeringString={fingeringString} />}
+                        {instrument === 'Violin' && <ViolinFingeringChart fingeringString={fingeringString} />}
+                        {instrument === 'Cello' && <CelloFingeringChart fingeringString={fingeringString} />}
+                        {instrument === 'Piano' && <PianoFingeringChart fingeringString={fingeringString} />}
+                        {instrument.includes('Voice') && <VoicePitchDisplay fingeringString={fingeringString} />}
+                        {(!['Clarinet', 'Trumpet', 'Flute', 'Alto Saxophone', 'Tenor Saxophone', 'Violin', 'Cello', 'Piano', 'Soprano Voice', 'Alto Voice', 'Tenor Voice', 'Bass Voice', 'Baritone/Euphonium'].includes(instrument)) && (
+                          <p className="text-slate-400 italic">Chart for {instrument} coming soon!</p>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-slate-500">N/A</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
+            <div className="flex gap-4 w-full">
+              <button 
+                onClick={() => setSelectedLevel(null)}
+                className="py-5 px-8 bg-slate-700 hover:bg-slate-600 text-white rounded-2xl font-black text-2xl uppercase tracking-widest shadow-lg transition-all active:scale-95 flex items-center justify-center"
+              >
+                <ArrowLeft className="w-8 h-8" />
+              </button>
+              <button 
+                onClick={() => { setGamePhase('playing'); generateLevel(); }}
+                className="flex-1 py-5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white rounded-2xl font-black text-4xl uppercase tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all active:scale-95 flex items-center justify-center gap-4"
+              >
+                Start Rocket! 🚀
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Top HUD Row */}
-      <div className="relative z-10 flex items-center justify-between p-6 bg-slate-900/60 backdrop-blur-md border-b border-white/5">
-        <button
-          id="rocket-back-btn"
-          onClick={onBack}
-          className="flex items-center gap-2 px-4 py-2 font-sans font-semibold text-white/95 transition-all rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 shadow-lg border border-white/15"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Exit
-        </button>
+      {/* Altitude Graph */}
+      {selectedLevel !== null && gamePhase === 'playing' && (
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 h-[70vh] w-16 bg-slate-900/60 backdrop-blur-md rounded-[2rem] border border-white/10 z-20 flex flex-col items-center py-6 shadow-2xl">
+          <div className="relative w-full flex-1 flex flex-col justify-between items-center px-2">
+            <div className="w-2 bg-slate-800 h-full absolute left-1/2 -translate-x-1/2 rounded-full overflow-hidden shadow-inner border border-slate-700/50">
+              <div className="w-full bg-gradient-to-t from-indigo-600 via-cyan-400 to-emerald-400 absolute bottom-0 transition-all duration-500" style={{ height: `${Math.min(100, (altitude / 3000) * 100)}%` }} />
+            </div>
+            
+            {[3000, 2500, 2000, 1500, 1000, 500, 0].map(mark => (
+              <div key={mark} className="relative w-full flex items-center justify-center z-10 text-[10px] font-black text-white/50">
+                <div className="absolute w-full h-[2px] bg-white/20" />
+                <span className="bg-slate-900 px-1 rounded absolute -left-2 tracking-tighter">{mark}</span>
+              </div>
+            ))}
 
-        <div className="text-center">
-          <span className="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-0.5">Altitude Achieved</span>
-          <h2 className="text-2xl font-black text-white font-mono tracking-wider">
-            {altitude} m
-          </h2>
-          {/* Best high score indicator */}
-          <span className="text-[10px] text-yellow-400 font-bold uppercase tracking-wider block">
-            BEST: {Math.max(bestAltitude, altitude)} m
-          </span>
-        </div>
-
-        {/* HUD right elements: Difficulty + Pause */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex flex-col items-end text-right font-mono">
-            <span className="text-[9px] text-slate-400 uppercase font-bold">Difficulty</span>
-            <span className="text-xs text-indigo-400 font-extrabold">Level {currentDifficulty}/10</span>
+            <motion.div 
+              className="absolute left-1/2 -translate-x-1/2 z-20 text-3xl drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+              style={{ bottom: `${Math.min(100, (altitude / 3000) * 100)}%`, marginBottom: '-18px' }}
+              animate={{ y: [0, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 1 }}
+            >
+              🚀
+            </motion.div>
           </div>
+        </div>
+      )}
 
-          <button
-            onClick={handlePause}
-            aria-label="Pause Game"
-            className="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-white border border-white/10 transition-all cursor-pointer"
-          >
-            <HelpCircle size={20} />
-          </button>
+      {/* Top HUD */}
+      <div className="relative z-10 flex items-center justify-between p-6 bg-slate-900/60 backdrop-blur-md border-b border-white/5">
+        <button onClick={() => setSelectedLevel(null)} className="flex items-center gap-2 px-4 py-2 font-sans font-bold text-white transition-all rounded-xl bg-white/10 hover:bg-white/20 active:scale-95">
+          <ArrowLeft className="w-5 h-5" /> Back
+        </button>
+        <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-xl font-mono font-black border border-emerald-500/30">
+            <Award className="w-5 h-5" /> {altitude}m
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-cyan-500/20 text-cyan-400 rounded-xl font-mono font-black border border-cyan-500/30">
+            <Shield className="w-5 h-5" /> {shields} / 4
+          </div>
+          {gamePhase === 'playing' && (
+            <button onClick={() => setShowNoteHelp(true)} className="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-white transition-all cursor-pointer">
+              <HelpCircle size={24} />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Main Game Interface */}
-      <div className="relative flex-1 flex flex-col items-center justify-center p-4 z-10">
-        
-        {/* Floating pop-up feedback indicator */}
+      {/* Air Bar */}
+      {selectedLevel !== null && !gameOver && !levelCleared && gamePhase === 'playing' && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[66%] max-w-2xl z-20 pointer-events-none ml-8">
+          <div className="w-full bg-slate-900/80 p-3 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl">
+            <div className="flex justify-between items-center px-2 mb-2">
+              <span className="text-sm font-black uppercase text-cyan-400 tracking-widest">Air Remaining</span>
+              <span className="text-sm font-black text-cyan-100">{Math.max(0, Math.round(airLevel))}%</span>
+            </div>
+            <div className="w-full h-4 bg-slate-800 rounded-full overflow-hidden border border-slate-700 shadow-inner">
+              <div 
+                className={`h-full transition-all duration-200 ${airLevel > 30 ? 'bg-cyan-400' : 'bg-rose-500 animate-pulse'}`} 
+                style={{ width: `${Math.max(0, Math.min(100, airLevel))}%` }} 
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main Game Area */}
+      <div className="relative flex-1 flex flex-col items-center justify-center p-4 z-10 pb-28 pl-24">
         <AnimatePresence>
           {feedback && (
             <motion.div
               key={feedback.id}
-              initial={{ opacity: 0, scale: 0.5, y: 10 }}
-              animate={{ opacity: 1, scale: 1.2, y: -40 }}
-              exit={{ opacity: 0, y: -60 }}
-              className={`absolute top-[15%] font-sans font-black text-3xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] ${
-                feedback.type === 'success' 
-                  ? 'text-emerald-400 drop-shadow-[0_0_12px_rgba(52,211,153,0.4)]' 
-                  : 'text-rose-500'
-              }`}
+              initial={{ opacity: 0, scale: 0.5, y: 10 }} animate={{ opacity: 1, scale: 1.2, y: -40 }} exit={{ opacity: 0, y: -60 }}
+              className={`absolute top-[15%] font-sans font-black text-5xl drop-shadow-[0_4px_20px_rgba(0,0,0,0.5)] z-30 ${feedback.type === 'success' ? 'text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.6)]' : 'text-rose-500'}`}
             >
               {feedback.text}
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Massive countdown display */}
         {resumeCountdown !== null && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-25 backdrop-blur-sm">
-            <motion.div
-              key={resumeCountdown}
-              initial={{ scale: 0.2, opacity: 0 }}
-              animate={{ scale: 1.5, opacity: 1 }}
-              exit={{ scale: 2.5, opacity: 0 }}
-              className="text-8xl font-display font-black text-yellow-400"
-            >
+          <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-30 backdrop-blur-sm">
+            <motion.div key={resumeCountdown} initial={{ scale: 0.2, opacity: 0 }} animate={{ scale: 1.5, opacity: 1 }} exit={{ scale: 2.5, opacity: 0 }} className="text-9xl font-display font-black text-yellow-400 drop-shadow-2xl">
               {resumeCountdown === 0 ? 'GO!' : resumeCountdown}
             </motion.div>
           </div>
         )}
 
-        {/* Note Targets Choice Row */}
-        <div className="grid grid-cols-2 gap-6 max-w-lg w-full mb-10">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 mb-12">
+          <div className="bg-white/95 rounded-3xl p-8 shadow-[0_0_30px_rgba(168,85,247,0.3)] flex flex-col items-center relative border-4 border-purple-500 min-w-[280px]">
+            <h2 className="text-xl font-black text-slate-500 mb-2 uppercase tracking-widest text-center">
+              Aim for the
+            </h2>
+            <div className={`${(targetNote?.label || '').length > 2 ? 'text-7xl py-12' : 'text-[12rem]'} font-black text-purple-600 leading-none pb-4 drop-shadow-md`}>
+              {formatAccidentals(targetNote?.label || '')}
+            </div>
+          </div>
+          
+          <AnimatePresence>
+            {flashTargetNote && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.5 }}
+                className="text-9xl font-black text-emerald-400 drop-shadow-[0_0_40px_rgba(52,211,153,1)] z-10"
+              >
+                {formatAccidentals(targetNote?.label || '')}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="grid grid-cols-2 gap-8 max-w-2xl w-full">
           {options.map((note, index) => (
-            <motion.div
+            <button
               key={index}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => handleChoice(note)}
-              className="cursor-pointer"
-              id={`choice-box-${note}`}
+              disabled={gameOver || isPaused || resumeCountdown !== null || levelCleared}
+              className="p-4 bg-white hover:bg-slate-50 text-slate-900 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all active:scale-95 border-4 border-slate-200 hover:border-purple-400 flex flex-col items-center justify-center disabled:opacity-50 min-h-[220px]"
             >
-              {renderMiniStave(note)}
-            </motion.div>
+              <div className={`pointer-events-none filter drop-shadow-md -mt-4 relative z-10 transition-all ${selectedLevel !== null && selectedLevel <= 10 ? 'scale-150' : 'scale-125'}`}>
+                <DynamicScore clef={clef as any} keySignature={rocketLevelsData.find((l: any) => l.id === selectedLevel)?.keySignature} notes={[{ keys: [formatVexFlowKey(note.writtenNote, clef)], duration: "q" }]} width={160} height={180} />
+              </div>
+            </button>
           ))}
         </div>
 
-        {/* Alien Commander Instructions Bubble */}
-        <div className="flex flex-col items-center gap-2 mb-4" id="alien-commander-box">
-          <div className="relative bg-violet-600 border-2 border-violet-400 p-4 rounded-2xl shadow-2xl max-w-xs text-center">
-            {/* Speach bubble bottom triangle arrow */}
-            <div className="absolute bottom-[-10px] left-1/2 -ml-2.5 h-5 w-5 rotate-45 bg-violet-600 border-r-2 border-b-2 border-violet-400 transform" />
-            <h4 className="font-sans font-black text-white text-lg tracking-wide uppercase">
-              Aim for the {targetNote}'s! 👾
-            </h4>
-          </div>
-          
-          {/* Commander Avatar */}
-          <div className="relative">
-            <span className="text-5xl animate-bounce" role="img" aria-label="Alien Commander">👾</span>
-            <div className="absolute top-0 right-0 p-0.5 bg-indigo-500 rounded-full border border-white">
-              <span className="text-[9px] font-bold text-white px-1">CMD</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Vector Clarinet Rocket */}
-        <motion.div 
-          className="relative text-neutral-400 drop-shadow-[0_0_24px_rgba(219,39,119,0.3)] mt-2"
-          animate={{ y: [0, -4, 4, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-        >
-          <Rocket className="w-16 h-16 text-indigo-400 fill-indigo-950" />
-          {/* Flame particles */}
-          {air > 0 && (
-            <div className="absolute bottom-[-16px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-0.5">
-              <span className="w-3 h-5 bg-orange-500 rounded-b-full animate-pulse" />
-              <span className="w-1.5 h-3 bg-yellow-400 rounded-b-full animate-pulse" />
-            </div>
-          )}
-        </motion.div>
-
-      </div>
-
-      {/* Bottom HUD - AIR Meter */}
-      <div className="relative z-10 bg-slate-900/80 backdrop-blur-md p-6 border-t border-white/5 w-full flex flex-col items-center" id="air-hud">
-        <div className="max-w-md w-full">
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-xs font-black text-indigo-400 uppercase tracking-widest">
-              {isDailyChallenge ? 'Practice Timer Running' : 'Air Supply'}
-            </span>
-            <span className={`text-xs font-bold font-mono ${air < 30 ? 'text-rose-500 animate-pulse' : 'text-neutral-400'}`}>
-              {air}% Left
-            </span>
-          </div>
-          <div className="w-full h-3.5 bg-slate-800 rounded-full overflow-hidden border border-white/10">
-            <motion.div 
-              className={`h-full ${air < 30 ? 'bg-gradient-to-r from-red-500 to-rose-600' : 'bg-gradient-to-r from-cyan-400 to-indigo-500'}`} 
-              animate={{ width: `${air}%` }}
-              transition={{ duration: 0.1 }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* HELP & PAUSE OVERLAY MENU */}
-      <AnimatePresence>
-        {isPaused && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-slate-950/95 z-40 flex items-center justify-center p-6 backdrop-blur-sm overflow-y-auto"
-          >
-            {helpNoteRequested ? (
-              // Note Encyclopedia Detail View
-              <div className="w-full max-w-4xl bg-white text-slate-800 rounded-3xl overflow-hidden p-2 shadow-2xl relative">
-                <NoteDetail
-                  noteName={helpNoteRequested}
-                  onBack={() => setHelpNoteRequested(null)}
-                />
-                <div className="absolute top-6 right-6 z-50">
-                  <button
-                    onClick={handleResumeClick}
-                    className="px-5 py-2.5 font-display font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-full shadow-lg cursor-pointer text-sm"
-                  >
-                    Resume Game
-                  </button>
-                </div>
-              </div>
-            ) : (
-              // Default Pause Menu Notes Selector
-              <motion.div
-                initial={{ scale: 0.9, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                className="bg-slate-900 border border-slate-700/60 p-8 rounded-3xl max-w-xl w-full shadow-2xl text-center"
-              >
-                <div className="inline-flex p-4 bg-indigo-500/10 text-indigo-400 rounded-full mb-4">
-                  <HelpCircle className="w-12 h-12" />
-                </div>
-                <h2 className="text-3xl font-display font-black text-white uppercase tracking-wider">Game Paused</h2>
-                <p className="mt-2 text-sm text-slate-400 max-w-sm mx-auto">
-                  Need a quick reminder on how to play a note? Click on any note below to view its visual fingering chart!
-                </p>
-
-                {/* Grid of Note Buttons */}
-                <div className="grid grid-cols-4 sm:grid-cols-7 gap-3 my-8">
-                  {['C', 'D', 'E', 'F', 'G', 'A', 'B'].map((note) => (
-                    <button
-                      key={note}
-                      onClick={() => setHelpNoteRequested(note)}
-                      className="p-3 bg-slate-800 hover:bg-indigo-600 hover:text-white border border-slate-700 hover:border-indigo-400 text-slate-300 font-mono font-black text-lg rounded-xl transition-all cursor-pointer active:scale-95"
-                    >
-                      {note}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex gap-4">
-                  <button
-                    onClick={handleResumeClick}
-                    className="flex-1 px-6 py-3 font-display font-bold text-white bg-indigo-500 hover:bg-indigo-600 rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Play size={16} fill="currentColor" />
-                    Resume Game
-                  </button>
-                  <button
-                    onClick={onBack}
-                    className="px-6 py-3 font-display font-bold text-slate-400 border border-slate-700 hover:bg-slate-800 rounded-2xl transition-all cursor-pointer"
-                  >
-                    Exit to Map
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Game Over Screen */}
-      <AnimatePresence>
         {gameOver && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-slate-950/90 z-30 flex items-center justify-center p-4"
-            id="game-over-overlay"
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              className="p-8 text-center bg-slate-900 border border-indigo-500/30 rounded-3xl max-w-sm shadow-2xl"
-            >
-              <div className="inline-flex p-4 bg-rose-500/10 text-rose-500 rounded-full mb-4">
-                <ShieldAlert className="w-12 h-12" />
-              </div>
-              <h2 className="text-2xl font-black text-white uppercase tracking-wider">Flight Ended</h2>
-              <p className="mt-2 text-sm text-slate-400">
-                You ran out of air! Excellent navigation practice. You rocketed to an impressive:
-              </p>
-              
-              <div className="my-6 p-4 bg-indigo-950/40 border border-indigo-500/20 rounded-2xl flex items-center justify-center gap-3">
-                <Award className="w-8 h-8 text-yellow-400" />
-                <span className="font-mono text-3xl font-black text-white">{altitude} m</span>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  id="over-restart-btn"
-                  onClick={restartGame}
-                  className="flex-1 px-5 py-3 font-sans font-bold text-white bg-indigo-500 hover:bg-indigo-600 rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-1.5 active:scale-95"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Relaunch
-                </button>
-                <button
-                  id="over-map-btn"
-                  onClick={onBack}
-                  className="px-5 py-3 font-sans font-semibold text-slate-400 border border-slate-700 hover:bg-slate-800 rounded-xl transition-all"
-                >
-                  Exit
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
+          <div className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center z-40 backdrop-blur-md">
+            <div className="absolute top-8 left-8 z-50 flex items-center gap-4">
+              <button
+                onClick={restartGame}
+                className="flex items-center gap-2 bg-slate-800/80 hover:bg-slate-700 text-white px-5 py-3 rounded-2xl shadow-xl transition-all border-2 border-white/20 backdrop-blur-md font-black uppercase tracking-wider"
+              >
+                <ArrowLeft className="w-6 h-6" /> Quit
+              </button>
+              <NoteHelpButton onClick={() => setShowNoteHelp(true)} className="bg-slate-800/80 border-white/20 backdrop-blur-md hover:bg-slate-700 w-14 h-14" />
+            </div>
+            <ShieldAlert className="w-24 h-24 text-rose-500 mb-6 animate-pulse" />
+            <h2 className="text-6xl font-black text-white mb-4">Hull Breach!</h2>
+            <p className="text-2xl text-slate-300 mb-8 font-bold">Altitude reached: <span className="text-emerald-400">{altitude}m</span></p>
+            <div className="flex gap-6">
+              <button onClick={restartGame} className="flex items-center gap-3 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-indigo-500/30">
+                <RotateCcw className="w-6 h-6" /> Try Again
+              </button>
+              <button onClick={() => setSelectedLevel(null)} className="flex items-center gap-3 px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95">
+                <ArrowLeft className="w-6 h-6" /> Missions
+              </button>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
 
+        {levelCleared && (
+          <div className="absolute inset-0 bg-emerald-900/90 flex flex-col items-center justify-center z-40 backdrop-blur-md">
+            <Award className="w-24 h-24 text-yellow-400 mb-6 animate-bounce" />
+            <h2 className="text-6xl font-black text-white mb-4">Mission Complete!</h2>
+            <p className="text-2xl text-emerald-200 mb-8 font-bold">You reached <span className="text-white">{altitude}m</span> in orbit!</p>
+            <div className="flex gap-6">
+              {!isInfiniteMode && (
+                <button onClick={() => { setIsInfiniteMode(true); setLevelCleared(false); }} className="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-cyan-500/30">
+                  Continue (Endless)
+                </button>
+              )}
+              <button onClick={() => setSelectedLevel(null)} className="flex items-center gap-3 px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95">
+                <ArrowLeft className="w-6 h-6" /> Missions
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Aiden Helper Avatar Popup */}
+      {selectedLevel !== null && gamePhase === 'playing' && !gameOver && !levelCleared && (
+        <div className="absolute bottom-6 right-6 z-30 flex items-end gap-4 pointer-events-none">
+          <div className="bg-white text-slate-800 p-4 rounded-2xl rounded-br-none shadow-2xl max-w-[200px] border-2 border-purple-200 animate-pulse">
+            <p className="font-bold text-sm">Press on the <span className="bg-purple-100 text-purple-700 px-1 rounded">?</span> button if you need help remembering the notes!</p>
+          </div>
+          <img src="/astronaut_aiden_1784462702713.jpg" alt="Aiden Astronaut" className="w-24 h-24 object-contain rounded-full border-4 border-white shadow-xl shadow-purple-500/50" />
+        </div>
+      )}
     </div>
   );
 }

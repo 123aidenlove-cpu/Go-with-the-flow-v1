@@ -2,20 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { Screen } from './types';
 import WorldMap from './components/WorldMap';
 import ConcertHall from './components/ConcertHall';
+import PracticeHub from './components/PracticeHub';
+import TeacherStudentProfile from './components/TeacherStudentProfile';
+import TeacherLessonView from './components/TeacherLessonView';
 import Pizzeria from './components/Pizzeria';
 import RocketReading from './components/RocketReading';
 import RhythmRapids from './components/RhythmRapids';
 import FingerFishing from './components/FingerFishing';
 import SightReadSoaring from './components/SightReadSoaring';
+import SoundSleuth from './components/SoundSleuth';
+import ScaleSandDunes from './components/ScaleSandDunes';
+import ListeningLagoon from './components/ListeningLagoon';
+import ClefCliffs from './components/ClefCliffs';
 import LessonOne from './components/LessonOne';
 import AidenOnboarding from './components/AidenOnboarding';
 import { ReferenceLibrary } from './components/ReferenceLibrary';
 import { AskAiden } from './components/AskAiden';
-import { DailyChallenge } from './components/DailyChallenge';
-import { ParentDashboard } from './components/ParentDashboard';
+import ExpressionNinja from './components/ExpressionNinja';
+import MatchIt from './components/MatchIt';
+import ParentDashboard from './components/ParentDashboard';
+import FingeringChartMockups from './components/FingeringChartMockups';
+import AccountPage from './components/AccountPage';
+import MusictopiaCastle from './components/MusictopiaCastle';
+import SettingsHub from './components/SettingsHub';
+import LevelPage from './components/LevelPage';
+import ShopPage from './components/ShopPage';
+import TeacherDashboard from './components/TeacherDashboard';
+import TeacherSyllabus from './components/TeacherSyllabus';
+import { LoginScreen } from './components/LoginScreen';
+import { ProfileSelector } from './components/ProfileSelector';
+import GlobalLeaderboard from './components/GlobalLeaderboard';
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>('map');
+  const [screen, setScreen] = useState<Screen>('login');
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const handleLoginSuccess = (role: 'student' | 'teacher', profileId: string) => {
+    setUserId(profileId);
+    // Unified Hub: Everyone goes to the Concert Hall first to see the Stage or Auditorium
+    setScreen('concert-hall');
+  };
   const [lessonStep, setLessonStep] = useState<number>(1);
   const [showOnboarding, setShowOnboarding] = useState<boolean>(false);
 
@@ -57,9 +83,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans" id="go-with-the-flow-app">
+    <div className="w-full h-screen bg-slate-900 text-slate-100 font-sans overflow-hidden">
+      
+      {screen === 'login' && (
+        <LoginScreen onLoginSuccess={handleLoginSuccess} />
+      )}
+      {screen === 'profile-selector' && (
+        <ProfileSelector onSelectProfile={() => setScreen('concert-hall')} />
+      )}
+
       {/* Onboarding Overlay */}
-      {showOnboarding && (
+      {showOnboarding && screen !== 'login' && (
         <AidenOnboarding onClose={handleOnboardingComplete} />
       )}
 
@@ -88,12 +122,37 @@ export default function App() {
         />
       )}
 
+      {screen === 'practice-hub' && (
+        <PracticeHub
+          onBack={() => setScreen('map')}
+          onNavigateToGame={(game) => setScreen(game)}
+        />
+      )}
+
+      {screen === 'teacher-student-profile' && (
+        <TeacherStudentProfile
+          onBack={() => setScreen('concert-hall')}
+        />
+      )}
+
+      {screen === 'teacher-lesson-view' && (
+        <TeacherLessonView
+          onExit={() => setScreen('concert-hall')}
+        />
+      )}
+
       {screen === 'pizzeria' && (
         <Pizzeria
           onBack={() => setScreen('map')}
           onComplete={() => {
             handleGameCompletion('pizzeria');
           }}
+        />
+      )}
+
+      {screen === 'leaderboard' && (
+        <GlobalLeaderboard 
+          onBack={() => setScreen('map')} 
         />
       )}
 
@@ -133,6 +192,42 @@ export default function App() {
         />
       )}
 
+      {screen === 'sound-sleuth' && (
+        <SoundSleuth
+          onBack={() => setScreen('map')}
+          onComplete={() => {
+            handleGameCompletion('sound-sleuth');
+          }}
+        />
+      )}
+
+      {screen === 'scale-sand-dunes' && (
+        <ScaleSandDunes
+          onBack={() => setScreen('map')}
+          onComplete={() => {
+            handleGameCompletion('scale-sand-dunes');
+          }}
+        />
+      )}
+
+      {screen === 'listening-lagoon' && (
+        <ListeningLagoon
+          onBack={() => setScreen('map')}
+          onComplete={() => {
+            handleGameCompletion('listening-lagoon');
+          }}
+        />
+      )}
+
+      {screen === 'clef-cliffs' && (
+        <ClefCliffs
+          onBack={() => setScreen('map')}
+          onComplete={() => {
+            handleGameCompletion('clef-cliffs');
+          }}
+        />
+      )}
+
       {screen === 'reference-library' && (
         <ReferenceLibrary
           onBack={() => setScreen('map')}
@@ -145,15 +240,75 @@ export default function App() {
         />
       )}
 
-      {screen === 'daily-challenge' && (
-        <DailyChallenge
+      {screen === 'expression-ninja' && (
+        <ExpressionNinja
           onBack={() => setScreen('map')}
+        />
+      )}
+
+      {screen === 'match-it' && (
+        <MatchIt
+          onBack={() => setScreen('map')}
+          onComplete={(score) => {
+            console.log('MatchIt diagnostic complete', score);
+            setScreen('map');
+          }}
         />
       )}
 
       {screen === 'parent-dashboard' && (
         <ParentDashboard
           onBack={() => setScreen('map')}
+          studentId={userId || '00000000-0000-0000-0000-000000000000'}
+        />
+      )}
+
+      {screen === 'mockups' && (
+        <FingeringChartMockups />
+      )}
+
+      {screen === 'account' && (
+        <AccountPage 
+          onBack={() => setScreen('map')} 
+          onNavigateToParentDashboard={() => setScreen('parent-dashboard')}
+          onNavigateToTeacherDashboard={() => setScreen('teacher-dashboard')}
+          onNavigateToSettings={() => setScreen('settings')}
+        />
+      )}
+
+      {screen === 'musictopia-castle' && (
+        <MusictopiaCastle
+          onBack={() => setScreen('map')}
+        />
+      )}
+
+      {screen === 'settings' && (
+        <SettingsHub
+          onBack={() => setScreen('map')}
+        />
+      )}
+
+      {screen === 'level-page' && (
+        <LevelPage
+          onBack={() => setScreen('map')}
+        />
+      )}
+
+      {screen === 'shop-page' && (
+        <ShopPage
+          onBack={() => setScreen('map')}
+        />
+      )}
+
+      {screen === 'teacher-dashboard' && (
+        <TeacherDashboard
+          onBack={() => setScreen('account')}
+        />
+      )}
+
+      {screen === 'teacher-syllabus' && (
+        <TeacherSyllabus
+          onBack={() => setScreen('concert-hall')}
         />
       )}
     </div>

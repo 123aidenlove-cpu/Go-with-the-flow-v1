@@ -1,0 +1,1 @@
+I have removed the saveGameScore function from the rapid-firing setAltitude block. Instead, I added a useEffect hook that triggers exactly ONCE when the game ends (either 'gameOver' or 'levelCleared'). I also updated supabaseSync.ts to use a much safer '.upsert()' method.

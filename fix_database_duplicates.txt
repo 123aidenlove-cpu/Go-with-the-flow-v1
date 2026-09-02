@@ -1,0 +1,12 @@
+-- 1. Keep only the highest score for each game/user/level and delete the rest (cleans up the 50 rows)
+DELETE FROM game_progress
+WHERE id NOT IN (
+  SELECT DISTINCT ON (user_id, game_name, level_reached) id
+  FROM game_progress
+  ORDER BY user_id, game_name, level_reached, high_score DESC
+);
+
+-- 2. Add a UNIQUE constraint so duplicates physically can never happen again
+ALTER TABLE game_progress 
+ADD CONSTRAINT game_progress_unique_user_game_level 
+UNIQUE (user_id, game_name, level_reached);
