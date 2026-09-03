@@ -45,7 +45,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function TeacherDashboard() {
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-50 p-6 overflow-y-auto">
       <BackButton onClick={onBack} />
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}

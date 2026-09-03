@@ -163,11 +163,11 @@ export default function TeacherSyllabus({ onBack }: TeacherSyllabusProps) {
   };
 
   if (loading) {
-    return <div className="h-screen bg-slate-50 flex items-center justify-center font-bold text-slate-700">Loading Syllabus...</div>;
+    return <div className="h-screen bg-slate-50 flex items-center justify-center font-bold text-slate-700 overflow-y-auto">Loading Syllabus...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
+    <div className="min-h-screen bg-slate-50 p-8 overflow-y-auto">
       <BackButton onClick={onBack} />
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-between items-center mb-8">
@@ -240,8 +240,8 @@ export default function TeacherSyllabus({ onBack }: TeacherSyllabusProps) {
 
       {/* Add/Edit Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm pointer-events-none"></div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm pointer-events-none overflow-y-auto"></div>
           <div className="bg-white rounded-[2rem] w-full max-w-2xl shadow-2xl relative z-10 p-8 max-h-[90vh] overflow-y-auto">
             <button 
               onClick={() => setIsModalOpen(false)}

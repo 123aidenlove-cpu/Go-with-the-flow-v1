@@ -12,12 +12,12 @@ export default function AidenOnboarding({ onClose }: AidenOnboardingProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" id="aiden-modal-overlay">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto" id="aiden-modal-overlay">
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg overflow-hidden bg-white border-4 border-amber-400 rounded-3xl shadow-2xl"
+          className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white border-4 border-amber-400 rounded-3xl shadow-2xl"
           id="aiden-modal-card"
         >
           {/* Fun header decoration */}
@@ -28,7 +28,7 @@ export default function AidenOnboarding({ onClose }: AidenOnboardingProps) {
             <div className="flex justify-center mb-6">
               <div className="relative">
                 {/* Glowing ring */}
-                <span className="absolute inset-0 rounded-full animate-ping bg-amber-200 opacity-75" />
+                <span className="absolute inset-0 rounded-full animate-ping bg-amber-200 opacity-75 overflow-y-auto" />
                 <div className="relative flex items-center justify-center w-24 h-24 border-4 border-amber-400 rounded-full bg-amber-50">
                   <span className="text-5xl" role="img" aria-label="Aiden the Owl">🦉</span>
                 </div>

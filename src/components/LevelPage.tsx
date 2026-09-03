@@ -28,7 +28,7 @@ export default function LevelPage({ onBack }: LevelPageProps) {
   const progressPercentage = (currentLevelXP / 500) * 100;
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col font-sans p-8">
+    <div className="min-h-screen bg-slate-900 flex flex-col font-sans p-8 overflow-y-auto">
       <BackButton onClick={onBack} />
       <div className="max-w-4xl w-full mx-auto flex-1 flex flex-col">
         {/* Header */}

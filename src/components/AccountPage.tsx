@@ -83,7 +83,7 @@ export default function AccountPage({ onBack, onNavigateToParentDashboard, onNav
   };
 
   return (
-    <div className="w-full h-screen bg-slate-900 flex flex-col font-sans">
+    <div className="w-full h-screen bg-slate-900 flex flex-col font-sans overflow-y-auto">
       <BackButton onClick={onBack} />
       <div className="p-8 pb-0">
         

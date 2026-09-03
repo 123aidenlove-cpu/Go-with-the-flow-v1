@@ -112,7 +112,7 @@ export const PlacementQuiz: React.FC<PlacementQuizProps> = ({ onComplete, onBack
 
   if (gameState === 'initial') {
     return (
-      <div className="w-full h-screen bg-slate-900 text-white flex flex-col items-center justify-center relative p-8">
+      <div className="w-full h-screen bg-slate-900 text-white flex flex-col items-center justify-center relative p-8 overflow-y-auto">
       <BackButton onClick={onBack} />
         
         <h1 className="text-4xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Placement Quiz</h1>
@@ -140,7 +140,7 @@ export const PlacementQuiz: React.FC<PlacementQuizProps> = ({ onComplete, onBack
   if (gameState === 'gameover') {
     const finalLeague = PROGRESSION_POOLS[currentPoolIndex].tier;
     return (
-      <div className="w-full h-screen bg-slate-900 flex flex-col items-center justify-center relative p-8">
+      <div className="w-full h-screen bg-slate-900 flex flex-col items-center justify-center relative p-8 overflow-y-auto">
         <Award className="w-24 h-24 text-yellow-400 mb-6 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]" />
         <h1 className="text-5xl font-black mb-4 text-white">Placement Complete!</h1>
         <p className="text-2xl text-slate-300 mb-12">You have been placed in: <span className="font-bold text-yellow-400">{finalLeague}</span></p>
@@ -160,7 +160,7 @@ export const PlacementQuiz: React.FC<PlacementQuizProps> = ({ onComplete, onBack
   if (timePercent < 25) timerColor = 'bg-red-500';
 
   return (
-    <div className="w-full h-screen bg-slate-900 flex flex-col relative">
+    <div className="w-full h-screen bg-slate-900 flex flex-col relative overflow-y-auto">
       <div className="w-full h-24 bg-slate-800/80 backdrop-blur-md border-b border-slate-700 flex items-center justify-between px-8">
         <div className="flex gap-2">
           {[...Array(3)].map((_, i) => (

@@ -76,7 +76,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
   };
 
   if (loading) {
-    return <div className="h-screen bg-slate-900 flex items-center justify-center font-bold text-white">Entering the Concert Hall...</div>;
+    return <div className="h-screen bg-slate-900 flex items-center justify-center font-bold text-white overflow-y-auto">Entering the Concert Hall...</div>;
   }
 
   // Force Add Musician empty state if they have no students
@@ -84,7 +84,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
 
   return (
     <div 
-      className="fixed inset-0 bg-slate-900 flex flex-col font-sans overflow-hidden"
+      className="fixed inset-0 bg-slate-900 flex flex-col font-sans overflow-y-auto"
       style={{
         backgroundImage: "url('/Concerthallbackground.png')",
         backgroundSize: 'cover',
@@ -162,7 +162,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         </div>
       ) : (
         /* STUDENT/PARENT VIEW: Avatars on the Stage */
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-32">
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-32 overflow-y-auto">
            <div className="flex flex-wrap justify-center gap-12 w-full max-w-5xl">
              {householdProfiles.map(p => (
                <button 
@@ -203,7 +203,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
 
       {/* Teacher Collaboration Modal */}
             {selectedStudentForLesson && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-8">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-8 overflow-y-auto">
           <div className="bg-white rounded-[2rem] w-full max-w-lg flex flex-col overflow-hidden shadow-2xl relative border-4 border-slate-200 p-8 text-center">
             <button 
               onClick={() => setSelectedStudentForLesson(null)}

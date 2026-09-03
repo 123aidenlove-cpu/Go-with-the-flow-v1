@@ -37,7 +37,7 @@ export default function SettingsHub({ onBack }: SettingsHubProps) {
   };
 
   return (
-    <div className="absolute inset-0 z-50 bg-slate-900 flex flex-col font-sans" id="settings-hub-arena">
+    <div className="absolute inset-0 z-50 bg-slate-900 flex flex-col font-sans overflow-y-auto" id="settings-hub-arena">
       <BackButton onClick={onBack} />
       {/* Header */}
       <div className="bg-slate-800 p-4 flex justify-between items-center shadow-lg z-20 border-b border-slate-700">

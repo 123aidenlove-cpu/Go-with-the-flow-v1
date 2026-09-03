@@ -66,7 +66,7 @@ export default function ShopPage({ onBack }: ShopPageProps) {
   const filteredItems = SHOP_ITEMS.filter(item => item.category === activeTab);
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col font-sans p-8">
+    <div className="min-h-screen bg-slate-900 flex flex-col font-sans p-8 overflow-y-auto">
       <BackButton onClick={onBack} />
       <div className="max-w-6xl w-full mx-auto flex-1 flex flex-col">
         {/* Header */}
