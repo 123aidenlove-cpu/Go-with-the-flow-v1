@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ShoppingCart, Lock, Image as ImageIcon, Shirt, Castle, Gamepad2 } from 'lucide-react';
 import { getQuavits, getRareQuavits, addQuavits, addRareQuavits } from '../utils/economy';
@@ -66,15 +67,11 @@ export default function ShopPage({ onBack }: ShopPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col font-sans p-8">
+      <BackButton onClick={onBack} />
       <div className="max-w-6xl w-full mx-auto flex-1 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <button 
-            onClick={onBack}
-            className="w-16 h-16 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95"
-          >
-            <ArrowLeft className="w-8 h-8" />
-          </button>
+          
           <h1 className="text-4xl font-black text-white tracking-widest uppercase flex items-center gap-4">
             <ShoppingCart className="w-10 h-10 text-emerald-400" />
             Musictopia Shop

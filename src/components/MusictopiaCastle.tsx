@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Music, Play, BookOpen, Star, Target } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
@@ -49,6 +50,7 @@ export default function MusictopiaCastle({ onBack }: MusictopiaCastleProps) {
 
   return (
     <div className="w-full h-screen bg-slate-900 flex items-center justify-center overflow-hidden">
+      <BackButton onClick={onBack} />
       {/* 16:9 Aspect Ratio Container for the Castle Interior */}
       <div 
         className="relative w-full max-w-[1920px] aspect-video shadow-2xl"
@@ -59,12 +61,7 @@ export default function MusictopiaCastle({ onBack }: MusictopiaCastleProps) {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <button 
-          onClick={onBack}
-          className="absolute top-6 left-6 bg-white/20 hover:bg-white/40 backdrop-blur-md p-4 rounded-full shadow-lg transition-all active:scale-95 group z-50 cursor-pointer"
-        >
-          <ArrowLeft className="w-8 h-8 text-white group-hover:-translate-x-1 transition-transform" />
-        </button>
+        
 
         {/* Music Stand Hitbox - Triggers Library */}
         <button 

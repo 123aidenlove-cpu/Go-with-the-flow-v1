@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { DynamicScore, VexNoteDef } from './ui/DynamicScore';
@@ -112,9 +113,8 @@ export const PlacementQuiz: React.FC<PlacementQuizProps> = ({ onComplete, onBack
   if (gameState === 'initial') {
     return (
       <div className="w-full h-screen bg-slate-900 text-white flex flex-col items-center justify-center relative p-8">
-        <button onClick={onBack} className="absolute top-8 left-8 text-slate-400 hover:text-white flex items-center">
-          <ArrowLeft className="w-6 h-6 mr-2" /> Back
-        </button>
+      <BackButton onClick={onBack} />
+        
         <h1 className="text-4xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Placement Quiz</h1>
         <p className="text-xl mb-12 text-slate-300 text-center max-w-lg">
           Let's find the perfect starting point for you so you don't get bored or overwhelmed!

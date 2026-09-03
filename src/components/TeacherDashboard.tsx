@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React from 'react';
 import { 
   CreditCard, 
@@ -45,6 +46,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 export default function TeacherDashboard() {
   return (
     <div className="min-h-screen bg-slate-50 p-6">
+      <BackButton onClick={onBack} />
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">

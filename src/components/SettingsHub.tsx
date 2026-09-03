@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Settings, Mic, Link2, Layout, Shield, RefreshCw, LogOut, CheckCircle2, Volume2 } from 'lucide-react';
@@ -37,14 +38,10 @@ export default function SettingsHub({ onBack }: SettingsHubProps) {
 
   return (
     <div className="absolute inset-0 z-50 bg-slate-900 flex flex-col font-sans" id="settings-hub-arena">
+      <BackButton onClick={onBack} />
       {/* Header */}
       <div className="bg-slate-800 p-4 flex justify-between items-center shadow-lg z-20 border-b border-slate-700">
-        <button 
-          onClick={onBack} 
-          className="p-2 hover:bg-white/10 rounded-xl text-slate-300 transition-all flex items-center gap-2 font-bold"
-        >
-          <ArrowLeft className="w-5 h-5" /> Back
-        </button>
+        
         <h1 className="text-xl font-black text-slate-200 uppercase tracking-widest flex items-center gap-2">
           <Settings className="w-6 h-6 text-slate-400" /> Master Settings
         </h1>

@@ -12,6 +12,7 @@ import { PianoFingeringChart } from './PianoFingeringChart';
 import { CelloFingeringChart } from './CelloFingeringChart';
 import { VoicePitchDisplay } from './VoicePitchDisplay';
 import { NoteHelpButton } from './NoteHelpButton';
+import { BackButton } from './BackButton';
 import { formatAccidentals, formatVexFlowKey } from '../../utils/musicFormatter';
 
 export interface LevelCardData {
@@ -59,19 +60,20 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
 
   return (
     <div className={`relative w-full h-screen overflow-hidden flex flex-col items-center justify-between py-8 select-none ${backgroundClass}`}>
-      
-      {/* HEADER SECTION */}
-      <div className="w-full flex justify-between items-center px-6 relative z-20">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 px-4 py-2 font-sans font-semibold text-white/95 transition-all rounded-xl bg-black/20 hover:bg-black/40 active:scale-95 shadow border border-white/10 backdrop-blur-md cursor-pointer"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back
-        </button>
-        {onNoteHelp && (
-          <NoteHelpButton onClick={onNoteHelp} className="bg-black/20 hover:bg-black/40 border-white/10 backdrop-blur-md" />
-        )}
+      <div className={`w-full max-w-7xl mx-auto flex flex-col h-full relative z-10 pt-6 pb-6 gap-6`}>
+        
+        <BackButton onClick={onBack} label="Back to Map" />
+
+        {/* HEADER SECTION */}
+        <div className="w-full flex justify-between items-center px-6 relative z-20 mt-16">
+          <div className="flex items-center gap-2 px-4 py-2 opacity-0">
+            {/* Invisible placeholder for flex alignment */}
+            <ArrowLeft className="w-5 h-5" /> Back
+          </div>
+          {onNoteHelp && (
+            <NoteHelpButton onClick={onNoteHelp} className="bg-black/20 hover:bg-black/40 border-white/10 backdrop-blur-md" />
+          )}
+        </div>
       </div>
 
       <div className="w-full text-center relative z-20 mb-4 flex justify-center">

@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Star, Lock, Unlock } from 'lucide-react';
 import { getXP } from '../utils/economy';
@@ -28,15 +29,11 @@ export default function LevelPage({ onBack }: LevelPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col font-sans p-8">
+      <BackButton onClick={onBack} />
       <div className="max-w-4xl w-full mx-auto flex-1 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
-          <button 
-            onClick={onBack}
-            className="w-16 h-16 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95"
-          >
-            <ArrowLeft className="w-8 h-8" />
-          </button>
+          
           <h1 className="text-4xl font-black text-white tracking-widest uppercase">Your Level</h1>
           <div className="w-16 h-16" /> {/* Spacer */}
         </div>

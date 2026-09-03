@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, User, Music, Shield, Settings, Link as LinkIcon, CheckCircle2, LogOut, Users } from 'lucide-react';
 import { useInstrument } from '../contexts/InstrumentContext';
@@ -83,13 +84,9 @@ export default function AccountPage({ onBack, onNavigateToParentDashboard, onNav
 
   return (
     <div className="w-full h-screen bg-slate-900 flex flex-col font-sans">
+      <BackButton onClick={onBack} />
       <div className="p-8 pb-0">
-        <button 
-          onClick={onBack}
-          className="bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition-all w-fit"
-        >
-          <ArrowLeft className="w-5 h-5" /> Back to Campus
-        </button>
+        
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center p-8 max-w-4xl mx-auto w-full">

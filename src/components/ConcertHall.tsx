@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Settings, LogOut, Plus, Music, Shield, Play, X, User } from 'lucide-react';
@@ -91,6 +92,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         backgroundRepeat: 'no-repeat'
       }}
     >
+      <BackButton onClick={onBack} />
       {showAddModal && <AddMusicianModal onClose={() => setShowAddModal(false)} onSuccess={handleMusicianAdded} />}
       {/* Top HUD */}
       <div className="absolute top-6 right-6 flex gap-4 z-50">

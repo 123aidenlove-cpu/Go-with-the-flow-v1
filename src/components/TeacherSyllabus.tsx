@@ -1,3 +1,4 @@
+import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { BookOpen, Plus, X, Music, Save, Trash2, ArrowLeft, Edit2, Mic, StopCircle, Video, Play } from 'lucide-react';
@@ -167,12 +168,11 @@ export default function TeacherSyllabus({ onBack }: TeacherSyllabusProps) {
 
   return (
     <div className="min-h-screen bg-slate-50 p-8">
+      <BackButton onClick={onBack} />
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-4">
-            <button onClick={onBack} className="p-3 bg-white shadow-sm rounded-full text-slate-700 hover:text-indigo-600 transition-colors">
-              <ArrowLeft className="w-6 h-6" />
-            </button>
+            
             <div>
               <h1 className="text-4xl font-black text-slate-800 flex items-center gap-3">
                 <BookOpen className="text-indigo-500" /> Master Syllabus
