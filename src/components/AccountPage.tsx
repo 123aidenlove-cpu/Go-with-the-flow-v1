@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, User, Music, Shield, Settings, Link as LinkIcon, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, User, Music, Shield, Settings, Link as LinkIcon, CheckCircle2, LogOut, Users } from 'lucide-react';
 import { useInstrument } from '../contexts/InstrumentContext';
 import { supabase } from '../lib/supabaseClient';
 
@@ -8,9 +8,11 @@ interface AccountPageProps {
   onNavigateToParentDashboard: () => void;
   onNavigateToTeacherDashboard: () => void;
   onNavigateToSettings: () => void;
+  onNavigateToConcertHall: () => void;
+  onLogout: () => void;
 }
 
-export default function AccountPage({ onBack, onNavigateToParentDashboard, onNavigateToTeacherDashboard, onNavigateToSettings }: AccountPageProps) {
+export default function AccountPage({ onBack, onNavigateToParentDashboard, onNavigateToTeacherDashboard, onNavigateToSettings, onNavigateToConcertHall, onLogout }: AccountPageProps) {
   const { instrument } = useInstrument();
   const [profileId, setProfileId] = useState<string | null>(null);
   const [teacherId, setTeacherId] = useState<string | null>(null);
@@ -195,6 +197,26 @@ export default function AccountPage({ onBack, onNavigateToParentDashboard, onNav
               <Settings className="w-10 h-10" />
             </div>
             <span className="font-black text-xl uppercase tracking-widest text-center">Settings</span>
+          </button>
+
+          <button 
+            onClick={onNavigateToConcertHall}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white p-8 rounded-3xl flex flex-col items-center justify-center gap-4 transition-all hover:-translate-y-2 shadow-lg group lg:col-span-2"
+          >
+            <div className="bg-white/20 p-4 rounded-2xl group-hover:scale-110 transition-transform">
+              <Users className="w-10 h-10" />
+            </div>
+            <span className="font-black text-xl uppercase tracking-widest text-center">Switch Player</span>
+          </button>
+
+          <button 
+            onClick={onLogout}
+            className="bg-red-600 hover:bg-red-500 text-white p-8 rounded-3xl flex flex-col items-center justify-center gap-4 transition-all hover:-translate-y-2 shadow-lg group lg:col-span-2"
+          >
+            <div className="bg-white/20 p-4 rounded-2xl group-hover:scale-110 transition-transform">
+              <LogOut className="w-10 h-10" />
+            </div>
+            <span className="font-black text-xl uppercase tracking-widest text-center">Sign Out</span>
           </button>
         </div>
       </div>

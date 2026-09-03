@@ -16,30 +16,28 @@ export default function WorldMap({ onNavigate }: WorldMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [sessionInfo, setSessionInfo] = useState<{ id: string, name: string } | null>(null);
   const [showQuestLog, setShowQuestLog] = useState(false);
-  const [minScale, setMinScale] = useState(0.5);
+  // Calculate initial scale synchronously if window is defined (prevents jumping)
+  const getInitialScale = () => {
+    if (typeof window === 'undefined') return 0.5;
+    const mapWidth = 2400; 
+    const mapHeight = 1350; 
+    const scaleX = (window.innerWidth - 100) / mapWidth;
+    const scaleY = (window.innerHeight - 100) / mapHeight;
+    return Math.max(Math.min(scaleX, scaleY), 0.1);
+  };
+
+  const [minScale, setMinScale] = useState(getInitialScale());
   const [showAdventureAlerts, setShowAdventureAlerts] = useState(false);
   const [isNightMode, setIsNightMode] = useState(false);
 
-  // Dynamically calculate the minimum scale so it never zooms out further than the screen
-  // preventing the "dark blue" background from showing.
+  // Dynamically calculate the minimum scale to fit with 50px padding
   useEffect(() => {
     const updateMinScale = () => {
       if (containerRef.current) {
-        // Natural dimensions of the image wrapper
-        const mapWidth = 2400; 
-        const mapHeight = 1350; 
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-        
-        const scaleX = windowWidth / mapWidth;
-        const scaleY = windowHeight / mapHeight;
-        
-        // The minimum scale is whichever scale is LARGER, so the map always covers the whole screen
-        setMinScale(Math.max(scaleX, scaleY, 0.2));
+        setMinScale(getInitialScale());
       }
     };
     
-    updateMinScale();
     window.addEventListener('resize', updateMinScale);
     return () => window.removeEventListener('resize', updateMinScale);
   }, []);
@@ -49,7 +47,7 @@ export default function WorldMap({ onNavigate }: WorldMapProps) {
       
       {/* ZOOM PAN PINCH MAP LAYER */}
       <TransformWrapper 
-        initialScale={Math.max(1, minScale)}
+        initialScale={minScale}
         minScale={minScale}
         maxScale={4}
         centerOnInit={true}

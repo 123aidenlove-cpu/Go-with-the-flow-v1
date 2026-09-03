@@ -331,6 +331,12 @@ export default function App() {
           onNavigateToParentDashboard={() => setScreen('parent-dashboard')}
           onNavigateToTeacherDashboard={() => setScreen('teacher-dashboard')}
           onNavigateToSettings={() => setScreen('settings')}
+          onNavigateToConcertHall={() => setScreen('concert-hall')}
+          onLogout={async () => {
+             await supabase.auth.signOut();
+             localStorage.removeItem('activeProfileId');
+             setScreen('login');
+          }}
         />
       )}
 
