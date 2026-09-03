@@ -142,7 +142,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
                     className="flex flex-col items-center gap-2 group hover:-translate-y-2 transition-transform"
                   >
                     <div className="w-20 h-20 bg-slate-800/80 border-2 border-white/20 rounded-full flex items-center justify-center text-4xl shadow-xl group-hover:border-sky-400 group-hover:bg-slate-700 transition-colors">
-                      {s.avatar_url ? <img src={`/avatars/${s.avatar_url}`} alt="avatar" className="w-full h-full object-cover rounded-full" /> : (s.avatar_data?.emoji || '😎')}
+                      {s.avatar_data?.url ? <img src={`/avatars/${s.avatar_data.url}`} alt="avatar" className="w-full h-full object-cover rounded-full" /> : (s.avatar_data?.emoji || '😎')}
                     </div>
                     <span className="text-white font-bold text-sm bg-black/50 px-3 py-1 rounded-full">
                       {s.name || `St. ${s.id.substring(0,4)}`}
@@ -172,7 +172,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
                >
                  {/* Fixed avatar on stage, not draggable */}
                  <div className="w-40 h-40 bg-white/10 backdrop-blur-md border-4 border-white/40 rounded-full flex items-center justify-center text-7xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:border-emerald-400 group-hover:bg-white/20 transition-all">
-                   {p.avatar_url ? <img src={`/avatars/${p.avatar_url}`} alt="avatar" className="w-full h-full object-cover rounded-full" /> : (p.avatar_data?.emoji || '😎')}
+                   {p.avatar_data?.url ? <img src={`/avatars/${p.avatar_data.url}`} alt="avatar" className="w-full h-full object-cover rounded-full" /> : (p.avatar_data?.emoji || '😎')}
                  </div>
                  <div className="flex flex-col items-center bg-black/60 px-6 py-3 rounded-2xl border border-white/10">
                    <span className="text-white font-black text-2xl">
