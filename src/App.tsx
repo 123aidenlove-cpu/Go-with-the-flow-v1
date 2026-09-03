@@ -30,9 +30,8 @@ import ShopPage from './components/ShopPage';
 import TeacherDashboard from './components/TeacherDashboard';
 import TeacherSyllabus from './components/TeacherSyllabus';
 import { LoginScreen } from './components/LoginScreen';
-import { ProfileSelector } from './components/ProfileSelector';
 import GlobalLeaderboard from './components/GlobalLeaderboard';
-
+import { PlacementQuiz } from './components/PlacementQuiz';
 import { supabase } from './lib/supabaseClient';
 
 export default function App() {
@@ -144,6 +143,16 @@ export default function App() {
       {/* Onboarding Overlay */}
       {showOnboarding && screen !== 'login' && (
         <AidenOnboarding onClose={handleOnboardingComplete} />
+      )}
+
+      {screen === 'placement-quiz' && (
+        <PlacementQuiz
+          onBack={() => setScreen('concert-hall')}
+          onComplete={(league, notes) => {
+            console.log("Placement Complete:", league, notes);
+            setScreen('map');
+          }}
+        />
       )}
 
       {/* Screen Router */}

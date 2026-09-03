@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Settings, LogOut, Plus, Music, Shield, Play, X, User } from 'lucide-react';
 import { useInstrument } from '../contexts/InstrumentContext';
+import { AddMusicianModal } from './AddMusicianModal';
 
 interface ConcertHallProps {
   onBack: () => void;
@@ -15,6 +16,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
   const [teacherStudents, setTeacherStudents] = useState<any[]>([]);
   const [teacherProfile, setTeacherProfile] = useState<any>(null);
   const [selectedStudentForLesson, setSelectedStudentForLesson] = useState<any>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
   const { setInstrument } = useInstrument();
 
   useEffect(() => {
@@ -33,14 +35,14 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
       if (teacher) {
         setIsTeacher(true);
         setTeacherProfile(teacher);
-        // Fetch students tied to this teacher's studio_code
         if (teacher.studio_code) {
           const { data: students } = await supabase.from('profiles').select('*').eq('studio_code', teacher.studio_code).eq('role', 'student');
           setTeacherStudents(students || []);
         }
       } else {
         setIsTeacher(false);
-        setHouseholdProfiles(userProfiles);
+        // Only show students on the stage, exclude the parent wrapper account
+        setHouseholdProfiles(userProfiles.filter(p => p.role === 'student'));
       }
     }
     setLoading(false);
@@ -53,13 +55,31 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
       // Household member clicking their avatar on the stage
       localStorage.setItem('activeProfileId', profile.id);
       setInstrument(profile.instrument as any);
-      onNavigateToGame('map'); // Proceed to Campus
+      
+      // Enforce Placement Test on very first play
+      if (profile.level === 1 && !profile.inventory?.includes('placement_done')) {
+        onNavigateToGame('placement-quiz');
+      } else {
+        onNavigateToGame('map'); // Proceed to Campus
+      }
+    }
+  };
+
+  const handleMusicianAdded = (newProfile: any) => {
+    setShowAddModal(false);
+    if (isTeacher) {
+      setTeacherStudents([...teacherStudents, newProfile]);
+    } else {
+      setHouseholdProfiles([...householdProfiles, newProfile]);
     }
   };
 
   if (loading) {
     return <div className="h-screen bg-slate-900 flex items-center justify-center font-bold text-white">Entering the Concert Hall...</div>;
   }
+
+  // Force Add Musician empty state if they have no students
+  const needsMusician = !isTeacher && householdProfiles.length === 0;
 
   return (
     <div 
@@ -71,6 +91,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         backgroundRepeat: 'no-repeat'
       }}
     >
+      {showAddModal && <AddMusicianModal onClose={() => setShowAddModal(false)} onSuccess={handleMusicianAdded} />}
       {/* Top HUD */}
       <div className="absolute top-6 right-6 flex gap-4 z-50">
         {isTeacher && (
@@ -119,7 +140,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
                     className="flex flex-col items-center gap-2 group hover:-translate-y-2 transition-transform"
                   >
                     <div className="w-20 h-20 bg-slate-800/80 border-2 border-white/20 rounded-full flex items-center justify-center text-4xl shadow-xl group-hover:border-sky-400 group-hover:bg-slate-700 transition-colors">
-                      {s.avatar_data?.type === 'conductor' ? '🎩' : '🦉'}
+                      {s.avatar_url ? <img src={`/avatars/${s.avatar_url}`} alt="avatar" className="w-full h-full object-cover rounded-full" /> : (s.avatar_data?.emoji || '😎')}
                     </div>
                     <span className="text-white font-bold text-sm bg-black/50 px-3 py-1 rounded-full">
                       {s.name || `St. ${s.id.substring(0,4)}`}
@@ -149,7 +170,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
                >
                  {/* Fixed avatar on stage, not draggable */}
                  <div className="w-40 h-40 bg-white/10 backdrop-blur-md border-4 border-white/40 rounded-full flex items-center justify-center text-7xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:border-emerald-400 group-hover:bg-white/20 transition-all">
-                   {p.avatar_data?.type === 'conductor' ? '🎩' : '🦉'}
+                   {p.avatar_url ? <img src={`/avatars/${p.avatar_url}`} alt="avatar" className="w-full h-full object-cover rounded-full" /> : (p.avatar_data?.emoji || '😎')}
                  </div>
                  <div className="flex flex-col items-center bg-black/60 px-6 py-3 rounded-2xl border border-white/10">
                    <span className="text-white font-black text-2xl">
@@ -166,8 +187,8 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
              ))}
              
              <button 
-               onClick={() => onNavigateToGame('profile-selector')}
-               className="flex flex-col items-center justify-center gap-4 group hover:-translate-y-2 transition-transform w-40 h-40 opacity-70 hover:opacity-100"
+               onClick={() => setShowAddModal(true)}
+               className={`flex flex-col items-center justify-center gap-4 group hover:-translate-y-2 transition-transform w-40 h-40 ${needsMusician ? 'opacity-100 scale-125' : 'opacity-70 hover:opacity-100'}`}
              >
                 <div className="w-24 h-24 bg-black/40 border-4 border-dashed border-white/50 rounded-full flex items-center justify-center text-white group-hover:border-white transition-all">
                   <Plus className="w-10 h-10" />
