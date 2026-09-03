@@ -33,9 +33,12 @@ import { LoginScreen } from './components/LoginScreen';
 import { ProfileSelector } from './components/ProfileSelector';
 import GlobalLeaderboard from './components/GlobalLeaderboard';
 
+import { supabase } from './lib/supabaseClient';
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('login');
   const [userId, setUserId] = useState<string | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   const handleLoginSuccess = (role: 'student' | 'teacher', profileId: string) => {
     setUserId(profileId);
@@ -45,8 +48,36 @@ export default function App() {
   const [lessonStep, setLessonStep] = useState<number>(1);
   const [showOnboarding, setShowOnboarding] = useState<boolean>(false);
 
-  // Check localStorage for onboarding state on mount
+  // Check localStorage for onboarding state and existing Auth session on mount
   useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          // Fetch profile
+          const { data: profiles } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', session.user.id);
+            
+          if (profiles && profiles.length > 0) {
+            const isTeacher = profiles.some(p => p.role === 'teacher');
+            if (isTeacher) {
+              handleLoginSuccess('teacher', profiles.find(p => p.role === 'teacher').id);
+            } else {
+              handleLoginSuccess('student', profiles[0].id);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Auth init error", err);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+
+    checkSession();
+
     const seen = localStorage.getItem('seen_onboarding_flow');
     if (!seen) {
       setShowOnboarding(true);
@@ -81,6 +112,24 @@ export default function App() {
       handleSetLessonStep(4);
     }
   };
+
+  if (isInitializing) {
+    return (
+      <div 
+        className="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden"
+        style={{
+          backgroundImage: "url('/loading-screen.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0"></div>
+        <div className="z-10 bg-white/90 backdrop-blur-xl p-8 rounded-[3rem] shadow-2xl border-4 border-white/50 w-full max-w-md flex flex-col items-center animate-pulse">
+           <h1 className="text-2xl font-black text-slate-800 uppercase tracking-widest text-center">Loading Musictopia...</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-screen bg-slate-900 text-slate-100 font-sans overflow-hidden">
