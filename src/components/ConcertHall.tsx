@@ -10,6 +10,27 @@ interface ConcertHallProps {
   onNavigateToGame: (screen: string) => void;
 }
 
+const getEquippedClasses = (inventory: any) => {
+  let borderClass = "border-white/40";
+  let bgClass = "bg-white/10";
+  let shadowClass = "shadow-[0_20px_50px_rgba(0,0,0,0.5)]";
+
+  if (inventory && typeof inventory === 'object' && inventory.equipped) {
+    const { border, background } = inventory.equipped;
+    
+    if (border === 'border_gold') { borderClass = "border-amber-400"; shadowClass = "shadow-[0_0_30px_rgba(251,191,36,0.8)]"; }
+    else if (border === 'border_neon') { borderClass = "border-sky-400"; shadowClass = "shadow-[0_0_30px_rgba(56,189,248,0.8)]"; }
+    else if (border === 'border_fire') { borderClass = "border-rose-500 animate-pulse"; shadowClass = "shadow-[0_0_40px_rgba(244,63,94,0.9)]"; }
+    else if (border === 'border_diamond') { borderClass = "border-cyan-300"; shadowClass = "shadow-[0_0_50px_rgba(103,232,249,1)]"; }
+
+    if (background === 'bg_stars') bgClass = "bg-slate-900 bg-[url('/images/stars.png')] bg-cover";
+    else if (background === 'bg_concert') bgClass = "bg-fuchsia-900";
+    else if (background === 'bg_galaxy') bgClass = "bg-purple-900 animate-pulse";
+  }
+  
+  return { borderClass, bgClass, shadowClass };
+};
+
 export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallProps) {
   const [loading, setLoading] = useState(true);
   const [isTeacher, setIsTeacher] = useState(false);
@@ -54,14 +75,16 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
       setSelectedStudentForLesson(profile);
     } else {
       // Household member clicking their avatar on the stage
-      localStorage.setItem('activeProfileId', profile.id);
-      setInstrument(profile.instrument as any);
-      
-      // Enforce Placement Test on very first play
-      if (profile.level === 1 && !profile.inventory?.includes('placement_done')) {
-        onNavigateToGame('placement-quiz');
-      } else {
-        onNavigateToGame('map'); // Proceed to Campus
+      if (profile.role === 'student') {
+        setInstrument(profile.instrument || 'Clarinet'); // Default fallback
+        localStorage.setItem('activeProfileId', profile.id);
+        
+        // Enforce Placement Test on very first play
+        if (!profile.inventory?.includes('placement_done')) {
+          onNavigateToGame('placement-quiz');
+        } else {
+          onNavigateToGame('map'); // Proceed to Campus
+        }
       }
     }
   };
@@ -170,9 +193,11 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
                  onClick={() => handleStudentClick(p)}
                  className="flex flex-col items-center gap-4 group hover:-translate-y-4 transition-transform"
                >
-                 {/* Fixed avatar on stage, not draggable */}
-                 <div className="w-40 h-40 bg-white/10 backdrop-blur-md border-4 border-white/40 rounded-full flex items-center justify-center text-7xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:border-emerald-400 group-hover:bg-white/20 transition-all">
-                   {p.avatar_data?.url ? <img src={`/avatars/${p.avatar_data.url}`} alt="avatar" className="w-full h-full object-cover rounded-full" /> : (p.avatar_data?.emoji || '😎')}
+                 <div className={`w-40 h-40 backdrop-blur-md border-4 rounded-full flex items-center justify-center text-7xl transition-all relative ${getEquippedClasses(p.inventory).bgClass} ${getEquippedClasses(p.inventory).borderClass} ${getEquippedClasses(p.inventory).shadowClass} group-hover:scale-105`}>
+                   {p.inventory?.equipped?.badge && (
+                     <div className="absolute -top-4 -right-4 w-12 h-12 bg-amber-400 rounded-full flex items-center justify-center text-xl shadow-lg border-2 border-white z-20">⭐</div>
+                   )}
+                   {p.avatar_data?.url ? <img src={`/avatars/${p.avatar_data.url}`} alt="avatar" className="w-full h-full object-cover rounded-full mix-blend-luminosity hover:mix-blend-normal transition-all" /> : (p.avatar_data?.emoji || '??')}
                  </div>
                  <div className="flex flex-col items-center bg-black/60 px-6 py-3 rounded-2xl border border-white/10">
                    <span className="text-white font-black text-2xl">

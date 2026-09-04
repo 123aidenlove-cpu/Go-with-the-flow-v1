@@ -8,7 +8,7 @@ interface ShopPageProps {
   onBack: () => void;
 }
 
-type ShopCategory = 'avatars' | 'decor' | 'backdrops' | 'games';
+type ShopCategory = 'borders' | 'backgrounds' | 'badges' | 'ultimates';
 
 interface ShopItem {
   id: string;
@@ -21,45 +21,70 @@ interface ShopItem {
 }
 
 const SHOP_ITEMS: ShopItem[] = [
-  // Avatars
-  { id: 'av_wood', category: 'avatars', name: "Wood Character Variant", price: 100, currency: 'common', desc: "A sleek wooden finish for your avatar.", available: true },
-  { id: 'av_silver', category: 'avatars', name: "Silver Character Variant", price: 500, currency: 'common', desc: "A shiny silver variant for your avatar.", available: true },
-  { id: 'av_gold', category: 'avatars', name: "Gold Character Variant", price: 3, currency: 'rare', desc: "The ultimate gold edition of your avatar.", available: true },
+  // Borders
+  { id: 'border_gold', category: 'borders', name: "Golden Glow", price: 500, currency: 'common', desc: "A radiant golden aura that surrounds your avatar.", available: true },
+  { id: 'border_neon', category: 'borders', name: "Neon Cyber", price: 1000, currency: 'common', desc: "Pulsing neon blue and pink borders.", available: true },
+  { id: 'border_fire', category: 'borders', name: "Blazing Fire", price: 2500, currency: 'common', desc: "Animated flames that dance around your profile.", available: true },
+  { id: 'border_diamond', category: 'borders', name: "Diamond Crystal", price: 5, currency: 'rare', desc: "The ultimate flex. Shimmering diamond facets.", available: true },
   
-  // Castle Decor
-  { id: 'dec_statue', category: 'decor', name: "Bronze Musician Statue", price: 200, currency: 'common', desc: "Place a beautiful statue in your castle.", available: true },
-  { id: 'dec_carpet', category: 'decor', name: "Royal Red Carpet", price: 150, currency: 'common', desc: "Roll out the red carpet in your main hall.", available: true },
-  { id: 'dec_chandelier', category: 'decor', name: "Crystal Chandelier", price: 2, currency: 'rare', desc: "A dazzling chandelier for the ceiling.", available: true },
+  // Backgrounds
+  { id: 'bg_stars', category: 'backgrounds', name: "Starry Night", price: 800, currency: 'common', desc: "A twinkling starry sky behind your avatar.", available: true },
+  { id: 'bg_concert', category: 'backgrounds', name: "Concert Lights", price: 1200, currency: 'common', desc: "Bright stage lights pointing at you.", available: true },
+  { id: 'bg_galaxy', category: 'backgrounds', name: "Deep Galaxy", price: 3, currency: 'rare', desc: "A mesmerizing view of deep space.", available: true },
   
-  // Castle Backdrops
-  { id: 'bg_night', category: 'backdrops', name: "Starry Night Sky", price: 300, currency: 'common', desc: "Change the view outside your castle to night.", available: true },
-  { id: 'bg_sunset', category: 'backdrops', name: "Sunset Horizon", price: 400, currency: 'common', desc: "A beautiful sunset view.", available: true },
-  { id: 'bg_galaxy', category: 'backdrops', name: "Cosmic Galaxy View", price: 4, currency: 'rare', desc: "A mesmerizing view of deep space.", available: true },
+  // Badges
+  { id: 'badge_pro', category: 'badges', name: "Pro Musician", price: 200, currency: 'common', desc: "A sleek 'PRO' badge that floats next to you.", available: true },
+  { id: 'badge_star', category: 'badges', name: "Shooting Star", price: 500, currency: 'common', desc: "An animated shooting star badge.", available: true },
   
-  // Game Unlocks
-  { id: 'game_ninja', category: 'games', name: "Expression Ninja", price: 5, currency: 'rare', desc: "Unlock the ultimate dynamic expression game.", available: true },
-  { id: 'game_dunes', category: 'games', name: "Scale Sand Dunes", price: 5, currency: 'rare', desc: "Unlock the desert scale climbing adventure.", available: true },
+  // Ultimates (3D avatars)
+  { id: 'ult_maestro', category: 'ultimates', name: "The Maestro", price: 10000, currency: 'common', desc: "A fully 3D rendered Golden Owl with a tuxedo.", available: true },
+  { id: 'ult_virtuoso', category: 'ultimates', name: "The Virtuoso", price: 20, currency: 'rare', desc: "An ultra-rare 3D crystalline avatar.", available: true },
 ];
 
 export default function ShopPage({ onBack }: ShopPageProps) {
   const [quavits, setQuavits] = useState(0);
   const [rareQuavits, setRareQuavits] = useState(0);
-  const [activeTab, setActiveTab] = useState<ShopCategory>('avatars');
+  const [inventory, setInventoryState] = useState<Inventory>({ items: [], equipped: { border: null, background: null, badge: null } });
+  const [activeTab, setActiveTab] = useState<ShopCategory>('borders');
 
   useEffect(() => {
     setQuavits(getQuavits());
     setRareQuavits(getRareQuavits());
+    setInventoryState(getInventory());
   }, []);
 
-  const handlePurchase = (item: ShopItem) => {
+  const handlePurchaseOrEquip = (item: ShopItem) => {
+    const isOwned = inventory.items.includes(item.id);
+    
+    if (isOwned) {
+      // Equip logic
+      let cat: keyof Inventory['equipped'] | null = null;
+      if (item.category === 'borders') cat = 'border';
+      if (item.category === 'backgrounds') cat = 'background';
+      if (item.category === 'badges') cat = 'badge';
+      
+      if (cat) {
+        if (inventory.equipped[cat] === item.id) {
+          equipItem(cat, null); // Unequip
+        } else {
+          equipItem(cat, item.id);
+        }
+        setInventoryState(getInventory());
+      }
+      return;
+    }
+
+    // Purchase logic
     if (item.currency === 'common' && quavits >= item.price) {
       addQuavits(-item.price);
+      addToInventory(item.id);
       setQuavits(getQuavits());
-      alert(`Purchased ${item.name}!`);
+      setInventoryState(getInventory());
     } else if (item.currency === 'rare' && rareQuavits >= item.price) {
       addRareQuavits(-item.price);
+      addToInventory(item.id);
       setRareQuavits(getRareQuavits());
-      alert(`Purchased ${item.name}!`);
+      setInventoryState(getInventory());
     }
   };
 
@@ -101,10 +126,10 @@ export default function ShopPage({ onBack }: ShopPageProps) {
         {/* Category Tabs */}
         <div className="flex flex-wrap justify-center gap-4 mb-8">
           {[
-            { id: 'avatars', name: 'Avatars', icon: Shirt },
-            { id: 'decor', name: 'Castle Decor', icon: Castle },
-            { id: 'backdrops', name: 'Backdrops', icon: ImageIcon },
-            { id: 'games', name: 'Game Unlocks', icon: Gamepad2 }
+            { id: 'borders', name: 'Borders', icon: ImageIcon },
+            { id: 'backgrounds', name: 'Backgrounds', icon: Castle },
+            { id: 'badges', name: 'Badges', icon: Shirt },
+            { id: 'ultimates', name: 'Ultimates', icon: Gamepad2 }
           ].map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -131,42 +156,62 @@ export default function ShopPage({ onBack }: ShopPageProps) {
             const isRare = item.currency === 'rare';
             const iconSrc = isRare ? APP_ASSETS.ui.rareQuavits : APP_ASSETS.ui.quavits;
             const themeColor = isRare ? 'sky' : 'emerald';
-            const canAfford = isRare ? rareQuavits >= item.price : quavits >= item.price;
+            const isOwned = inventory.items.includes(item.id);
             
+            let isEquipped = false;
+            if (item.category === 'borders') isEquipped = inventory.equipped.border === item.id;
+            if (item.category === 'backgrounds') isEquipped = inventory.equipped.background === item.id;
+            if (item.category === 'badges') isEquipped = inventory.equipped.badge === item.id;
+            
+            const canAfford = isOwned || (isRare ? rareQuavits >= item.price : quavits >= item.price);
+            
+            let btnText = 'Purchase';
+            if (isOwned) btnText = isEquipped ? 'Unequip' : 'Equip';
+            if (!canAfford) btnText = `Not Enough ${isRare ? 'Rare ' : ''}Quavits`;
+
             return (
               <div 
                 key={item.id} 
                 className={`p-6 rounded-3xl border-4 flex flex-col justify-between transition-all bg-slate-800/80 hover:-translate-y-1 ${
-                  isRare ? 'border-sky-500/30 hover:border-sky-400 hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]' : 'border-emerald-500/30 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(52,211,153,0.3)]'
+                  isEquipped ? 'border-amber-400 shadow-[0_0_30px_rgba(251,191,36,0.4)]' : 
+                  (isRare ? 'border-sky-500/30 hover:border-sky-400 hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]' : 'border-emerald-500/30 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(52,211,153,0.3)]')
                 }`}
               >
                 <div>
                   <div className="flex justify-between items-start mb-4 gap-4">
                     <h3 className="text-2xl font-black text-white">{item.name}</h3>
-                    <div className={`${isRare ? 'bg-sky-500/20 text-sky-400' : 'bg-emerald-500/20 text-emerald-400'} px-3 py-1.5 rounded-full font-black flex items-center gap-2 whitespace-nowrap`}>
-                      <img src={iconSrc} alt="Q" className="w-5 h-5" />
-                      {item.price}
-                    </div>
+                    {!isOwned && (
+                      <div className={`${isRare ? 'bg-sky-500/20 text-sky-400' : 'bg-emerald-500/20 text-emerald-400'} px-3 py-1.5 rounded-full font-black flex items-center gap-2 whitespace-nowrap`}>
+                        <img src={iconSrc} alt="Q" className="w-5 h-5" />
+                        {item.price}
+                      </div>
+                    )}
+                    {isOwned && (
+                      <div className="bg-amber-500/20 text-amber-400 px-3 py-1.5 rounded-full font-black text-sm uppercase tracking-widest">
+                        Owned
+                      </div>
+                    )}
                   </div>
                   <p className="text-slate-400 font-medium text-lg mb-6">{item.desc}</p>
                 </div>
 
                 <button 
                   disabled={!canAfford}
-                  onClick={() => handlePurchase(item)}
+                  onClick={() => handlePurchaseOrEquip(item)}
                   className={`w-full py-4 rounded-2xl font-black uppercase tracking-widest transition-all flex justify-center items-center gap-2 ${
+                    isEquipped ? 'bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-[0_4px_0_#b45309]' :
                     canAfford
-                      ? isRare 
-                        ? 'bg-sky-500 hover:bg-sky-400 text-white shadow-[0_4px_0_#0284c7] active:translate-y-1 active:shadow-none'
-                        : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-[0_4px_0_#059669] active:translate-y-1 active:shadow-none'
+                      ? (isOwned ? 'bg-indigo-500 hover:bg-indigo-400 text-white shadow-[0_4px_0_#4338ca]' :
+                        (isRare 
+                          ? 'bg-sky-500 hover:bg-sky-400 text-white shadow-[0_4px_0_#0284c7] active:translate-y-1 active:shadow-none'
+                          : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-[0_4px_0_#059669] active:translate-y-1 active:shadow-none'))
                       : 'bg-slate-700 text-slate-400 cursor-not-allowed'
                   }`}
                 >
-                  {canAfford ? 'Purchase' : `Not Enough ${isRare ? 'Rare ' : ''}Quavits`}
+                  {btnText}
                 </button>
               </div>
-            );
-          })}
+            })}
           
           {filteredItems.length === 0 && (
             <div className="col-span-full py-12 text-center text-slate-500 font-bold text-xl uppercase tracking-widest">

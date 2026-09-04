@@ -64,8 +64,7 @@ export const AddMusicianModal: React.FC<AddMusicianModalProps> = ({ onClose, onS
         instrument,
         teacher_id: finalTeacherId,
         studio_code: finalStudioCode,
-        avatar_data: { type: 'image', url: selectedAvatar },
-        level: 1 // Default start level
+        avatar_data: { type: 'image', url: selectedAvatar }
       }]).select().single();
 
       if (insertError) throw insertError;

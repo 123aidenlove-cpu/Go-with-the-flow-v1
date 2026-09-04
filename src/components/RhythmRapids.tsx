@@ -127,6 +127,10 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [lives, setLives] = useState(3);
   const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [combo, setCombo] = useState(0);
+  const [showComboAlert, setShowComboAlert] = useState(false);
+  const [earnedQuavits, setEarnedQuavits] = useState(0);
   const [levelComplete, setLevelComplete] = useState(false);
   
   const [challenge, setChallenge] = useState<{
@@ -414,32 +418,50 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
     
     if (side === challenge.correctSide) {
       setFeedback('correct');
-      addXP(10); // Reward XP
+      addXP(10);
+      
+      const newCombo = combo + 1;
+      setCombo(newCombo);
+      const pointsEarned = 100 * (1 + (newCombo * 0.1));
+      const newScore = score + pointsEarned;
+      setScore(newScore);
+      
+      if (newCombo >= 5 && newCombo % 5 === 0) {
+         setShowComboAlert(true);
+         setTimeout(() => setShowComboAlert(false), 2000);
+      }
+
       setTimeout(() => {
         setFeedback(null);
-        const newScore = correctAnswers + 1;
-        setCorrectAnswers(newScore);
+        const newAnswers = correctAnswers + 1;
+        setCorrectAnswers(newAnswers);
         
-        // Extra life logic
-        if (newScore > 0 && newScore % 5 === 0) {
+        if (newAnswers > 0 && newAnswers % 5 === 0) {
           setLives(prev => Math.min(3, prev + 1));
         }
         
-        if (newScore >= 15) {
+        if (newAnswers >= 15) {
+          const quavits = calculateGameQuavits(newScore, 'rhythm-rapids');
+          addQuavits(quavits);
+          setEarnedQuavits(quavits);
           setLevelComplete(true);
           if (onChallengeComplete && isDailyChallenge) onChallengeComplete(15);
         }
       }, 1500);
     } else {
       setFeedback('wrong');
+      setCombo(0);
+      
       setTimeout(() => {
         setFeedback(null);
         const nextLives = lives - 1;
         setLives(nextLives);
         if (nextLives <= 0) {
+          const quavits = calculateGameQuavits(score, 'rhythm-rapids');
+          addQuavits(quavits);
+          setEarnedQuavits(quavits);
           setGameOver(true);
         } else {
-          // Generate a new challenge to prevent brute force
           if (selectedLevel) generateChallenge(selectedLevel);
         }
       }, 2500);
@@ -480,6 +502,9 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
     setCorrectAnswers(0);
     setLives(3);
     setGameOver(false);
+    setScore(0);
+    setCombo(0);
+    setEarnedQuavits(0);
     setLevelComplete(false);
   };
 
@@ -666,9 +691,23 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
             <div className="bg-white p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl border-b-8 border-slate-300">
               <h2 className="text-5xl font-black text-slate-800 mb-4">Canoe Sank!</h2>
               <p className="text-xl text-slate-600 mb-8 font-bold">You lost all your lives. Try again!</p>
+              
+              <div className="bg-slate-100 p-6 rounded-2xl mb-8 flex flex-col gap-2">
+                <div className="flex justify-between items-center text-xl font-bold text-slate-700">
+                  <span>Score:</span>
+                  <span>{Math.floor(score)}</span>
+                </div>
+                <div className="flex justify-between items-center text-2xl font-black text-emerald-500">
+                  <span>Quavits Earned:</span>
+                  <span>+{earnedQuavits}</span>
+                </div>
+              </div>
               <button
                 onClick={() => {
                   setGameOver(false);
+    setScore(0);
+    setCombo(0);
+    setEarnedQuavits(0);
                   setCorrectAnswers(0);
                   setLives(3);
                 }}
