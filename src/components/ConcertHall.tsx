@@ -106,9 +106,6 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
     return <div className="h-screen bg-slate-900 flex items-center justify-center font-bold text-white overflow-y-auto">Entering the Concert Hall...</div>;
   }
 
-  // Force Add Musician empty state if they have no students
-  const needsMusician = !isTeacher && householdProfiles.length === 0;
-
   return (
     <div 
       className="fixed inset-0 bg-slate-900 flex flex-col font-sans overflow-y-auto"
@@ -119,9 +116,21 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <BackButton onClick={onBack} />
+      {/* Top Left HUD */}
+      <div className="absolute top-6 left-6 z-50">
+        {!isTeacher && (
+          <button 
+             onClick={() => setShowAddModal(true)}
+             className="bg-emerald-600/90 hover:bg-emerald-500 text-white px-6 py-3 rounded-full font-bold shadow-lg backdrop-blur-md flex items-center gap-2 transition-transform hover:scale-105"
+          >
+            <Plus className="w-5 h-5" /> Add Musician
+          </button>
+        )}
+      </div>
+
       {showAddModal && <AddMusicianModal onClose={() => setShowAddModal(false)} onSuccess={handleMusicianAdded} />}
-      {/* Top HUD */}
+      
+      {/* Top Right HUD */}
       <div className="absolute top-6 right-6 flex gap-4 z-50">
         {isTeacher && (
           <>
@@ -132,11 +141,6 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
               Teacher Dashboard
             </button>
           </>
-        )}
-        {!isTeacher && (
-           <button onClick={() => onNavigateToGame('parent-dashboard')} className="bg-slate-800/90 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-slate-700 backdrop-blur-md">
-            Parent Dashboard
-          </button>
         )}
         <button onClick={() => onNavigateToGame('settings')} className="w-12 h-12 bg-slate-800/80 rounded-full flex items-center justify-center text-white hover:bg-slate-700">
           <Settings className="w-6 h-6" />
@@ -189,7 +193,10 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         </div>
       ) : (
         /* STUDENT/PARENT VIEW: Avatars on the Stage */
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-32 overflow-y-auto">
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-16 pb-48 overflow-y-auto">
+           <h2 className="text-2xl font-bold text-white/80 uppercase tracking-widest mb-8 animate-pulse drop-shadow-md">
+             Tap on a musician to play
+           </h2>
            <div className="flex flex-wrap justify-center gap-12 w-full max-w-5xl">
              {householdProfiles.map(p => (
                <button 
@@ -216,15 +223,18 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
                  </div>
                </button>
              ))}
-             
-             <button 
-               onClick={() => setShowAddModal(true)}
-               className={`flex flex-col items-center justify-center gap-4 group hover:-translate-y-2 transition-transform w-40 h-40 ${needsMusician ? 'opacity-100 scale-125' : 'opacity-70 hover:opacity-100'}`}
-             >
-                <div className="w-24 h-24 bg-black/40 border-4 border-dashed border-white/50 rounded-full flex items-center justify-center text-white group-hover:border-white transition-all">
-                  <Plus className="w-10 h-10" />
-                </div>
-                <span className="text-white font-bold bg-black/50 px-4 py-2 rounded-full">Add Musician</span>
+           </div>
+
+           {/* Bottom Navigation for Students */}
+           <div className="absolute bottom-10 w-full px-8 flex justify-center gap-8 max-w-5xl mx-auto pointer-events-auto">
+             <button onClick={() => alert('Student Progress metrics coming soon!')} className="flex-1 bg-sky-900/90 hover:bg-sky-800 border-2 border-sky-400 text-white rounded-[2rem] p-6 shadow-2xl backdrop-blur-md transition-transform hover:-translate-y-2 flex flex-col items-center justify-center cursor-pointer">
+               <span className="text-2xl font-black uppercase tracking-widest mb-1 text-center">Student Progress</span>
+               <span className="text-sky-300 font-bold text-sm text-center">View real-time usage metrics & compare profile tiers</span>
+             </button>
+             <button onClick={() => onNavigateToGame('parent-dashboard')} className="flex-1 bg-purple-900/90 hover:bg-purple-800 border-2 border-purple-400 text-white rounded-[2rem] p-6 shadow-2xl backdrop-blur-md transition-transform hover:-translate-y-2 flex flex-col items-center justify-center relative cursor-pointer">
+               <div className="absolute -top-3 -right-3 bg-rose-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black border-2 border-slate-900 shadow-lg animate-bounce">1</div>
+               <span className="text-2xl font-black uppercase tracking-widest mb-1 text-center">Parent Dashboard</span>
+               <span className="text-purple-300 font-bold text-sm text-center">Guide your child & check tutor notifications</span>
              </button>
            </div>
         </div>
