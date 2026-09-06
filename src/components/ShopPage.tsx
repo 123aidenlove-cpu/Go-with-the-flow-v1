@@ -1,7 +1,7 @@
 import { BackButton } from './ui/BackButton';
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ShoppingCart, Lock, Image as ImageIcon, Shirt, Castle, Gamepad2 } from 'lucide-react';
-import { getQuavits, getRareQuavits, addQuavits, addRareQuavits } from '../utils/economy';
+import { getQuavits, getRareQuavits, addQuavits, addRareQuavits, getInventory, addToInventory, equipItem, Inventory } from '../utils/economy';
 import { APP_ASSETS } from '../config/assets';
 
 interface ShopPageProps {

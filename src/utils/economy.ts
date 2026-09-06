@@ -92,7 +92,14 @@ export const getInventory = (): Inventory => {
       if (Array.isArray(parsed)) {
         return { items: parsed, equipped: { border: null, background: null, badge: null } };
       }
-      return parsed;
+      return {
+        items: parsed?.items || [],
+        equipped: {
+          border: parsed?.equipped?.border || null,
+          background: parsed?.equipped?.background || null,
+          badge: parsed?.equipped?.badge || null,
+        }
+      };
     }
     return { items: [], equipped: { border: null, background: null, badge: null } };
   } catch {
