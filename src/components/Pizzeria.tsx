@@ -447,7 +447,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
           
           {/* TOP LEFT: Order ticket (absolute positioned or floating) */}
           <div className="absolute top-6 left-12 bg-white p-6 rounded-sm shadow-xl border-t-8 border-yellow-300 rotate-[-3deg] z-20 max-w-sm font-mono w-72 min-h-[16rem] h-fit pb-6 flex flex-col">
-            <h2 className="text-xl font-bold border-b-2 border-dashed border-gray-300 pb-2 mb-4 text-center">ORDER TICKET #{pizzasBaked + 1}</h2>
+            <h2 className="text-xl font-black text-slate-900 border-b-4 border-dashed border-slate-300 pb-2 mb-4 text-center">ORDER TICKET #{pizzasBaked + 1}</h2>
              <div className="text-xl leading-relaxed text-slate-900 font-black flex-1 flex flex-col justify-center">
                <ul className="list-disc pl-6 space-y-3">
                  {targetRhythm && <li>Base: {formatBeats(targetRhythm['Beats (4/4 time)'])} {parseFloat(targetRhythm['Beats (4/4 time)']) <= 1 ? 'beat' : 'beats'}</li>}
@@ -478,7 +478,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
                       onClick={() => setCurrentRhythm(rhythm.Name)}
                       className={`flex flex-col items-center justify-center h-32 rounded-2xl shadow-md transition-all border-4 ${currentRhythm === rhythm.Name ? 'bg-amber-100 border-amber-400 scale-105' : 'bg-white border-transparent hover:bg-slate-50'}`}
                     >
-                      <span className="text-6xl mb-2">{rhythm.Notation}</span>
+                      <span className="text-6xl mb-2 text-slate-900">{rhythm.Notation}</span>
                       <span className="text-sm font-black text-slate-900 truncate w-full text-center px-1">{rhythm.Name.split(' (')[0]}</span>
                     </button>
                   ))}
@@ -541,7 +541,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
                       onClick={() => setCurrentRhythm(rhythm.Name)}
                       className={`flex flex-col items-center justify-center h-32 rounded-2xl shadow-md transition-all border-4 ${currentRhythm === rhythm.Name ? 'bg-amber-100 border-amber-400 scale-105' : 'bg-white border-transparent hover:bg-slate-50'}`}
                     >
-                      <span className="text-6xl mb-2">{rhythm.Notation}</span>
+                      <span className="text-6xl mb-2 text-slate-900">{rhythm.Notation}</span>
                       <span className="text-sm font-black text-slate-900 truncate w-full text-center px-1">{rhythm.Name.split(' (')[0]}</span>
                     </button>
                   ))}
