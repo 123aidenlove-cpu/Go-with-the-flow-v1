@@ -211,7 +211,8 @@ export default function ShopPage({ onBack }: ShopPageProps) {
                   {btnText}
                 </button>
               </div>
-            })}
+            );
+          })}
           
           {filteredItems.length === 0 && (
             <div className="col-span-full py-12 text-center text-slate-500 font-bold text-xl uppercase tracking-widest">
