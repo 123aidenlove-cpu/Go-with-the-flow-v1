@@ -131,8 +131,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
 
       <div className="z-10 bg-white/90 backdrop-blur-xl p-8 rounded-[3rem] shadow-2xl border-4 border-white/50 w-full max-w-md flex flex-col items-center animate-fade-in">
         
-        <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg mb-6 border-4 border-white">
-          <Music className="w-10 h-10 text-white" />
+        <div className="w-24 h-24 rounded-full flex items-center justify-center shadow-lg mb-6 border-4 border-white overflow-hidden bg-white">
+          <img src="/images/musictopia-logo.jpg" alt="Musictopia Logo" className="w-full h-full object-cover" />
         </div>
 
         <h1 className="text-4xl font-black text-slate-800 mb-2 uppercase tracking-widest text-center">Musictopia</h1>

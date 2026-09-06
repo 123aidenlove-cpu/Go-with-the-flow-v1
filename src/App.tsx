@@ -32,6 +32,7 @@ import TeacherSyllabus from './components/TeacherSyllabus';
 import { LoginScreen } from './components/LoginScreen';
 import GlobalLeaderboard from './components/GlobalLeaderboard';
 import { PlacementQuiz } from './components/PlacementQuiz';
+import { addToInventory } from './utils/economy';
 import { supabase } from './lib/supabaseClient';
 
 export default function App() {
@@ -150,6 +151,7 @@ export default function App() {
           onBack={() => setScreen('concert-hall')}
           onComplete={(league, notes) => {
             console.log("Placement Complete:", league, notes);
+            addToInventory('placement_done');
             setScreen('map');
           }}
         />

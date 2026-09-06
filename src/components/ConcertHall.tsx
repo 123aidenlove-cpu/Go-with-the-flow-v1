@@ -80,7 +80,11 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         localStorage.setItem('activeProfileId', profile.id);
         
         // Enforce Placement Test on very first play
-        if (!profile.inventory?.includes('placement_done')) {
+        const isPlacementDone = Array.isArray(profile.inventory) 
+          ? profile.inventory.includes('placement_done') 
+          : profile.inventory?.items?.includes('placement_done');
+          
+        if (!isPlacementDone) {
           onNavigateToGame('placement-quiz');
         } else {
           onNavigateToGame('map'); // Proceed to Campus

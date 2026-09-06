@@ -48,7 +48,7 @@ export default function AidenOnboarding({ onClose }: AidenOnboardingProps) {
 
               {step === 'welcome' && (
                 <p className="font-sans text-center text-amber-800">
-                  Welcome to <span className="font-bold text-orange-600">Go with the Flow</span>! 🎶 Are you brand new to reading music, or have you played an instrument before?
+                  Welcome to <span className="font-bold text-orange-600">Musictopia</span>! 🎶 Are you brand new to reading music, or have you played an instrument before?
                 </p>
               )}
 
