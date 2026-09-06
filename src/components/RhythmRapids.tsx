@@ -382,6 +382,10 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
                   }
               }
               
+              if (JSON.stringify(wrongBlocks) === JSON.stringify(correctBlocks)) {
+                  mutated = false;
+              }
+              
               if (!mutated) {
                   let newRhythm = generateRhythmBlocks(symbols, beatsPerBar, numBars, level, timeSig);
                   let esc = 0;
