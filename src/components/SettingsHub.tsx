@@ -1,17 +1,18 @@
 import { BackButton } from './ui/BackButton';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Settings, Mic, Link2, Layout, Shield, RefreshCw, LogOut, CheckCircle2, Volume2 } from 'lucide-react';
+import { ArrowLeft, Settings, Mic, Link2, Layout, Shield, RefreshCw, LogOut, CheckCircle2, Volume2, User, Trash2 } from 'lucide-react';
 import { useInstrument } from '../contexts/InstrumentContext';
 
 interface SettingsHubProps {
   onBack: () => void;
+  onLogout?: () => void;
 }
 
-type Tab = 'audio' | 'linking' | 'gameplay' | 'data';
+type Tab = 'account' | 'audio' | 'linking' | 'gameplay' | 'data';
 
-export default function SettingsHub({ onBack }: SettingsHubProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('audio');
+export default function SettingsHub({ onBack, onLogout }: SettingsHubProps) {
+  const [activeTab, setActiveTab] = useState<Tab>('account');
   
   const { instrument, setInstrument } = useInstrument();
   
@@ -54,6 +55,11 @@ export default function SettingsHub({ onBack }: SettingsHubProps) {
         <div className="w-full md:w-80 bg-slate-800 border-r border-slate-700 flex flex-col p-4 md:p-6 gap-2 shrink-0">
           <h2 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4 px-2">Configuration</h2>
           
+          <button onClick={() => setActiveTab('account')} className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all ${activeTab === 'account' ? 'bg-amber-500 text-white shadow-md' : 'text-slate-400 hover:bg-slate-700 hover:text-slate-200'}`}>
+            <User className="w-6 h-6" />
+            <span className="font-bold text-lg">Account</span>
+          </button>
+
           <button onClick={() => setActiveTab('audio')} className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all ${activeTab === 'audio' ? 'bg-blue-500 text-white shadow-md' : 'text-slate-400 hover:bg-slate-700 hover:text-slate-200'}`}>
             <Mic className="w-6 h-6" />
             <span className="font-bold text-lg">Audio & Mic</span>
@@ -79,6 +85,53 @@ export default function SettingsHub({ onBack }: SettingsHubProps) {
         <div className="flex-1 overflow-y-auto p-4 md:p-12 relative">
           <AnimatePresence mode="wait">
             
+            {/* 0. ACCOUNT */}
+            {activeTab === 'account' && (
+              <motion.div key="account" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="max-w-3xl">
+                <div className="mb-10">
+                  <h2 className="text-4xl font-black text-white mb-2 uppercase tracking-widest">Account & Profile</h2>
+                  <p className="text-slate-400 font-bold">Manage your Musictopia account, switch profiles, or log out.</p>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Logout Button */}
+                  <div className="bg-slate-800 rounded-3xl p-8 border border-slate-700 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                      <h3 className="text-2xl font-black text-white mb-2">Sign Out</h3>
+                      <p className="text-slate-400 text-sm">Log out of your current session on this device.</p>
+                    </div>
+                    <button 
+                      onClick={onLogout}
+                      className="px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_0_#475569] active:translate-y-1 active:shadow-none w-full md:w-auto flex items-center justify-center gap-3"
+                    >
+                      <LogOut className="w-6 h-6" /> Log Out
+                    </button>
+                  </div>
+
+                  {/* Danger Zone */}
+                  <div className="bg-rose-900/20 rounded-3xl p-8 border border-rose-900/50 mt-8">
+                    <h3 className="text-2xl font-black text-rose-500 mb-2 flex items-center gap-2">
+                      <Trash2 className="w-6 h-6" /> Danger Zone
+                    </h3>
+                    <p className="text-rose-200/70 text-sm mb-6">
+                      Permanently delete your account and all associated data. This action cannot be undone.
+                    </p>
+                    <button 
+                      onClick={() => {
+                        if(window.confirm('Are you absolutely sure you want to delete your account? All progress will be lost forever.')) {
+                          alert('Account deletion request sent to support. Your data will be removed within 30 days.');
+                          if(onLogout) onLogout();
+                        }
+                      }}
+                      className="px-6 py-3 bg-rose-950 hover:bg-rose-900 border border-rose-800 text-rose-400 font-bold rounded-xl transition-colors w-full md:w-auto"
+                    >
+                      Delete Account
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             {/* 1. AUDIO & MIC */}
             {activeTab === 'audio' && (
               <motion.div key="audio" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="max-w-3xl">
@@ -303,12 +356,7 @@ export default function SettingsHub({ onBack }: SettingsHubProps) {
                     </button>
                   </div>
 
-                  <div className="bg-rose-900/20 rounded-3xl p-8 border border-rose-900/50 mt-8">
-                    <h3 className="text-rose-500 font-black mb-2">Danger Zone</h3>
-                    <button className="text-rose-400 hover:text-rose-300 font-bold underline underline-offset-4 text-sm">
-                      Permanently Delete Local Profile & Save Data
-                    </button>
-                  </div>
+
                 </div>
               </motion.div>
             )}

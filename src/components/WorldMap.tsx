@@ -212,13 +212,13 @@ export default function WorldMap({ onNavigate }: WorldMapProps) {
         </button>
 
         <button
-          onClick={() => onNavigate('account')}
+          onClick={() => onNavigate('settings')}
           className="bg-slate-800/80 hover:bg-slate-700 text-sky-400 px-6 py-3 rounded-full shadow-lg backdrop-blur-md transition-all group flex items-center gap-3 cursor-pointer border-2 border-sky-500/50 hover:scale-105 active:scale-95"
         >
           <div className="w-10 h-10 bg-sky-500/20 rounded-full flex items-center justify-center overflow-hidden border-2 border-sky-400 shadow-inner">
             <Settings className="w-5 h-5 text-sky-400" />
           </div>
-          <span className="font-bold text-lg hidden sm:block tracking-wide text-white">My Account</span>
+          <span className="font-bold text-lg hidden sm:block tracking-wide text-white">Settings</span>
         </button>
 
         <button

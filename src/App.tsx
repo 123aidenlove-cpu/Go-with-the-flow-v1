@@ -351,6 +351,11 @@ export default function App() {
       {screen === 'settings' && (
         <SettingsHub
           onBack={() => setScreen('map')}
+          onLogout={async () => {
+             await supabase.auth.signOut();
+             localStorage.removeItem('activeProfileId');
+             setScreen('login');
+          }}
         />
       )}
 

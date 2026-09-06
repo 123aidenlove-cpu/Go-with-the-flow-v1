@@ -138,7 +138,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
             Parent Dashboard
           </button>
         )}
-        <button onClick={() => alert('Settings')} className="w-12 h-12 bg-slate-800/80 rounded-full flex items-center justify-center text-white hover:bg-slate-700">
+        <button onClick={() => onNavigateToGame('settings')} className="w-12 h-12 bg-slate-800/80 rounded-full flex items-center justify-center text-white hover:bg-slate-700">
           <Settings className="w-6 h-6" />
         </button>
       </div>
