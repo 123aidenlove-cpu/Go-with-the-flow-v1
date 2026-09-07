@@ -146,8 +146,11 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
             </button>
           </>
         )}
-        <button onClick={() => onNavigateToGame('settings')} className="w-12 h-12 bg-slate-800/80 rounded-full flex items-center justify-center text-white hover:bg-slate-700">
-          <Settings className="w-6 h-6" />
+        <button 
+          onClick={() => onNavigateToGame('settings')} 
+          className="bg-slate-800 hover:bg-slate-700 text-white font-black uppercase tracking-widest px-6 py-3 rounded-full shadow-lg border-2 border-slate-600 flex items-center gap-3 transition-colors backdrop-blur-md"
+        >
+          <User className="w-5 h-5" /> Accounts
         </button>
       </div>
 
