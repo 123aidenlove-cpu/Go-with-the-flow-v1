@@ -1,5 +1,5 @@
 import { BackButton } from './ui/BackButton';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Settings, Mic, Link2, Layout, Shield, RefreshCw, LogOut, CheckCircle2, Volume2, User, Trash2 } from 'lucide-react';
 import { useInstrument } from '../contexts/InstrumentContext';
@@ -17,9 +17,81 @@ export default function SettingsHub({ onBack, onLogout }: SettingsHubProps) {
   const { instrument, setInstrument } = useInstrument();
   
   // Audio state
-  const [micSensitivity, setMicSensitivity] = useState(50);
-  const [noiseGate, setNoiseGate] = useState(20);
-  const [musicVolume, setMusicVolume] = useState(80);
+  const [micSensitivity, setMicSensitivity] = useState(Number(localStorage.getItem('mic_sensitivity')) || 50);
+  const [noiseGate, setNoiseGate] = useState(Number(localStorage.getItem('noise_gate')) || 20);
+  const [musicVolume, setMusicVolume] = useState(Number(localStorage.getItem('music_volume')) || 80);
+  
+  const [vuLevel, setVuLevel] = useState(0);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const requestRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem('mic_sensitivity', micSensitivity.toString());
+    localStorage.setItem('noise_gate', noiseGate.toString());
+    localStorage.setItem('music_volume', musicVolume.toString());
+  }, [micSensitivity, noiseGate, musicVolume]);
+
+  useEffect(() => {
+    if (activeTab === 'audio') {
+      startMonitoring();
+    } else {
+      stopMonitoring();
+    }
+    return () => stopMonitoring();
+  }, [activeTab]);
+
+  const startMonitoring = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+      
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      audioContextRef.current = audioContext;
+      
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+      analyserRef.current = analyser;
+      
+      const source = audioContext.createMediaStreamSource(stream);
+      source.connect(analyser);
+      
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      
+      const updateVu = () => {
+        if (!analyserRef.current) return;
+        analyserRef.current.getByteFrequencyData(dataArray);
+        
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
+        }
+        const average = sum / bufferLength;
+        // Normalize roughly to 0-100 range for the VU meter (average of max volume is usually ~128)
+        const normalized = Math.min(100, Math.max(0, (average / 128) * 100));
+        setVuLevel(normalized);
+        
+        requestRef.current = requestAnimationFrame(updateVu);
+      };
+      
+      updateVu();
+    } catch (err) {
+      console.error('Error accessing microphone', err);
+    }
+  };
+
+  const stopMonitoring = () => {
+    if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    if (streamRef.current) streamRef.current.getTracks().forEach(track => track.stop());
+    if (audioContextRef.current) audioContextRef.current.close();
+    
+    requestRef.current = null;
+    streamRef.current = null;
+    audioContextRef.current = null;
+    setVuLevel(0);
+  };
   
   // Linking state
   const [inviteCode, setInviteCode] = useState('');
@@ -151,12 +223,12 @@ export default function SettingsHub({ onBack, onLogout }: SettingsHubProps) {
                     </div>
                     <input type="range" min="0" max="100" value={micSensitivity} onChange={(e) => setMicSensitivity(Number(e.target.value))} className="w-full accent-blue-500 h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer" />
                     
-                    {/* Live VU Meter Simulation */}
+                    {/* Live VU Meter */}
                     <div className="mt-8 bg-slate-900 rounded-xl p-4 border border-slate-700">
                       <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Live VU Meter</p>
                       <div className="flex gap-1 h-8">
                         {Array.from({length: 20}).map((_, i) => (
-                          <div key={i} className={`flex-1 rounded-sm ${i < (micSensitivity / 5) ? (i > 15 ? 'bg-rose-500' : i > 10 ? 'bg-amber-400' : 'bg-emerald-500') : 'bg-slate-800'}`} />
+                          <div key={i} className={`flex-1 rounded-sm ${i < (vuLevel / 5) ? (i > 15 ? 'bg-rose-500' : i > 10 ? 'bg-amber-400' : 'bg-emerald-500') : 'bg-slate-800'}`} />
                         ))}
                       </div>
                     </div>
