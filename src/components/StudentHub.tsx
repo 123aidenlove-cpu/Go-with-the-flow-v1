@@ -3,6 +3,10 @@ import { ArrowLeft, User, ShoppingCart, Target, Play, Bell, ClipboardList } from
 import { supabase } from '../lib/supabaseClient';
 import { useInstrument } from '../contexts/InstrumentContext';
 import SetGoalModal from './SetGoalModal';
+import AcousticChallenges from './AcousticChallenges';
+import PracticeGuide from './PracticeGuide';
+import PracticeLog from './PracticeLog';
+import { AnimatePresence } from 'motion/react';
 
 interface StudentHubProps {
   onBack: () => void;
@@ -12,6 +16,7 @@ interface StudentHubProps {
 export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps) {
   const [profile, setProfile] = useState<any>(null);
   const [showGoalModal, setShowGoalModal] = useState(false);
+  const [activeModal, setActiveModal] = useState<'none' | 'challenges' | 'practice' | 'log'>('none');
   const { instrument } = useInstrument();
 
   useEffect(() => {
@@ -135,7 +140,7 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
         
         {/* Bottom Left: Challenges */}
         <button 
-          onClick={() => onNavigateToGame('acoustic-challenges')}
+          onClick={() => setActiveModal('challenges')}
           className="bg-rose-600 hover:bg-rose-500 text-white px-10 py-8 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#be123c] active:translate-y-2 active:shadow-none transition-all border-4 border-rose-400 relative"
         >
           <div className="absolute -top-4 -right-4 w-8 h-8 bg-amber-400 rounded-full border-2 border-slate-900 flex items-center justify-center text-sm font-bold text-slate-900 shadow-lg animate-bounce">!</div>
@@ -145,7 +150,7 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
         {/* Bottom Center: FLOW Practice & Practice Log */}
         <div className="flex flex-col items-center gap-4">
           <button 
-            onClick={() => onNavigateToGame('practice-guide')}
+            onClick={() => setActiveModal('practice')}
             className="bg-emerald-500 hover:bg-emerald-400 text-white px-16 py-8 rounded-[2rem] font-black text-3xl uppercase tracking-widest shadow-[0_8px_0_#047857] active:translate-y-2 active:shadow-none transition-all border-4 border-emerald-300 w-80 flex justify-center relative"
           >
             <div className="absolute -top-4 -right-4 w-8 h-8 bg-rose-500 rounded-full border-2 border-slate-900 flex items-center justify-center text-sm font-bold shadow-lg animate-bounce">1</div>
@@ -153,7 +158,7 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
           </button>
           
           <button 
-            onClick={() => onNavigateToGame('practice-log')}
+            onClick={() => setActiveModal('log')}
             className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest flex items-center gap-2 border-2 border-slate-600 transition-colors shadow-md"
           >
             <ClipboardList className="w-5 h-5 text-sky-400" /> Practice Log
@@ -180,6 +185,19 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
           }}
         />
       )}
+
+      {/* Modals */}
+      <AnimatePresence>
+        {activeModal === 'practice' && (
+          <PracticeGuide onBack={() => setActiveModal('none')} />
+        )}
+        {activeModal === 'log' && (
+          <PracticeLog onBack={() => setActiveModal('none')} />
+        )}
+        {activeModal === 'challenges' && (
+          <AcousticChallenges onBack={() => setActiveModal('none')} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
