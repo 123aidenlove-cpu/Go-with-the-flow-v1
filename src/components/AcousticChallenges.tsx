@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Timer, Mic, Award, RotateCcw, Volume2 } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
 
 interface AcousticChallengesProps {
   onBack: () => void;
   warmupMode?: boolean;
   forcedType?: ChallengeType;
   onWarmupComplete?: (score: number) => void;
+  profileId?: string;
+  instrument?: string;
 }
 
 type ChallengeState = 'hub' | 'countdown' | 'listening' | 'results';
@@ -20,7 +23,7 @@ interface LeaderboardEntry {
   date: string;
 }
 
-export default function AcousticChallenges({ onBack, warmupMode, forcedType, onWarmupComplete }: AcousticChallengesProps) {
+export default function AcousticChallenges({ onBack, warmupMode, forcedType, onWarmupComplete, profileId, instrument }: AcousticChallengesProps) {
   const [subModal, setSubModal] = useState<ChallengeState>(warmupMode ? 'countdown' : 'hub');
   const [challengeType, setChallengeType] = useState<ChallengeType>(forcedType || 'long-note');
   
@@ -61,7 +64,48 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
   const localMaxRef = useRef<number>(0);
   const localMinRef = useRef<number>(255);
   
-  // Initialize Mic on Mount!
+  const loadLeaderboards = async () => {
+    // 1. Fetch personal bests from current profile
+    if (profileId) {
+      const { data } = await supabase.from('profiles').select('inventory').eq('id', profileId).single();
+      if (data && data.inventory && data.inventory.highscores) {
+        const hs = data.inventory.highscores;
+        if (hs['long-note']) setPersonalBest([{ id: 'pb-ln', name: 'You', score: hs['long-note'], date: new Date().toISOString() }]);
+        if (hs['tonguing']) setTonguingPB([{ id: 'pb-t', name: 'You', score: hs['tonguing'], date: new Date().toISOString() }]);
+      }
+    } else {
+      // Fallback for when profileId is not passed (e.g. testing)
+      const savedPB = localStorage.getItem('long_note_pb');
+      if (savedPB) setPersonalBest(JSON.parse(savedPB));
+      const savedTPB = localStorage.getItem('tonguing_pb');
+      if (savedTPB) setTonguingPB(JSON.parse(savedTPB));
+    }
+    
+    // 2. Fetch global bests for this instrument
+    if (instrument) {
+      const { data } = await supabase.from('profiles').select('id, name, inventory').eq('instrument', instrument);
+      if (data) {
+        const lnGlobal: LeaderboardEntry[] = [];
+        const tGlobal: LeaderboardEntry[] = [];
+        
+        data.forEach(p => {
+          if (p.inventory && p.inventory.highscores) {
+            if (p.inventory.highscores['long-note']) {
+              lnGlobal.push({ id: p.id, name: p.name, score: p.inventory.highscores['long-note'], date: new Date().toISOString() });
+            }
+            if (p.inventory.highscores['tonguing']) {
+              tGlobal.push({ id: p.id, name: p.name, score: p.inventory.highscores['tonguing'], date: new Date().toISOString() });
+            }
+          }
+        });
+        
+        setGlobalBest(lnGlobal.sort((a, b) => b.score - a.score).slice(0, 5));
+        setTonguingGlobal(tGlobal.sort((a, b) => b.score - a.score).slice(0, 5));
+      }
+    }
+  };
+
+  // Load leaderboards on mount
   useEffect(() => {
     initAudio();
     
@@ -69,23 +113,14 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
       startChallenge(forcedType);
     }
     
-    const savedPB = localStorage.getItem('long_note_pb');
-    if (savedPB) setPersonalBest(JSON.parse(savedPB));
-    else setPersonalBest([]);
-    
-    const savedTPB = localStorage.getItem('tonguing_pb');
-    if (savedTPB) setTonguingPB(JSON.parse(savedTPB));
-    else setTonguingPB([]);
-    
-    setGlobalBest([]);
-    setTonguingGlobal([]);
+    loadLeaderboards();
     
     return () => {
       stopAudio();
     };
   }, []);
 
-  const saveScore = (score: number, type: ChallengeType) => {
+  const saveScore = async (score: number, type: ChallengeType) => {
     const newEntry: LeaderboardEntry = {
       id: Math.random().toString(),
       name: 'You',
@@ -93,20 +128,38 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
       date: new Date().toISOString()
     };
     
+    // Update local state for immediate feedback
     if (type === 'long-note') {
-      const updatedPB = [...personalBest, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
-      setPersonalBest(updatedPB);
-      localStorage.setItem('long_note_pb', JSON.stringify(updatedPB));
-      
-      const updatedGlobal = [...globalBest, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
-      setGlobalBest(updatedGlobal);
+      setPersonalBest(prev => [...prev, newEntry].sort((a, b) => b.score - a.score).slice(0, 5));
     } else {
-      const updatedPB = [...tonguingPB, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
-      setTonguingPB(updatedPB);
-      localStorage.setItem('tonguing_pb', JSON.stringify(updatedPB));
-      
-      const updatedGlobal = [...tonguingGlobal, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
-      setTonguingGlobal(updatedGlobal);
+      setTonguingPB(prev => [...prev, newEntry].sort((a, b) => b.score - a.score).slice(0, 5));
+    }
+    
+    // Save to Supabase Profile
+    if (profileId) {
+      const { data: profile } = await supabase.from('profiles').select('inventory').eq('id', profileId).single();
+      if (profile) {
+        const inventory = profile.inventory || {};
+        const highscores = inventory.highscores || {};
+        
+        // Only save if it's a new personal best
+        if (!highscores[type] || score > highscores[type]) {
+          highscores[type] = score;
+          inventory.highscores = highscores;
+          await supabase.from('profiles').update({ inventory }).eq('id', profileId);
+          // Reload globals so we see our new score there
+          loadLeaderboards();
+        }
+      }
+    } else {
+      // Fallback
+      if (type === 'long-note') {
+        const updatedPB = [...personalBest, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
+        localStorage.setItem('long_note_pb', JSON.stringify(updatedPB));
+      } else {
+        const updatedPB = [...tonguingPB, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
+        localStorage.setItem('tonguing_pb', JSON.stringify(updatedPB));
+      }
     }
   };
 
@@ -227,8 +280,8 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
                 if (!silenceStartRef.current) {
                   silenceStartRef.current = currentTime;
                 } else if (currentTime - silenceStartRef.current > SILENCE_TOLERANCE_MS) {
+                  subModalRef.current = 'results'; // PREVENT DOUBLE FIRING
                   finishChallenge(elapsed, type);
-                  return;
                 }
               } else {
                 silenceStartRef.current = null;
@@ -236,25 +289,25 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
             } else {
               // TONGUING MODE logic
               if (elapsed >= 10.0) {
+                subModalRef.current = 'results'; // PREVENT DOUBLE FIRING
                 finishChallenge(tonguingCountRef.current, type);
-                return;
-              }
-              
-              // Dynamic peak tracking
-              if (average > localMaxRef.current) localMaxRef.current = average;
-              if (average < localMinRef.current) localMinRef.current = average;
-              
-              const ATTACK_DELTA = 4; // Volume must jump by this amount from recent valley
-              const DECAY_DELTA = 4;  // Volume must drop by this amount from recent peak
-              
-              if (!inPeakRef.current && (average - localMinRef.current >= ATTACK_DELTA) && average >= currentThreshold) {
-                inPeakRef.current = true;
-                tonguingCountRef.current += 1;
-                setTonguingCount(tonguingCountRef.current);
-                localMaxRef.current = average; // Reset peak tracking
-              } else if (inPeakRef.current && (localMaxRef.current - average >= DECAY_DELTA)) {
-                inPeakRef.current = false;
-                localMinRef.current = average; // Reset valley tracking
+              } else {
+                // Dynamic peak tracking
+                if (average > localMaxRef.current) localMaxRef.current = average;
+                if (average < localMinRef.current) localMinRef.current = average;
+                
+                const ATTACK_DELTA = 4; // Volume must jump by this amount from recent valley
+                const DECAY_DELTA = 4;  // Volume must drop by this amount from recent peak
+                
+                if (!inPeakRef.current && (average - localMinRef.current >= ATTACK_DELTA) && average >= currentThreshold) {
+                  inPeakRef.current = true;
+                  tonguingCountRef.current += 1;
+                  setTonguingCount(tonguingCountRef.current);
+                  localMaxRef.current = average; // Reset peak tracking
+                } else if (inPeakRef.current && (localMaxRef.current - average >= DECAY_DELTA)) {
+                  inPeakRef.current = false;
+                  localMinRef.current = average; // Reset valley tracking
+                }
               }
             }
           }

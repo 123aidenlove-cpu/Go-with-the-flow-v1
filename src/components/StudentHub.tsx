@@ -201,7 +201,11 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
           <PracticeLog onBack={() => setActiveModal('none')} />
         )}
         {activeModal === 'challenges' && (
-          <AcousticChallenges onBack={() => setActiveModal('none')} />
+          <AcousticChallenges 
+            onBack={() => setActiveModal('none')} 
+            profileId={profile.id}
+            instrument={profile.instrument || instrument}
+          />
         )}
       </AnimatePresence>
     </div>
