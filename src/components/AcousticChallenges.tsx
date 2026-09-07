@@ -29,6 +29,19 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
   const [volumeLevel, setVolumeLevel] = useState<number>(0);
   const [tonguingCount, setTonguingCount] = useState<number>(0);
   
+  // State Refs for Audio Loop Closure
+  const subModalRef = useRef<ChallengeState>(warmupMode ? 'countdown' : 'hub');
+  const challengeTypeRef = useRef<ChallengeType>(forcedType || 'long-note');
+  
+  // Keep refs in sync with state
+  useEffect(() => {
+    subModalRef.current = subModal;
+  }, [subModal]);
+  
+  useEffect(() => {
+    challengeTypeRef.current = challengeType;
+  }, [challengeType]);
+  
   // Leaderboards
   const [personalBest, setPersonalBest] = useState<LeaderboardEntry[]>([]);
   const [globalBest, setGlobalBest] = useState<LeaderboardEntry[]>([]);
@@ -48,8 +61,10 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
   const localMaxRef = useRef<number>(0);
   const localMinRef = useRef<number>(255);
   
-  // Load leaderboards on mount
+  // Initialize Mic on Mount!
   useEffect(() => {
+    initAudio();
+    
     if (warmupMode && forcedType) {
       startChallenge(forcedType);
     }
@@ -64,6 +79,10 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
     
     setGlobalBest([]);
     setTonguingGlobal([]);
+    
+    return () => {
+      stopAudio();
+    };
   }, []);
 
   const saveScore = (score: number, type: ChallengeType) => {
@@ -96,6 +115,19 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
     setSubModal('countdown');
     setCountdown(3);
     
+    // Reset challenge variables
+    if (type === 'long-note') setTimer(0);
+    else setTimer(10.0);
+    setTonguingCount(0);
+    tonguingCountRef.current = 0;
+    
+    hasStartedPlayingRef.current = false;
+    startTimeRef.current = null;
+    silenceStartRef.current = null;
+    inPeakRef.current = false;
+    localMaxRef.current = 0;
+    localMinRef.current = 255;
+    
     let count = 3;
     const interval = setInterval(() => {
       count--;
@@ -103,7 +135,7 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
         setCountdown(count);
       } else {
         clearInterval(interval);
-        startListening(type);
+        setSubModal('listening');
       }
     }, 1000);
   };
@@ -120,20 +152,7 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
     }
   };
 
-  const startListening = async (type: ChallengeType) => {
-    setSubModal('listening');
-    if (type === 'long-note') setTimer(0);
-    else setTimer(10.0);
-    setTonguingCount(0);
-    tonguingCountRef.current = 0;
-    
-    hasStartedPlayingRef.current = false;
-    startTimeRef.current = null;
-    silenceStartRef.current = null;
-    inPeakRef.current = false;
-    localMaxRef.current = 0;
-    localMinRef.current = 255;
-
+  const initAudio = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
@@ -170,68 +189,73 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
         const SILENCE_TOLERANCE_MS = 500; // 500ms of silence allowed
         const currentTime = performance.now();
         
-        // Dynamic peak tracking (used for tonguing)
-        localMaxRef.current = Math.max(BASE_THRESHOLD, localMaxRef.current * 0.995);
-        if (average > localMaxRef.current) {
-          localMaxRef.current = average;
-        }
-        
-        const currentThreshold = BASE_THRESHOLD; // Fixed low threshold just above a quiet room
-        
-        if (!hasStartedPlayingRef.current) {
-          // Require a slightly harder attack to initially trigger
-          if (average >= BASE_THRESHOLD * 2) {
-            hasStartedPlayingRef.current = true;
-            startTimeRef.current = currentTime;
-          }
-        }
-        
-        let elapsed = 0;
-        if (hasStartedPlayingRef.current && startTimeRef.current) {
-          elapsed = (currentTime - startTimeRef.current) / 1000;
+        // ONLY run game logic if we are actively 'listening'
+        if (subModalRef.current === 'listening') {
+          const type = challengeTypeRef.current;
           
-          if (type === 'long-note') {
-            setTimer(elapsed);
-          } else {
-            const remaining = Math.max(0, 10.0 - elapsed);
-            setTimer(remaining);
+          // Dynamic peak tracking (used for tonguing)
+          localMaxRef.current = Math.max(BASE_THRESHOLD, localMaxRef.current * 0.995);
+          if (average > localMaxRef.current) {
+            localMaxRef.current = average;
           }
-        }
-        
-        if (hasStartedPlayingRef.current) {
-          if (type === 'long-note') {
-            if (average < currentThreshold) {
-              if (!silenceStartRef.current) {
-                silenceStartRef.current = currentTime;
-              } else if (currentTime - silenceStartRef.current > SILENCE_TOLERANCE_MS) {
-                finishChallenge(elapsed);
-                return;
+          
+          const currentThreshold = BASE_THRESHOLD; // Fixed low threshold just above a quiet room
+          
+          if (!hasStartedPlayingRef.current) {
+            // Require a slightly harder attack to initially trigger
+            if (average >= BASE_THRESHOLD * 2) {
+              hasStartedPlayingRef.current = true;
+              startTimeRef.current = currentTime;
+            }
+          }
+          
+          let elapsed = 0;
+          if (hasStartedPlayingRef.current && startTimeRef.current) {
+            elapsed = (currentTime - startTimeRef.current) / 1000;
+            
+            if (type === 'long-note') {
+              setTimer(elapsed);
+            } else {
+              const remaining = Math.max(0, 10.0 - elapsed);
+              setTimer(remaining);
+            }
+          }
+          
+          if (hasStartedPlayingRef.current) {
+            if (type === 'long-note') {
+              if (average < currentThreshold) {
+                if (!silenceStartRef.current) {
+                  silenceStartRef.current = currentTime;
+                } else if (currentTime - silenceStartRef.current > SILENCE_TOLERANCE_MS) {
+                  finishChallenge(elapsed, type);
+                  return;
+                }
+              } else {
+                silenceStartRef.current = null;
               }
             } else {
-              silenceStartRef.current = null;
-            }
-          } else {
-            // TONGUING MODE logic
-            if (elapsed >= 10.0) {
-              finishChallenge(tonguingCountRef.current);
-              return;
-            }
-            
-            // Dynamic peak tracking
-            if (average > localMaxRef.current) localMaxRef.current = average;
-            if (average < localMinRef.current) localMinRef.current = average;
-            
-            const ATTACK_DELTA = 4; // Volume must jump by this amount from recent valley
-            const DECAY_DELTA = 4;  // Volume must drop by this amount from recent peak
-            
-            if (!inPeakRef.current && (average - localMinRef.current >= ATTACK_DELTA) && average >= currentThreshold) {
-              inPeakRef.current = true;
-              tonguingCountRef.current += 1;
-              setTonguingCount(tonguingCountRef.current);
-              localMaxRef.current = average; // Reset peak tracking
-            } else if (inPeakRef.current && (localMaxRef.current - average >= DECAY_DELTA)) {
-              inPeakRef.current = false;
-              localMinRef.current = average; // Reset valley tracking
+              // TONGUING MODE logic
+              if (elapsed >= 10.0) {
+                finishChallenge(tonguingCountRef.current, type);
+                return;
+              }
+              
+              // Dynamic peak tracking
+              if (average > localMaxRef.current) localMaxRef.current = average;
+              if (average < localMinRef.current) localMinRef.current = average;
+              
+              const ATTACK_DELTA = 4; // Volume must jump by this amount from recent valley
+              const DECAY_DELTA = 4;  // Volume must drop by this amount from recent peak
+              
+              if (!inPeakRef.current && (average - localMinRef.current >= ATTACK_DELTA) && average >= currentThreshold) {
+                inPeakRef.current = true;
+                tonguingCountRef.current += 1;
+                setTonguingCount(tonguingCountRef.current);
+                localMaxRef.current = average; // Reset peak tracking
+              } else if (inPeakRef.current && (localMaxRef.current - average >= DECAY_DELTA)) {
+                inPeakRef.current = false;
+                localMinRef.current = average; // Reset valley tracking
+              }
             }
           }
         }
@@ -248,14 +272,14 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
     }
   };
 
-  const finishChallenge = (finalScore: number) => {
-    stopAudio();
+  const finishChallenge = (finalScore: number, type: ChallengeType = challengeType) => {
+    // stopAudio() is purposely REMOVED here so the mic stays hot for the next run!
     if (warmupMode && onWarmupComplete) {
       onWarmupComplete(finalScore);
       return;
     }
-    saveScore(finalScore, challengeType);
-    if (challengeType === 'long-note') setTimer(finalScore);
+    saveScore(finalScore, type);
+    if (type === 'long-note') setTimer(finalScore);
     else setTonguingCount(finalScore);
     setSubModal('results');
   };
@@ -303,14 +327,26 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
 
               <button 
                 onClick={() => startChallenge('tonguing')}
-                className="flex-1 max-w-sm bg-white border-4 border-emerald-200 hover:border-emerald-500 rounded-3xl p-8 flex flex-col items-center justify-center gap-4 group transition-all shadow-xl hover:-translate-y-2 hover:shadow-2xl"
+                className="flex-1 max-w-sm bg-white border-4 border-amber-200 hover:border-amber-500 rounded-3xl p-8 flex flex-col items-center justify-center gap-4 group transition-all shadow-xl hover:-translate-y-2 hover:shadow-2xl"
               >
-                <div className="bg-emerald-100 p-6 rounded-full group-hover:scale-110 transition-transform">
-                  <Mic className="w-16 h-16 text-emerald-500" />
+                <div className="bg-amber-100 p-6 rounded-full group-hover:scale-110 transition-transform">
+                  <Mic className="w-16 h-16 text-amber-500" />
                 </div>
-                <h3 className="text-3xl font-black text-emerald-950 uppercase">Tonguing</h3>
-                <p className="text-center font-bold text-emerald-700">Articulate TA-TA-TA as fast and clean as you can in 10 seconds.</p>
+                <h3 className="text-3xl font-black text-amber-950 uppercase">Tonguing</h3>
+                <p className="text-center font-bold text-amber-700">Play as many short, fast notes as you can in 10 seconds!</p>
               </button>
+            </div>
+            
+            {/* Live Mic Status Indicator */}
+            <div className="mx-auto mt-4 w-full max-w-md bg-slate-200 rounded-full p-2 flex items-center gap-4">
+              <div className="bg-slate-300 rounded-full p-2 text-slate-500 flex items-center justify-center">
+                <Mic className="w-5 h-5" />
+              </div>
+              <div className="flex-1 flex gap-1 h-3 pr-4">
+                {Array.from({length: 20}).map((_, i) => (
+                  <div key={i} className={`flex-1 rounded-sm ${i < (volumeLevel / 5) ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                ))}
+              </div>
             </div>
           </div>
         )}
