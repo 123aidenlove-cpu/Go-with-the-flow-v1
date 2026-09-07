@@ -268,19 +268,20 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }} 
-      animate={{ opacity: 1, scale: 1 }} 
-      exit={{ opacity: 0, scale: 0.9 }}
-      className="relative w-full max-w-5xl bg-white border-4 border-rose-500 rounded-[3rem] shadow-2xl overflow-hidden flex flex-col"
-    >
-      {/* Header */}
-      <div className="bg-rose-500 p-4 flex justify-between items-center text-white">
-        <h2 className="text-2xl font-black uppercase tracking-widest pl-4">Acoustic Challenges</h2>
-        <button onClick={onBack} className="p-2 hover:bg-rose-600 rounded-full bg-white/20 transition-colors">
-          <ArrowLeft className="w-6 h-6" />
-        </button>
-      </div>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }} 
+        animate={{ opacity: 1, scale: 1 }} 
+        exit={{ opacity: 0, scale: 0.9 }}
+        className="relative w-full max-w-5xl max-h-[90vh] bg-white border-4 border-rose-500 rounded-[3rem] shadow-2xl overflow-hidden flex flex-col"
+      >
+        {/* Header */}
+        <div className="bg-rose-500 p-4 flex justify-between items-center text-white shrink-0">
+          <h2 className="text-2xl font-black uppercase tracking-widest pl-4">Acoustic Challenges</h2>
+          <button onClick={onBack} className="p-2 hover:bg-rose-600 rounded-full bg-white/20 transition-colors">
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+        </div>
 
       <div className="flex-1 min-h-[60vh] flex bg-slate-50">
         
@@ -496,6 +497,7 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
           </div>
         )}
       </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
