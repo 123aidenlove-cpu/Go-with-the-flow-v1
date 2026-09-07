@@ -6,6 +6,7 @@ import SetGoalModal from './SetGoalModal';
 import AcousticChallenges from './AcousticChallenges';
 import PracticeGuide from './PracticeGuide';
 import PracticeLog from './PracticeLog';
+import AdventureAlertsModal from './AdventureAlertsModal';
 import { AnimatePresence } from 'motion/react';
 
 interface StudentHubProps {
@@ -16,6 +17,7 @@ interface StudentHubProps {
 export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps) {
   const [profile, setProfile] = useState<any>(null);
   const [showGoalModal, setShowGoalModal] = useState(false);
+  const [showAlertsModal, setShowAlertsModal] = useState(false);
   const [activeModal, setActiveModal] = useState<'none' | 'challenges' | 'practice' | 'log'>('none');
   const { instrument } = useInstrument();
 
@@ -126,8 +128,8 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
       {/* Middle Right: Adventure Alerts */}
       <div className="absolute right-6 top-1/2 -translate-y-1/2 z-40">
         <button 
-          onClick={() => alert('Adventure Alerts Modal coming soon!')}
-          className="bg-sky-600 hover:bg-sky-500 text-white px-6 py-4 rounded-3xl font-black uppercase tracking-widest shadow-[0_4px_0_#0369a1] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2 border-2 border-sky-400 relative"
+          onClick={() => setShowAlertsModal(true)}
+          className="bg-sky-500 hover:bg-sky-400 text-white px-8 py-6 rounded-3xl font-black uppercase tracking-widest shadow-[0_4px_0_#0284c7] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2 border-2 border-sky-300 relative group"
         >
           <div className="absolute -top-2 -right-2 w-6 h-6 bg-rose-500 rounded-full border-2 border-slate-900 flex items-center justify-center text-xs font-bold shadow-lg animate-bounce">2</div>
           <Bell className="w-8 h-8" />
@@ -184,6 +186,10 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
             setShowGoalModal(false);
           }}
         />
+      )}
+
+      {showAlertsModal && (
+        <AdventureAlertsModal onClose={() => setShowAlertsModal(false)} />
       )}
 
       {/* Modals */}
