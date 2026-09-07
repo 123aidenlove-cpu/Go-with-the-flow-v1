@@ -79,7 +79,8 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         setInstrument(profile.instrument || 'Clarinet'); // Default fallback
         localStorage.setItem('activeProfileId', profile.id);
         
-        // Enforce Placement Test on very first play
+        // Temporarily bypassing placement test for now (will redesign later)
+        /*
         const isPlacementDone = Array.isArray(profile.inventory) 
           ? profile.inventory.includes('placement_done') 
           : profile.inventory?.items?.includes('placement_done');
@@ -87,8 +88,11 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         if (!isPlacementDone) {
           onNavigateToGame('placement-quiz');
         } else {
-          onNavigateToGame('student-hub'); // Proceed to Student Avatar Landing
+          onNavigateToGame('student-hub');
         }
+        */
+        
+        onNavigateToGame('student-hub'); // Proceed directly to Student Avatar Landing
       }
     }
   };
