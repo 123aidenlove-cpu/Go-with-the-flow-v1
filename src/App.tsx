@@ -25,6 +25,7 @@ import FingeringChartMockups from './components/FingeringChartMockups';
 import AccountPage from './components/AccountPage';
 import MusictopiaCastle from './components/MusictopiaCastle';
 import SettingsHub from './components/SettingsHub';
+import StudentHub from './components/StudentHub';
 import LevelPage from './components/LevelPage';
 import ShopPage from './components/ShopPage';
 import TeacherDashboard from './components/TeacherDashboard';
@@ -178,6 +179,13 @@ export default function App() {
       {screen === 'concert-hall' && (
         <ConcertHall
           onBack={() => setScreen('map')}
+          onNavigateToGame={(game) => setScreen(game)}
+        />
+      )}
+
+      {screen === 'student-hub' && (
+        <StudentHub
+          onBack={() => setScreen('concert-hall')}
           onNavigateToGame={(game) => setScreen(game)}
         />
       )}

@@ -87,7 +87,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         if (!isPlacementDone) {
           onNavigateToGame('placement-quiz');
         } else {
-          onNavigateToGame('map'); // Proceed to Campus
+          onNavigateToGame('student-hub'); // Proceed to Student Avatar Landing
         }
       }
     }
