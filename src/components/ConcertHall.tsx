@@ -144,17 +144,6 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         </button>
       </div>
 
-      {/* Top Left: Add Student / Add Musician (Teacher Side) */}
-      {isTeacher && (
-        <div className="absolute top-6 left-6 z-50">
-          <button 
-            onClick={() => alert(`Enter parent's email or phone number to send a "Join My Studio" link!`)}
-            className="bg-emerald-500 hover:bg-emerald-400 text-white px-6 py-3 rounded-full font-black uppercase tracking-widest shadow-lg border-2 border-emerald-400 flex items-center gap-2 transition-transform hover:-translate-y-1"
-          >
-            <Plus className="w-5 h-5" /> Add Student
-          </button>
-        </div>
-      )}
 
       <div className="absolute top-10 left-0 w-full text-center z-10 pointer-events-none">
         <h1 className="text-5xl font-black text-white uppercase tracking-widest drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]">
@@ -166,8 +155,14 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         /* TEACHER VIEW: Students in Auditorium Seats */
         <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-24 pb-48">
           <div className="bg-black/40 backdrop-blur-sm p-8 rounded-[3rem] border border-white/10 w-11/12 max-w-6xl shadow-2xl mb-8">
-            <div className="flex justify-center items-center mb-8">
+            <div className="flex justify-between items-center mb-8 px-4">
               <h2 className="text-3xl font-black text-white uppercase tracking-widest">Your Studio ({teacherProfile?.studio_code})</h2>
+              <button 
+                onClick={() => alert(`Enter parent's email or phone number to send a "Join My Studio" link!`)}
+                className="bg-emerald-500 hover:bg-emerald-400 text-white px-6 py-3 rounded-full font-black uppercase tracking-widest shadow-[0_4px_0_#047857] active:translate-y-1 active:shadow-none border-2 border-emerald-400 flex items-center gap-2 transition-all"
+              >
+                <Plus className="w-5 h-5" /> Add Student
+              </button>
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-8 justify-items-center">
               {Array.from({ length: 16 }).map((_, i) => {
@@ -197,42 +192,46 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
             </div>
           </div>
 
-          {/* Teacher Bottom Layout (Similar to StudentHub) */}
-          <div className="absolute bottom-10 left-0 w-full px-10 flex justify-between items-end z-50 max-w-7xl mx-auto right-0">
+          {/* Teacher Bottom Layout (4 in a row) */}
+          <div className="absolute bottom-10 left-0 w-full px-10 flex justify-between items-end z-50 max-w-7xl mx-auto right-0 gap-4">
             
             {/* 1. Add Repertoire */}
-            <div className="flex flex-col items-center gap-4 w-72 md:w-80">
+            <div className="flex flex-col items-center flex-1">
               <button 
                 onClick={() => onNavigateToGame('teacher-syllabus')}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white w-full py-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#4338ca] active:translate-y-2 active:shadow-none transition-all border-4 border-indigo-400 flex justify-center items-center"
+                className="bg-indigo-600 hover:bg-indigo-500 text-white w-full py-6 rounded-[2rem] font-black md:text-xl lg:text-2xl uppercase tracking-widest shadow-[0_8px_0_#4338ca] active:translate-y-2 active:shadow-none transition-all border-4 border-indigo-400 flex justify-center items-center"
               >
                 Add Repertoire
               </button>
             </div>
 
-            {/* 2. Set a Task & Teacher Dashboard */}
-            <div className="flex flex-col items-center gap-4 w-72 md:w-80">
+            {/* 2. Set a Task */}
+            <div className="flex flex-col items-center flex-1">
               <button 
                 onClick={() => alert('Set a Task modal coming soon!')}
-                className="bg-emerald-500 hover:bg-emerald-400 text-white w-full py-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#047857] active:translate-y-2 active:shadow-none transition-all border-4 border-emerald-300 flex justify-center items-center relative"
+                className="bg-emerald-500 hover:bg-emerald-400 text-white w-full py-6 rounded-[2rem] font-black md:text-xl lg:text-2xl uppercase tracking-widest shadow-[0_8px_0_#047857] active:translate-y-2 active:shadow-none transition-all border-4 border-emerald-300 flex justify-center items-center relative"
               >
                 Set a Task
-              </button>
-              <button 
-                onClick={() => onNavigateToGame('teacher-dashboard')}
-                className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest flex items-center justify-center gap-2 border-2 border-slate-600 transition-colors shadow-md w-full"
-              >
-                Teacher Dashboard
               </button>
             </div>
 
             {/* 3. Set a Goal */}
-            <div className="flex flex-col items-center gap-4 w-72 md:w-80">
+            <div className="flex flex-col items-center flex-1">
               <button 
                 onClick={() => alert('Set a Goal modal coming soon!')}
-                className="bg-amber-400 hover:bg-amber-300 text-slate-900 w-full py-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#b45309] active:translate-y-2 active:shadow-none transition-all border-4 border-amber-200 flex justify-center items-center relative"
+                className="bg-amber-400 hover:bg-amber-300 text-slate-900 w-full py-6 rounded-[2rem] font-black md:text-xl lg:text-2xl uppercase tracking-widest shadow-[0_8px_0_#b45309] active:translate-y-2 active:shadow-none transition-all border-4 border-amber-200 flex justify-center items-center relative"
               >
                 Set a Goal
+              </button>
+            </div>
+
+            {/* 4. Teacher Dashboard */}
+            <div className="flex flex-col items-center flex-1">
+              <button 
+                onClick={() => onNavigateToGame('teacher-dashboard')}
+                className="bg-sky-500 hover:bg-sky-400 text-white w-full py-6 rounded-[2rem] font-black md:text-xl lg:text-2xl uppercase tracking-widest shadow-[0_8px_0_#0284c7] active:translate-y-2 active:shadow-none transition-all border-4 border-sky-300 flex justify-center items-center relative"
+              >
+                Dashboard
               </button>
             </div>
 
