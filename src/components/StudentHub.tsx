@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, User, ShoppingCart, Target, Play, Bell, ClipboardList, Trophy } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import { useInstrument } from '../contexts/InstrumentContext';
+import { APP_ASSETS } from '../config/assets';
 import SetGoalModal from './SetGoalModal';
 import AcousticChallenges from './AcousticChallenges';
 import PracticeGuide from './PracticeGuide';
@@ -82,12 +83,14 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
           <User className="w-5 h-5" /> Accounts
         </button>
         
-        <div className="bg-slate-800/80 backdrop-blur-md px-4 py-2 rounded-2xl flex flex-col items-end gap-1 border border-slate-700">
-          <div className="flex items-center gap-2 text-amber-400 font-black">
-             <span>{getQuavits()}</span> <span className="text-xs uppercase tracking-widest text-amber-500">Quavits</span>
+        <div className="bg-slate-800/80 backdrop-blur-md px-4 py-2 rounded-2xl flex flex-col items-end gap-1 border border-slate-700 shadow-xl">
+          <div className="flex items-center gap-2 text-amber-400 font-black text-xl">
+             <span>{getQuavits()}</span> 
+             <img src={APP_ASSETS.ui.quavits} alt="Quavits" className="w-8 h-8 object-contain drop-shadow-md" />
           </div>
-          <div className="flex items-center gap-2 text-fuchsia-400 font-black">
-             <span>{getRareQuavits()}</span> <span className="text-xs uppercase tracking-widest text-fuchsia-500">Rare</span>
+          <div className="flex items-center gap-2 text-fuchsia-400 font-black text-xl">
+             <span>{getRareQuavits()}</span> 
+             <img src={APP_ASSETS.ui.rareQuavits} alt="Rare Quavits" className="w-8 h-8 object-contain drop-shadow-md" />
           </div>
         </div>
       </div>
