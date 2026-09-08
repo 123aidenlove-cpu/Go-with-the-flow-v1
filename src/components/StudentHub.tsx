@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, User, ShoppingCart, Target, Play, Bell, ClipboardList } from 'lucide-react';
+import { ArrowLeft, User, ShoppingCart, Target, Play, Bell, ClipboardList, Trophy } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import { useInstrument } from '../contexts/InstrumentContext';
 import SetGoalModal from './SetGoalModal';
@@ -18,7 +18,7 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
   const [profile, setProfile] = useState<any>(null);
   const [showGoalModal, setShowGoalModal] = useState(false);
   const [showAlertsModal, setShowAlertsModal] = useState(false);
-  const [activeModal, setActiveModal] = useState<'none' | 'challenges' | 'practice' | 'log'>('none');
+  const [activeModal, setActiveModal] = useState<'none' | 'challenges' | 'challenges-leaderboard' | 'practice' | 'log'>('none');
   const { instrument } = useInstrument();
 
   useEffect(() => {
@@ -138,43 +138,59 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
       </div>
 
       {/* Bottom Layout */}
-      <div className="absolute bottom-10 left-0 w-full px-10 flex justify-between items-end z-50">
+      <div className="absolute bottom-10 left-0 w-full px-10 flex justify-between items-end z-50 max-w-7xl mx-auto right-0">
         
-        {/* Bottom Left: Challenges */}
-        <button 
-          onClick={() => setActiveModal('challenges')}
-          className="bg-rose-600 hover:bg-rose-500 text-white px-10 py-8 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#be123c] active:translate-y-2 active:shadow-none transition-all border-4 border-rose-400 relative"
-        >
-          <div className="absolute -top-4 -right-4 w-8 h-8 bg-amber-400 rounded-full border-2 border-slate-900 flex items-center justify-center text-sm font-bold text-slate-900 shadow-lg animate-bounce">!</div>
-          Challenges
-        </button>
+        {/* Bottom Left: Challenges & Leaderboard */}
+        <div className="flex flex-col items-center gap-4 w-72 md:w-80">
+          <button 
+            onClick={() => setActiveModal('challenges')}
+            className="bg-rose-600 hover:bg-rose-500 text-white w-full py-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#be123c] active:translate-y-2 active:shadow-none transition-all border-4 border-rose-400 relative flex justify-center items-center"
+          >
+            <div className="absolute -top-4 -right-4 w-8 h-8 bg-amber-400 rounded-full border-2 border-slate-900 flex items-center justify-center text-sm font-bold text-slate-900 shadow-lg animate-bounce">!</div>
+            CHALLENGES
+          </button>
+          <button 
+            onClick={() => setActiveModal('challenges-leaderboard')}
+            className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest flex items-center justify-center gap-2 border-2 border-slate-600 transition-colors shadow-md w-full"
+          >
+            <Trophy className="w-5 h-5 text-amber-400" /> Leaderboard
+          </button>
+        </div>
 
         {/* Bottom Center: FLOW Practice & Practice Log */}
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 w-72 md:w-80">
           <button 
             onClick={() => setActiveModal('practice')}
-            className="bg-emerald-500 hover:bg-emerald-400 text-white px-16 py-8 rounded-[2rem] font-black text-3xl uppercase tracking-widest shadow-[0_8px_0_#047857] active:translate-y-2 active:shadow-none transition-all border-4 border-emerald-300 w-80 flex justify-center relative"
+            className="bg-emerald-500 hover:bg-emerald-400 text-white w-full py-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#047857] active:translate-y-2 active:shadow-none transition-all border-4 border-emerald-300 flex justify-center items-center relative"
           >
             <div className="absolute -top-4 -right-4 w-8 h-8 bg-rose-500 rounded-full border-2 border-slate-900 flex items-center justify-center text-sm font-bold shadow-lg animate-bounce">1</div>
             FLOW PRACTICE
           </button>
-          
           <button 
             onClick={() => setActiveModal('log')}
-            className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest flex items-center gap-2 border-2 border-slate-600 transition-colors shadow-md"
+            className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest flex items-center justify-center gap-2 border-2 border-slate-600 transition-colors shadow-md w-full"
           >
             <ClipboardList className="w-5 h-5 text-sky-400" /> Practice Log
           </button>
         </div>
 
-        {/* Bottom Right: Adventure! */}
-        <button 
-          onClick={() => onNavigateToGame('map')}
-          className="bg-amber-400 hover:bg-amber-300 text-slate-900 px-10 py-8 rounded-[2rem] font-black text-3xl uppercase tracking-widest shadow-[0_8px_0_#b45309] active:translate-y-2 active:shadow-none transition-all border-4 border-amber-200 relative"
-        >
-          <div className="absolute -top-4 -right-4 w-8 h-8 bg-rose-500 text-white rounded-full border-2 border-slate-900 flex items-center justify-center text-sm font-bold shadow-lg animate-bounce">1</div>
-          ADVENTURE!
-        </button>
+        {/* Bottom Right: Adventure & Alerts */}
+        <div className="flex flex-col items-center gap-4 w-72 md:w-80">
+          <button 
+            onClick={() => onNavigateToGame('map')}
+            className="bg-amber-400 hover:bg-amber-300 text-slate-900 w-full py-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest shadow-[0_8px_0_#b45309] active:translate-y-2 active:shadow-none transition-all border-4 border-amber-200 flex justify-center items-center relative"
+          >
+            <div className="absolute -top-4 -right-4 w-8 h-8 bg-rose-500 text-white rounded-full border-2 border-slate-900 flex items-center justify-center text-sm font-bold shadow-lg animate-bounce">1</div>
+            ADVENTURE!
+          </button>
+          <button 
+            onClick={() => setShowAlertsModal(true)}
+            className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest flex items-center justify-center gap-2 border-2 border-slate-600 transition-colors shadow-md w-full relative"
+          >
+            <div className="absolute -top-2 -right-2 w-5 h-5 bg-rose-500 rounded-full border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold shadow-lg">2</div>
+            <Bell className="w-5 h-5 text-rose-400" /> Alerts
+          </button>
+        </div>
 
       </div>
 
@@ -200,11 +216,12 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
         {activeModal === 'log' && (
           <PracticeLog onBack={() => setActiveModal('none')} />
         )}
-        {activeModal === 'challenges' && (
+        {(activeModal === 'challenges' || activeModal === 'challenges-leaderboard') && (
           <AcousticChallenges 
             onBack={() => setActiveModal('none')} 
             profileId={profile.id}
             instrument={profile.instrument || instrument}
+            initialState={activeModal === 'challenges-leaderboard' ? 'results' : 'hub'}
           />
         )}
       </AnimatePresence>

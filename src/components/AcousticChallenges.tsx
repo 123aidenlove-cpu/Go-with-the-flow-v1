@@ -10,6 +10,7 @@ interface AcousticChallengesProps {
   onWarmupComplete?: (score: number) => void;
   profileId?: string;
   instrument?: string;
+  initialState?: ChallengeState;
 }
 
 type ChallengeState = 'hub' | 'countdown' | 'listening' | 'results';
@@ -23,8 +24,8 @@ interface LeaderboardEntry {
   date: string;
 }
 
-export default function AcousticChallenges({ onBack, warmupMode, forcedType, onWarmupComplete, profileId, instrument }: AcousticChallengesProps) {
-  const [subModal, setSubModal] = useState<ChallengeState>(warmupMode ? 'countdown' : 'hub');
+export default function AcousticChallenges({ onBack, warmupMode, forcedType, onWarmupComplete, profileId, instrument, initialState }: AcousticChallengesProps) {
+  const [subModal, setSubModal] = useState<ChallengeState>(initialState || (warmupMode ? 'countdown' : 'hub'));
   const [challengeType, setChallengeType] = useState<ChallengeType>(forcedType || 'long-note');
   
   const [countdown, setCountdown] = useState<number | string>(3);
