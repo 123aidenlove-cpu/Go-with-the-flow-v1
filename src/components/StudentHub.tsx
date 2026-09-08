@@ -88,7 +88,7 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
              <span>{getQuavits()}</span> 
              <img src={APP_ASSETS.ui.quavits} alt="Quavits" className="w-8 h-8 object-contain drop-shadow-md" />
           </div>
-          <div className="flex items-center gap-2 text-fuchsia-400 font-black text-xl">
+          <div className="flex items-center gap-2 text-cyan-400 font-black text-xl">
              <span>{getRareQuavits()}</span> 
              <img src={APP_ASSETS.ui.rareQuavits} alt="Rare Quavits" className="w-8 h-8 object-contain drop-shadow-md" />
           </div>
@@ -128,17 +128,6 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
         </div>
       </div>
 
-      {/* Middle Right: Adventure Alerts */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-40">
-        <button 
-          onClick={() => setShowAlertsModal(true)}
-          className="bg-sky-500 hover:bg-sky-400 text-white px-8 py-6 rounded-3xl font-black uppercase tracking-widest shadow-[0_4px_0_#0284c7] active:translate-y-1 active:shadow-none transition-all flex flex-col items-center gap-2 border-2 border-sky-300 relative group"
-        >
-          <div className="absolute -top-2 -right-2 w-6 h-6 bg-rose-500 rounded-full border-2 border-slate-900 flex items-center justify-center text-xs font-bold shadow-lg animate-bounce">2</div>
-          <Bell className="w-8 h-8" />
-          <span className="text-sm">Alerts</span>
-        </button>
-      </div>
 
       {/* Bottom Layout */}
       <div className="absolute bottom-10 left-0 w-full px-10 flex justify-between items-end z-50 max-w-7xl mx-auto right-0">

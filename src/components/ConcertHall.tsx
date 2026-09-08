@@ -200,16 +200,16 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         </div>
       ) : (
         /* STUDENT/PARENT VIEW: Avatars on the Stage */
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-16 pb-48 overflow-y-auto">
-           <h2 className="text-2xl font-bold text-white/80 uppercase tracking-widest mb-8 animate-pulse drop-shadow-md">
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-16 pb-48">
+           <h2 className="text-2xl font-bold text-white/80 uppercase tracking-widest mb-4 animate-pulse drop-shadow-md shrink-0">
              Tap on a musician to play
            </h2>
-           <div className="flex flex-wrap justify-center gap-12 w-full max-w-5xl">
+           <div className={`flex flex-nowrap overflow-x-auto overflow-y-visible w-full max-w-7xl px-8 py-8 gap-12 snap-x snap-mandatory custom-scrollbar ${householdProfiles.length <= 4 ? 'justify-center' : 'justify-start'}`}>
              {householdProfiles.map(p => (
                <button 
                  key={p.id}
                  onClick={() => handleStudentClick(p)}
-                 className="flex flex-col items-center gap-4 group hover:-translate-y-4 transition-transform"
+                 className="flex flex-col items-center gap-4 group hover:-translate-y-4 transition-transform shrink-0 snap-center"
                >
                  <div className={`w-40 h-40 backdrop-blur-md border-4 rounded-full flex items-center justify-center text-7xl transition-all relative ${getEquippedClasses(p.inventory).bgClass} ${getEquippedClasses(p.inventory).borderClass} ${getEquippedClasses(p.inventory).shadowClass} group-hover:scale-105`}>
                    {p.inventory?.equipped?.badge && (

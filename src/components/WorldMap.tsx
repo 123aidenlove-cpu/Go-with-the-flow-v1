@@ -182,7 +182,7 @@ export default function WorldMap({ onNavigate }: WorldMapProps) {
              <span>{getQuavits()}</span> 
              <img src={APP_ASSETS.ui.quavits} alt="Quavits" className="w-8 h-8 object-contain drop-shadow-md" />
           </div>
-          <div className="flex items-center gap-2 text-fuchsia-400 font-black text-xl">
+          <div className="flex items-center gap-2 text-cyan-400 font-black text-xl">
              <span>{getRareQuavits()}</span> 
              <img src={APP_ASSETS.ui.rareQuavits} alt="Rare Quavits" className="w-8 h-8 object-contain drop-shadow-md" />
           </div>
