@@ -4,6 +4,7 @@ import WorldMap from './components/WorldMap';
 import ConcertHall from './components/ConcertHall';
 import PracticeHub from './components/PracticeHub';
 import TeacherStudentProfile from './components/TeacherStudentProfile';
+import TeacherStudentHub from './components/TeacherStudentHub';
 import TeacherLessonView from './components/TeacherLessonView';
 import Pizzeria from './components/Pizzeria';
 import RocketReading from './components/RocketReading';
@@ -197,15 +198,22 @@ export default function App() {
         />
       )}
 
+      {screen === 'teacher-student-hub' && (
+        <TeacherStudentHub
+          onBack={() => setScreen('concert-hall')}
+          onNavigateToGame={setScreen}
+        />
+      )}
+
       {screen === 'teacher-student-profile' && (
         <TeacherStudentProfile
-          onBack={() => setScreen('concert-hall')}
+          onBack={() => setScreen('teacher-student-hub')}
         />
       )}
 
       {screen === 'teacher-lesson-view' && (
         <TeacherLessonView
-          onExit={() => setScreen('concert-hall')}
+          onExit={() => setScreen('teacher-student-hub')}
         />
       )}
 

@@ -72,7 +72,9 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
 
   const handleStudentClick = (profile: any) => {
     if (isTeacher) {
-      setSelectedStudentForLesson(profile);
+      localStorage.setItem('teacherViewStudentId', profile.id);
+      localStorage.setItem('teacherViewStudentName', profile.name || 'Student');
+      onNavigateToGame('teacher-student-hub');
     } else {
       // Household member clicking their avatar on the stage
       if (profile.role === 'student') {
@@ -154,6 +156,9 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
       {isTeacher ? (
         /* TEACHER VIEW: Students in Auditorium Seats */
         <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pt-24 pb-48">
+          <h2 className="text-2xl font-bold text-white/80 uppercase tracking-widest mb-4 animate-pulse drop-shadow-md shrink-0">
+            Click on a student to view their progress
+          </h2>
           <div className="bg-black/40 backdrop-blur-sm p-8 rounded-[3rem] border border-white/10 w-11/12 max-w-6xl shadow-2xl mb-8">
             <div className="flex justify-between items-center mb-8 px-4">
               <h2 className="text-3xl font-black text-white uppercase tracking-widest">Your Studio ({teacherProfile?.studio_code})</h2>
@@ -286,49 +291,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
         </div>
       )}
 
-      {/* Teacher Collaboration Modal */}
-            {selectedStudentForLesson && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-8 overflow-y-auto">
-          <div className="bg-white rounded-[2rem] w-full max-w-lg flex flex-col overflow-hidden shadow-2xl relative border-4 border-slate-200 p-8 text-center">
-            <button 
-              onClick={() => setSelectedStudentForLesson(null)}
-              className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 bg-slate-100 p-2 rounded-full"
-            >
-              <X className="w-6 h-6" />
-            </button>
 
-            <div className="w-24 h-24 bg-slate-100 border-4 border-slate-200 rounded-full flex items-center justify-center text-5xl mx-auto mb-4 shadow-inner">
-              {selectedStudentForLesson.avatar_data?.type === 'conductor' ? '🤵' : '🦉'}
-            </div>
-            <h2 className="text-3xl font-black text-slate-800 mb-1">{selectedStudentForLesson.name || 'Student'}</h2>
-            <p className="text-sky-500 font-bold uppercase tracking-widest text-sm mb-8">{selectedStudentForLesson.instrument}</p>
-
-            <div className="flex flex-col gap-4">
-              <button 
-                onClick={() => {
-                  localStorage.setItem('teacherViewStudentName', selectedStudentForLesson.name || 'Student');
-                  onNavigateToGame('teacher-lesson-view');
-                }}
-                className="w-full bg-emerald-500 text-white font-black py-4 px-6 rounded-2xl shadow-[0_8px_16px_rgba(16,185,129,0.3)] hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(16,185,129,0.4)] transition-all flex items-center justify-center gap-3 text-lg"
-              >
-                <Play className="w-6 h-6 fill-current" />
-                START A LESSON
-              </button>
-              
-              <button 
-                onClick={() => {
-                  localStorage.setItem('teacherViewStudentId', selectedStudentForLesson.id);
-                  onNavigateToGame('teacher-student-profile');
-                }}
-                className="w-full bg-slate-100 text-slate-700 hover:bg-slate-200 font-black py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-3 text-lg border-2 border-slate-200"
-              >
-                <User className="w-6 h-6" />
-                GO TO PROFILE
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
