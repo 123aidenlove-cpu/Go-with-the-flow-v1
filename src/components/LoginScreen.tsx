@@ -175,23 +175,25 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
               {isLogin ? 'Welcome back! Log in to continue.' : 'Create your account to start playing!'}
             </p>
 
-            {/* Role Selector */}
-            <div className="flex w-full bg-slate-100 p-1 rounded-2xl mb-6 shadow-inner">
-              <button
-                type="button"
-                onClick={() => setRole('student')}
-                className={`flex-1 py-3 font-black rounded-xl transition-all flex items-center justify-center gap-2 ${role === 'student' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
-              >
-                <User className="w-5 h-5" /> Parent / Student
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('teacher')}
-                className={`flex-1 py-3 font-black rounded-xl transition-all flex items-center justify-center gap-2 ${role === 'teacher' ? 'bg-white text-emerald-600 shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
-              >
-                <Shield className="w-5 h-5" /> Teacher
-              </button>
-            </div>
+            {/* Role Selector (Only for Sign Up) */}
+            {!isLogin && (
+              <div className="flex w-full bg-slate-100 p-1 rounded-2xl mb-6 shadow-inner">
+                <button
+                  type="button"
+                  onClick={() => setRole('student')}
+                  className={`flex-1 py-3 font-black rounded-xl transition-all flex items-center justify-center gap-2 ${role === 'student' ? 'bg-white text-indigo-600 shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  <User className="w-5 h-5" /> Parent / Student
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('teacher')}
+                  className={`flex-1 py-3 font-black rounded-xl transition-all flex items-center justify-center gap-2 ${role === 'teacher' ? 'bg-white text-emerald-600 shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  <Shield className="w-5 h-5" /> Teacher
+                </button>
+              </div>
+            )}
 
             {error && (
               <div className="w-full bg-red-50 text-red-600 p-4 rounded-xl font-bold mb-6 border border-red-200 text-sm text-center shadow-sm">
