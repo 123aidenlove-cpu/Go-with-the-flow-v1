@@ -534,7 +534,10 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
             </div>
             <ShieldAlert className="w-24 h-24 text-rose-500 mb-6 animate-pulse" />
             <h2 className="text-6xl font-black text-white mb-4">Hull Breach!</h2>
-            <p className="text-2xl text-slate-300 mb-8 font-bold">Altitude reached: <span className="text-emerald-400">{altitude}m</span></p>
+            <p className="text-2xl text-slate-300 mb-4 font-bold">Altitude reached: <span className="text-emerald-400">{altitude}m</span></p>
+            <div className="w-full max-w-md mb-8">
+              <MiniLeaderboard gameName="Rocket Reading" instrument={instrument} currentScore={altitude} />
+            </div>
             <div className="flex gap-6">
               <button onClick={restartGame} className="flex items-center gap-3 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-indigo-500/30">
                 <RotateCcw className="w-6 h-6" /> Try Again
@@ -550,7 +553,10 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
           <div className="absolute inset-0 bg-emerald-900/90 flex flex-col items-center justify-center z-40 backdrop-blur-md">
             <Award className="w-24 h-24 text-yellow-400 mb-6 animate-bounce" />
             <h2 className="text-6xl font-black text-white mb-4">Mission Complete!</h2>
-            <p className="text-2xl text-emerald-200 mb-8 font-bold">You reached <span className="text-white">{altitude}m</span> in orbit!</p>
+            <p className="text-2xl text-emerald-200 mb-4 font-bold">You reached <span className="text-white">{altitude}m</span> in orbit!</p>
+            <div className="w-full max-w-md mb-8">
+              <MiniLeaderboard className="!bg-emerald-800/80 !border-emerald-600 !text-white" gameName="Rocket Reading" instrument={instrument} currentScore={altitude} />
+            </div>
             <div className="flex gap-6">
               {!isInfiniteMode && (
                 <button onClick={() => { setIsInfiniteMode(true); setLevelCleared(false); }} className="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-cyan-500/30">

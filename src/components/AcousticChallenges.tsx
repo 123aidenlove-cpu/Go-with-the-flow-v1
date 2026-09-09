@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Timer, Mic, Award, RotateCcw, Volume2 } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import MiniLeaderboard from './MiniLeaderboard';
+import { saveGameScore } from '../utils/supabaseSync';
 
 interface AcousticChallengesProps {
   onBack: () => void;

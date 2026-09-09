@@ -710,6 +710,9 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
                   <span>+{earnedQuavits}</span>
                 </div>
               </div>
+              <div className="w-full max-w-md mb-8">
+                  <MiniLeaderboard gameName="Rhythm Rapids" instrument={instrument} currentScore={Math.floor(score)} />
+              </div>
               <button
                 onClick={() => {
                   setGameOver(false);
@@ -742,7 +745,10 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
             <div className="bg-white p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl border-b-8 border-slate-300">
               <div className="text-6xl mb-6">🏆</div>
               <h2 className="text-5xl font-black text-slate-800 mb-4">Level Cleared!</h2>
-              <p className="text-xl text-slate-600 mb-8 font-bold">You successfully navigated the rapids!</p>
+              <p className="text-xl text-slate-600 mb-4 font-bold">You successfully navigated the rapids!</p>
+              <div className="w-full max-w-md mb-8">
+                  <MiniLeaderboard gameName="Rhythm Rapids" instrument={instrument} currentScore={Math.floor(score)} />
+              </div>
               <button
                 onClick={() => {
                   setSelectedLevel(null);

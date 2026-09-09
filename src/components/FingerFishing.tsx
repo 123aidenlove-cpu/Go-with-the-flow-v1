@@ -516,7 +516,10 @@ export default function FingerFishing({ onBack, onComplete }: FingerFishingProps
           <div className="absolute inset-0 bg-cyan-950/90 flex flex-col items-center justify-center z-40 backdrop-blur-md">
             <ShieldAlert className="w-24 h-24 text-rose-500 mb-6 animate-pulse" />
             <h2 className="text-6xl font-black text-white mb-4">Out of Oxygen!</h2>
-            <p className="text-2xl text-cyan-100 mb-8 font-bold">Score reached: <span className="text-emerald-400">{score}</span> pts</p>
+            <p className="text-2xl text-cyan-100 mb-4 font-bold">Score reached: <span className="text-emerald-400">{score}</span> pts</p>
+            <div className="w-full max-w-md mb-8">
+              <MiniLeaderboard gameName="Finger Fishing" instrument={instrument} currentScore={score} />
+            </div>
             <div className="absolute top-8 left-8 z-50 flex items-center gap-4">
               <button
                 onClick={restartGame}
@@ -541,7 +544,10 @@ export default function FingerFishing({ onBack, onComplete }: FingerFishingProps
           <div className="absolute inset-0 bg-emerald-900/90 flex flex-col items-center justify-center z-40 backdrop-blur-md">
             <Award className="w-24 h-24 text-yellow-400 mb-6 animate-bounce" />
             <h2 className="text-6xl font-black text-white mb-4">Level Cleared!</h2>
-            <p className="text-2xl text-emerald-200 mb-8 font-bold">You scored <span className="text-white">{score}</span> points!</p>
+            <p className="text-2xl text-emerald-200 mb-4 font-bold">You scored <span className="text-white">{score}</span> points!</p>
+            <div className="w-full max-w-md mb-8">
+              <MiniLeaderboard className="!bg-emerald-800/80 !border-emerald-600 !text-white" gameName="Finger Fishing" instrument={instrument} currentScore={score} />
+            </div>
             <div className="flex gap-6">
               {!isInfiniteMode && (
                 <button onClick={() => { setIsInfiniteMode(true); setLevelCleared(false); }} className="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-cyan-500/30">
