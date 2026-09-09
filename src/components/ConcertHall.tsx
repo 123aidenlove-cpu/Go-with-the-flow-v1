@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Settings, LogOut, Plus, Music, Shield, Play, X, User } from 'lucide-react';
 import { useInstrument } from '../contexts/InstrumentContext';
+import { setQuavits, setRareQuavits, setXP, setInventory } from '../utils/economy';
 import { AddMusicianModal } from './AddMusicianModal';
 
 interface ConcertHallProps {
@@ -74,6 +75,15 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
     if (isTeacher) {
       localStorage.setItem('teacherViewStudentId', profile.id);
       localStorage.setItem('teacherViewStudentName', profile.name || 'Student');
+      
+      // Load student data into global economy state so teacher minigames reflect it
+      localStorage.setItem('activeProfileId', profile.id);
+      setInstrument(profile.instrument || 'Clarinet');
+      setQuavits(profile.quavits_common || 0);
+      setRareQuavits(profile.quavits_rare || 0);
+      setXP(profile.xp || 0);
+      setInventory(profile.inventory || []);
+
       onNavigateToGame('teacher-student-hub');
     } else {
       // Household member clicking their avatar on the stage

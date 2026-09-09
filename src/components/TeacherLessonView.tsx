@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Timer, X, Play, Target, Sparkles, BookOpen, Music, Search, Plus, CheckCircle, Bell, MessageSquare, Star, Mic, AlertTriangle } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
 import CreateRepertoire from './CreateRepertoire';
 import CreateAdventureAlert from './CreateAdventureAlert';
+import AcousticChallenges from './AcousticChallenges';
 
 interface TeacherLessonViewProps {
   onExit: () => void;
+  onNavigateToGame?: (screen: string) => void;
 }
 
 type ViewState = 'grid' | 'play' | 'games' | 'warmups' | 'challenges';
 type FinishStep = 'none' | 'confirm' | 'reward' | 'reflection';
 
-export default function TeacherLessonView({ onExit }: TeacherLessonViewProps) {
+export default function TeacherLessonView({ onExit, onNavigateToGame }: TeacherLessonViewProps) {
   const [time, setTime] = useState(0);
   const [activeView, setActiveView] = useState<ViewState>('grid');
   const [showMaestro, setShowMaestro] = useState(true);
@@ -19,8 +22,18 @@ export default function TeacherLessonView({ onExit }: TeacherLessonViewProps) {
   const [bubbles, setBubbles] = useState(['', '', '']);
   const [showCreateRep, setShowCreateRep] = useState(false);
   const [showAlertForm, setShowAlertForm] = useState(false);
+  const [studentInstrument, setStudentInstrument] = useState<string>('Clarinet');
   
-  const studentName = localStorage.getItem('teacherViewStudentName') || 'Student'; // Can be populated if needed, defaulting for now
+  const studentName = localStorage.getItem('teacherViewStudentName') || 'Student';
+  const studentId = localStorage.getItem('teacherViewStudentId');
+
+  useEffect(() => {
+    if (studentId) {
+      supabase.from('profiles').select('instrument').eq('id', studentId).single().then(({ data }) => {
+        if (data?.instrument) setStudentInstrument(data.instrument);
+      });
+    }
+  }, [studentId]);
 
   // Timer
   useEffect(() => {
@@ -82,21 +95,28 @@ export default function TeacherLessonView({ onExit }: TeacherLessonViewProps) {
               initial={{ opacity: 0, scale: 0.9 }} 
               animate={{ opacity: 1, scale: 1 }} 
               exit={{ opacity: 0, scale: 0.9 }} 
-              className="grid grid-cols-2 gap-8 w-full max-w-4xl"
+              className="grid grid-cols-3 gap-8 w-full max-w-5xl"
             >
-              <button onClick={() => setActiveView('games')} className="aspect-square bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-[3rem] p-8 flex flex-col items-center justify-center gap-6 shadow-[0_20px_40px_rgba(16,185,129,0.3)] hover:-translate-y-2 transition-all group">
+              <button 
+                onClick={() => onNavigateToGame?.('map')} 
+                className="aspect-square bg-gradient-to-br from-amber-400 to-amber-600 rounded-[3rem] p-8 flex flex-col items-center justify-center gap-6 shadow-[0_20px_40px_rgba(251,191,36,0.3)] hover:-translate-y-2 transition-all group"
+              >
                 <div className="bg-white/20 p-8 rounded-full group-hover:scale-110 transition-transform"><Sparkles className="w-24 h-24 text-white" /></div>
-                <h2 className="text-4xl font-black text-white tracking-widest uppercase">Games</h2>
+                <h2 className="text-4xl font-black text-white tracking-widest uppercase">Adventure</h2>
               </button>
-              <button onClick={() => setActiveView('warmups')} className="aspect-square bg-gradient-to-br from-orange-400 to-orange-600 rounded-[3rem] p-8 flex flex-col items-center justify-center gap-6 shadow-[0_20px_40px_rgba(249,115,22,0.3)] hover:-translate-y-2 transition-all group">
-                <div className="bg-white/20 p-8 rounded-full group-hover:scale-110 transition-transform"><Target className="w-24 h-24 text-white" /></div>
-                <h2 className="text-4xl font-black text-white tracking-widest uppercase">Warmups</h2>
-              </button>
-              <button onClick={() => setActiveView('challenges')} className="aspect-square bg-gradient-to-br from-fuchsia-400 to-fuchsia-600 rounded-[3rem] p-8 flex flex-col items-center justify-center gap-6 shadow-[0_20px_40px_rgba(217,70,239,0.3)] hover:-translate-y-2 transition-all group">
+              
+              <button 
+                onClick={() => setActiveView('challenges')} 
+                className="aspect-square bg-gradient-to-br from-fuchsia-400 to-fuchsia-600 rounded-[3rem] p-8 flex flex-col items-center justify-center gap-6 shadow-[0_20px_40px_rgba(217,70,239,0.3)] hover:-translate-y-2 transition-all group"
+              >
                 <div className="bg-white/20 p-8 rounded-full group-hover:scale-110 transition-transform"><Star className="w-24 h-24 text-white" /></div>
                 <h2 className="text-4xl font-black text-white tracking-widest uppercase">Challenges</h2>
               </button>
-              <button onClick={() => setActiveView('play')} className="aspect-square bg-gradient-to-br from-sky-400 to-sky-600 rounded-[3rem] p-8 flex flex-col items-center justify-center gap-6 shadow-[0_20px_40px_rgba(14,165,233,0.3)] hover:-translate-y-2 transition-all group">
+              
+              <button 
+                onClick={() => setActiveView('play')} 
+                className="aspect-square bg-gradient-to-br from-sky-400 to-sky-600 rounded-[3rem] p-8 flex flex-col items-center justify-center gap-6 shadow-[0_20px_40px_rgba(14,165,233,0.3)] hover:-translate-y-2 transition-all group"
+              >
                 <div className="bg-white/20 p-8 rounded-full group-hover:scale-110 transition-transform"><Music className="w-24 h-24 text-white" /></div>
                 <h2 className="text-4xl font-black text-white tracking-widest uppercase">Play</h2>
               </button>
@@ -140,17 +160,12 @@ export default function TeacherLessonView({ onExit }: TeacherLessonViewProps) {
             </motion.div>
           )}
 
-          {(activeView === 'games' || activeView === 'warmups' || activeView === 'challenges') && (
-            <motion.div 
-              key="generic" 
-              initial={{ opacity: 0, scale: 0.95 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              className="w-full max-w-5xl bg-white rounded-[3rem] shadow-2xl h-[80vh] flex flex-col items-center justify-center"
-            >
-              <h2 className="text-4xl font-black text-slate-800 capitalize">{activeView} Mode Active</h2>
-              <p className="text-slate-700 font-bold mt-4">Check MiniMaestro for tips!</p>
-              <button onClick={() => setActiveView('grid')} className="mt-8 bg-slate-800 text-white px-8 py-4 rounded-full font-bold hover:bg-slate-700">Back to Core Grid</button>
-            </motion.div>
+          {activeView === 'challenges' && (
+             <AcousticChallenges 
+                onBack={() => setActiveView('grid')} 
+                profileId={studentId || undefined}
+                instrument={studentInstrument}
+              />
           )}
         </AnimatePresence>
       </div>

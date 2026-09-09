@@ -82,7 +82,9 @@ export default function App() {
 
     const seen = localStorage.getItem('seen_onboarding_flow');
     if (!seen) {
-      setShowOnboarding(true);
+      // Temporarily disabled per user request
+      // setShowOnboarding(true);
+      localStorage.setItem('seen_onboarding_flow', 'true');
     }
     
     const savedStep = localStorage.getItem('lesson_one_current_step');
@@ -214,6 +216,7 @@ export default function App() {
       {screen === 'teacher-lesson-view' && (
         <TeacherLessonView
           onExit={() => setScreen('teacher-student-hub')}
+          onNavigateToGame={setScreen}
         />
       )}
 
