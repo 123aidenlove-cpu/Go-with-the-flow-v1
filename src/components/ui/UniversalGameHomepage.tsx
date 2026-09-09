@@ -1,6 +1,7 @@
-import React from 'react';
-import { ArrowLeft, Lock } from 'lucide-react';
-import { motion } from 'motion/react';
+import React, { useState } from 'react';
+import { ArrowLeft, Lock, ChevronRight, Trophy } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import MiniLeaderboard from '../MiniLeaderboard';
 import { DynamicScore } from './DynamicScore';
 import { useInstrument } from '../../contexts/InstrumentContext';
 import { FingeringChart } from './FingeringChart';
@@ -54,6 +55,7 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
   onNoteHelp
 }) => {
   const { instrument } = useInstrument();
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const bassClefInstruments = ['Trombone', 'Tuba', 'Baritone/Euphonium', 'Cello', 'Double Bass', 'Bass Guitar'];
   const clef = bassClefInstruments.includes(instrument) ? 'bass' : 'treble';
 
@@ -76,11 +78,27 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
         </div>
       </div>
 
-      <div className="w-full text-center relative z-20 mb-4 flex justify-center">
-        <h1 className={`text-4xl md:text-6xl ${headerFont} font-black ${titleColorClass} tracking-wider uppercase bg-slate-900/80 px-10 py-4 rounded-full border-4 border-white shadow-2xl drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`}>
-          {gameTitle}
-        </h1>
-      </div>
+        <div className="w-full text-center relative z-20 mb-4 flex flex-col items-center justify-center gap-4">
+          <h1 className={`text-4xl md:text-6xl ${headerFont} font-black ${titleColorClass} tracking-wider uppercase bg-slate-900/80 px-10 py-4 rounded-full border-4 border-white shadow-2xl drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`}>
+            {gameTitle}
+          </h1>
+          <button onClick={() => setShowLeaderboard(!showLeaderboard)} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-white px-6 py-2 rounded-full font-black uppercase tracking-widest shadow-lg border-2 border-white/50 transition-all active:scale-95 z-50">
+            <Trophy className="w-5 h-5" /> View Leaderboards
+          </button>
+
+          <AnimatePresence>
+            {showLeaderboard && (
+              <motion.div 
+                initial={{ opacity: 0, y: -20, scale: 0.95 }} 
+                animate={{ opacity: 1, y: 0, scale: 1 }} 
+                exit={{ opacity: 0, y: -20, scale: 0.95 }} 
+                className="absolute top-[110%] w-full max-w-md z-[100]"
+              >
+                <MiniLeaderboard gameName={gameTitle} instrument={instrument} currentScore={null} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
       {/* LEVEL CAROUSEL (Middle 2/3) */}
       <div className="w-full flex-1 flex items-center relative z-20">
