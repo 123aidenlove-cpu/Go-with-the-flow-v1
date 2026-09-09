@@ -406,6 +406,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
         backgroundClass="bg-[url('/images/Pizzeria%20Background.png')] bg-cover bg-center"
         levels={pizzeriaLevels}
         onLevelSelect={(id) => {
+          AudioManager.unlockAudio();
           setSelectedLevel(id);
           setGamePhase('playing');
         }}
@@ -478,7 +479,17 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
                       onClick={() => setCurrentRhythm(rhythm.Name)}
                       className={`flex flex-col items-center justify-center h-32 rounded-2xl shadow-md transition-all border-4 ${currentRhythm === rhythm.Name ? 'bg-amber-100 border-amber-400 scale-105' : 'bg-white border-transparent hover:bg-slate-50'}`}
                     >
-                      <span className="text-6xl mb-2 text-slate-900">{rhythm.Notation}</span>
+                      <div className="flex-1 w-full flex items-center justify-center overflow-hidden scale-150 pointer-events-none mt-4">
+                        <DynamicScore 
+                          clef="none"
+                          hideStave={true}
+                          notes={[{
+                            keys: ['b/4'],
+                            duration: getVexDuration(rhythm['Beats (4/4 time)'])
+                          }]}
+                          width={60}
+                        />
+                      </div>
                       <span className="text-sm font-black text-slate-900 truncate w-full text-center px-1">{rhythm.Name.split(' (')[0]}</span>
                     </button>
                   ))}
@@ -541,7 +552,17 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
                       onClick={() => setCurrentRhythm(rhythm.Name)}
                       className={`flex flex-col items-center justify-center h-32 rounded-2xl shadow-md transition-all border-4 ${currentRhythm === rhythm.Name ? 'bg-amber-100 border-amber-400 scale-105' : 'bg-white border-transparent hover:bg-slate-50'}`}
                     >
-                      <span className="text-6xl mb-2 text-slate-900">{rhythm.Notation}</span>
+                      <div className="flex-1 w-full flex items-center justify-center overflow-hidden scale-150 pointer-events-none mt-4">
+                        <DynamicScore 
+                          clef="none"
+                          hideStave={true}
+                          notes={[{
+                            keys: ['b/4'],
+                            duration: getVexDuration(rhythm['Beats (4/4 time)'])
+                          }]}
+                          width={60}
+                        />
+                      </div>
                       <span className="text-sm font-black text-slate-900 truncate w-full text-center px-1">{rhythm.Name.split(' (')[0]}</span>
                     </button>
                   ))}

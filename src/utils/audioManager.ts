@@ -13,17 +13,38 @@ class AudioManagerService {
     }
   }
 
-  private initContext() {
-    if (!this.ctx && typeof window !== 'undefined') {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-      if (AudioContextClass) {
-        this.ctx = new AudioContextClass();
+  public unlockAudio() {
+    if (typeof window !== 'undefined') {
+      if (!this.ctx) {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContextClass) {
+          this.ctx = new AudioContextClass();
+        }
+      }
+      // Resume context if suspended (common in browser security policies)
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+      
+      // Play a tiny silent sound to properly unlock Web Audio API on iOS/Safari
+      try {
+        if (this.ctx) {
+          const osc = this.ctx.createOscillator();
+          const gainNode = this.ctx.createGain();
+          osc.connect(gainNode);
+          gainNode.connect(this.ctx.destination);
+          gainNode.gain.value = 0.001; // nearly silent
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.01);
+        }
+      } catch (e) {
+        console.warn("Silent audio unlock failed:", e);
       }
     }
-    // Resume context if suspended (common in browser security policies)
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
+  }
+
+  private initContext() {
+    this.unlockAudio();
   }
 
   public toggleMute(): boolean {

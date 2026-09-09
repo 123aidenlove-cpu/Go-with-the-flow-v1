@@ -384,7 +384,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
                 <ArrowLeft className="w-8 h-8" />
               </button>
               <button 
-                onClick={() => { setGamePhase('playing'); generateLevel(); }}
+                onClick={() => { AudioManager.unlockAudio(); setGamePhase('playing'); generateLevel(); }}
                 className="flex-1 py-5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white rounded-2xl font-black text-4xl uppercase tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all active:scale-95 flex items-center justify-center gap-4"
               >
                 Start Rocket! 🚀
