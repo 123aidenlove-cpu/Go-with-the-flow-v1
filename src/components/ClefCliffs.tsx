@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, CheckCircle, Music } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DynamicScore } from './ui/DynamicScore';
@@ -12,6 +12,8 @@ interface Props {
 const NOTES = ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'];
 
 export default function ClefCliffs({ onBack, onComplete }: Props) {
+  const { instrument } = useInstrument();
+  const hasSavedScoreRef = useRef(false);
   const [gameState, setGameState] = useState<'start' | 'playing' | 'gameover'>('start');
   const [score, setScore] = useState(0);
   const [targetNote, setTargetNote] = useState('');

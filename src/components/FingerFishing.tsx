@@ -13,6 +13,7 @@ import { useInstrument } from '../contexts/InstrumentContext';
 import { formatAccidentals, formatVexFlowKey } from '../utils/musicFormatter';
 import masterDescriptions from '../data/masterDescriptions.json';
 import { FingeringChart } from './ui/FingeringChart';
+import MiniLeaderboard from './MiniLeaderboard';
 import { BrassFingeringChart } from './ui/BrassFingeringChart';
 import { FluteFingeringChart } from './ui/FluteFingeringChart';
 import { SaxophoneFingeringChart } from './ui/SaxophoneFingeringChart';

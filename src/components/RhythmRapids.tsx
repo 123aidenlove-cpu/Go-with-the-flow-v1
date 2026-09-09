@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { saveGameScore } from '../utils/supabaseSync';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Play, Volume2, Heart } from 'lucide-react';
+import MiniLeaderboard from './MiniLeaderboard';
+import { useInstrument } from '../contexts/InstrumentContext';
 import { APP_ASSETS } from '../config/assets';
 import { SmartImage } from './ui/SmartImage';
 import { UniversalGameHomepage, LevelCardData } from './ui/UniversalGameHomepage';
@@ -123,6 +125,8 @@ const playRhythm = (notes: VexNoteDef[], timeSignature: string) => {
 };
 
 export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComplete }: RhythmRapidsProps) {
+  const { instrument } = useInstrument();
+  const hasSavedScoreRef = useRef(false);
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [lives, setLives] = useState(3);

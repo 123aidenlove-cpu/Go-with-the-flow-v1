@@ -13,6 +13,8 @@ const REPERTOIRE_OPTIONS = ['Mary Had a Little Lamb', 'Twinkle Twinkle', 'Hot Cr
 const INSTRUMENT_OPTIONS = ['Piano', 'Violin', 'Flute', 'Trumpet'];
 
 export default function ListeningLagoon({ onBack, onComplete }: Props) {
+  const { instrument } = useInstrument();
+  const hasSavedScoreRef = useRef(false);
   const [gameState, setGameState] = useState<'start' | 'playing' | 'gameover'>('start');
   const [score, setScore] = useState(0);
   const [mode, setMode] = useState<Mode>('repertoire');

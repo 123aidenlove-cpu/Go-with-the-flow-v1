@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import MiniLeaderboard from './MiniLeaderboard';
+import { saveGameScore } from '../utils/supabaseSync';
+import { useInstrument } from '../contexts/InstrumentContext';
 import { ArrowLeft, Play, RotateCcw, Volume2 } from 'lucide-react';
 import { UniversalGameHomepage, LevelCardData } from './ui/UniversalGameHomepage';
 
@@ -9,6 +12,8 @@ interface ExpressionNinjaProps {
 }
 
 export default function ExpressionNinja({ onBack, onComplete }: ExpressionNinjaProps) {
+  const { instrument } = useInstrument();
+  const hasSavedScoreRef = useRef(false);
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   
   // Game States

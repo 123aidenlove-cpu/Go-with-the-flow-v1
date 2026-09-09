@@ -47,11 +47,6 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
   }, [challengeType]);
   
   // Leaderboards
-  const [personalBest, setPersonalBest] = useState<LeaderboardEntry[]>([]);
-  const [globalBest, setGlobalBest] = useState<LeaderboardEntry[]>([]);
-  const [tonguingPB, setTonguingPB] = useState<LeaderboardEntry[]>([]);
-  const [tonguingGlobal, setTonguingGlobal] = useState<LeaderboardEntry[]>([]);
-  
   // Audio Refs
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -65,105 +60,10 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
   const localMaxRef = useRef<number>(0);
   const localMinRef = useRef<number>(255);
   
-  const loadLeaderboards = async () => {
-    // 1. Fetch personal bests from current profile
-    if (profileId) {
-      const { data } = await supabase.from('profiles').select('inventory').eq('id', profileId).single();
-      if (data && data.inventory && data.inventory.highscores) {
-        const hs = data.inventory.highscores;
-        if (hs['long-note']) setPersonalBest([{ id: 'pb-ln', name: 'You', score: hs['long-note'], date: new Date().toISOString() }]);
-        if (hs['tonguing']) setTonguingPB([{ id: 'pb-t', name: 'You', score: hs['tonguing'], date: new Date().toISOString() }]);
-      }
-    } else {
-      // Fallback for when profileId is not passed (e.g. testing)
-      const savedPB = localStorage.getItem('long_note_pb');
-      if (savedPB) setPersonalBest(JSON.parse(savedPB));
-      const savedTPB = localStorage.getItem('tonguing_pb');
-      if (savedTPB) setTonguingPB(JSON.parse(savedTPB));
-    }
-    
-    // 2. Fetch global bests for this instrument
-    if (instrument) {
-      const { data } = await supabase.from('profiles').select('id, name, inventory').eq('instrument', instrument);
-      if (data) {
-        const lnGlobal: LeaderboardEntry[] = [];
-        const tGlobal: LeaderboardEntry[] = [];
-        
-        data.forEach(p => {
-          if (p.inventory && p.inventory.highscores) {
-            if (p.inventory.highscores['long-note']) {
-              lnGlobal.push({ id: p.id, name: p.name, score: p.inventory.highscores['long-note'], date: new Date().toISOString() });
-            }
-            if (p.inventory.highscores['tonguing']) {
-              tGlobal.push({ id: p.id, name: p.name, score: p.inventory.highscores['tonguing'], date: new Date().toISOString() });
-            }
-          }
-        });
-        
-        setGlobalBest(lnGlobal.sort((a, b) => b.score - a.score).slice(0, 5));
-        setTonguingGlobal(tGlobal.sort((a, b) => b.score - a.score).slice(0, 5));
-      }
-    }
-  };
-
-  // Load leaderboards on mount
-  useEffect(() => {
-    initAudio();
-    
-    if (warmupMode && forcedType) {
-      startChallenge(forcedType);
-    }
-    
-    loadLeaderboards();
-    
-    return () => {
-      stopAudio();
-    };
-  }, []);
-
   const saveScore = async (score: number, type: ChallengeType) => {
-    const newEntry: LeaderboardEntry = {
-      id: Math.random().toString(),
-      name: 'You',
-      score,
-      date: new Date().toISOString()
-    };
-    
-    // Update local state for immediate feedback
-    if (type === 'long-note') {
-      setPersonalBest(prev => [...prev, newEntry].sort((a, b) => b.score - a.score).slice(0, 5));
-    } else {
-      setTonguingPB(prev => [...prev, newEntry].sort((a, b) => b.score - a.score).slice(0, 5));
-    }
-    
-    // Save to Supabase Profile
-    if (profileId) {
-      const { data: profile } = await supabase.from('profiles').select('inventory').eq('id', profileId).single();
-      if (profile) {
-        const inventory = profile.inventory || {};
-        const highscores = inventory.highscores || {};
-        
-        // Only save if it's a new personal best
-        if (!highscores[type] || score > highscores[type]) {
-          highscores[type] = score;
-          inventory.highscores = highscores;
-          await supabase.from('profiles').update({ inventory }).eq('id', profileId);
-          // Reload globals so we see our new score there
-          loadLeaderboards();
-        }
-      }
-    } else {
-      // Fallback
-      if (type === 'long-note') {
-        const updatedPB = [...personalBest, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
-        localStorage.setItem('long_note_pb', JSON.stringify(updatedPB));
-      } else {
-        const updatedPB = [...tonguingPB, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
-        localStorage.setItem('tonguing_pb', JSON.stringify(updatedPB));
-      }
-    }
+    saveGameScore(type === 'long-note' ? 'Long Note' : 'Tonguing Challenge', 1, score);
   };
-
+  
   const startChallenge = (type: ChallengeType) => {
     setChallengeType(type);
     setSubModal('countdown');
@@ -516,47 +416,15 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
         {subModal === 'results' && (
           <div className="w-full flex">
             {/* Leaderboards */}
-            <div className="w-1/2 bg-slate-100 border-r-2 border-slate-200 p-8 flex flex-col gap-8 shadow-inner overflow-y-auto">
-              <div>
-                <h4 className="font-black text-slate-800 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <Award className="text-amber-500" /> Personal Top 5
-                </h4>
-                <div className="flex flex-col gap-2">
-                  {(challengeType === 'long-note' ? personalBest : tonguingPB).length === 0 ? (
-                    <p className="text-center text-slate-400 font-bold p-4 bg-white rounded-lg border-2 border-dashed border-slate-300">No records yet.</p>
-                  ) : (
-                    (challengeType === 'long-note' ? personalBest : tonguingPB).map((entry, i) => (
-                      <div key={entry.id} className={`p-3 rounded-lg flex justify-between items-center ${entry.score === (challengeType === 'long-note' ? timer : tonguingCount) ? 'bg-rose-100 border-2 border-rose-400 shadow-md transform scale-105 my-2 z-10' : 'bg-white'}`}>
-                        <span className="font-bold text-slate-500 w-8">{i + 1}.</span>
-                        <span className="font-bold text-slate-700 flex-1">{entry.name}</span>
-                        <span className="font-mono font-black text-slate-800">{challengeType === 'long-note' ? entry.score.toFixed(1) + 's' : Math.floor(entry.score) + ' hits'}</span>
-                      </div>
-                    ))
-                  )}
-                </div>
+            <div className="w-1/2 bg-slate-100 border-r-2 border-slate-200 p-8 flex flex-col justify-center gap-8 shadow-inner overflow-y-auto">
+                <MiniLeaderboard 
+                  gameName={challengeType === 'long-note' ? 'Long Note' : 'Tonguing Challenge'} 
+                  instrument={instrument || 'Unknown'} 
+                  currentScore={challengeType === 'long-note' ? timer : tonguingCount} 
+                />
               </div>
 
-              <div>
-                <h4 className="font-black text-slate-800 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <Award className="text-sky-500" /> Global All-Time (All Instruments)
-                </h4>
-                <div className="flex flex-col gap-2">
-                  {(challengeType === 'long-note' ? globalBest : tonguingGlobal).length === 0 ? (
-                    <p className="text-center text-slate-400 font-bold p-4 bg-white rounded-lg border-2 border-dashed border-slate-300">Awaiting cloud connection...</p>
-                  ) : (
-                    (challengeType === 'long-note' ? globalBest : tonguingGlobal).map((entry, i) => (
-                      <div key={entry.id} className={`p-3 rounded-lg flex justify-between items-center ${entry.score === (challengeType === 'long-note' ? timer : tonguingCount) ? 'bg-rose-100 border-2 border-rose-400 shadow-md transform scale-105 my-2 z-10' : 'bg-white'}`}>
-                        <span className="font-bold text-slate-500 w-8">{i + 1}.</span>
-                        <span className="font-bold text-slate-700 flex-1">{entry.name}</span>
-                        <span className="font-mono font-black text-slate-800">{challengeType === 'long-note' ? entry.score.toFixed(1) + 's' : Math.floor(entry.score) + ' hits'}</span>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Score Display */}
+              {/* Score Display */}
             <div className="w-1/2 flex flex-col items-center justify-center p-8 bg-slate-900 relative">
                <Award className="w-32 h-32 text-amber-400 mb-6 drop-shadow-[0_0_30px_rgba(251,191,36,0.5)]" />
                <h3 className="text-4xl font-black text-white uppercase tracking-widest mb-4 text-center">
