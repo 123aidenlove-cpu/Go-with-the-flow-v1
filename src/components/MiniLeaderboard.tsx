@@ -116,7 +116,7 @@ export default function MiniLeaderboard({ gameName, instrument, currentScore, on
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className={p-4 rounded-2xl flex flex-col justify-center border-2 }>
+          <div className="p-4 rounded-2xl flex flex-col justify-center border-2">
             <span className="text-xs font-black uppercase text-amber-500 mb-1 flex items-center gap-1">
               <Crown className="w-4 h-4" /> World #1
             </span>
@@ -135,7 +135,7 @@ export default function MiniLeaderboard({ gameName, instrument, currentScore, on
               <Star className="w-4 h-4" /> Your Best
             </span>
             <span className="text-xl font-black text-slate-800">
-              {rank ? Rank # : 'Unranked'}
+              {rank ? `Rank #${rank}` : 'Unranked'}
             </span>
             <span className="text-2xl font-mono font-black text-sky-600">
               {personalBest !== null ? personalBest : '---'}
