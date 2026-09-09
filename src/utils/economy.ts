@@ -58,6 +58,10 @@ export const getRareQuavits = (): number => {
   return parseInt(localStorage.getItem('rare_quavits') || '0', 10);
 };
 
+export const setRareQuavits = (amount: number): void => {
+  localStorage.setItem('rare_quavits', amount.toString());
+};
+
 export const addRareQuavits = async (amount: number) => {
   const current = getRareQuavits();
   const next = current + amount;
