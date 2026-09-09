@@ -559,7 +559,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
             </div>
             <div className="flex gap-6">
               {!isInfiniteMode && (
-                <button onClick={() => { setIsInfiniteMode(true); setLevelCleared(false); }} className="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-cyan-500/30">
+                <button onClick={() => { setIsInfiniteMode(true); setLevelCleared(false); hasSavedScoreRef.current = false; }} className="px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-cyan-500/30">
                   Continue (Endless)
                 </button>
               )}
