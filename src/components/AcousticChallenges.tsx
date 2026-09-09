@@ -327,20 +327,12 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
         {subModal === 'listening' && (
           <div className="w-full flex">
             {/* Left: Leaderboard during play */}
-            <div className="w-1/3 bg-slate-100 border-r-2 border-slate-200 p-6 flex flex-col shadow-inner">
-              <h4 className="font-black text-slate-800 uppercase tracking-widest text-center mb-6">Personal Bests</h4>
-              <div className="flex flex-col gap-3">
-                {(challengeType === 'long-note' ? personalBest : tonguingPB).length === 0 ? (
-                  <p className="text-center text-slate-400 font-bold mt-4">No scores yet. Set the first record!</p>
-                ) : (
-                  (challengeType === 'long-note' ? personalBest : tonguingPB).map((entry, i) => (
-                    <div key={entry.id} className={`p-4 rounded-xl flex justify-between items-center shadow-sm ${i === 0 ? 'bg-amber-100 border-2 border-amber-300' : 'bg-white border-2 border-transparent'}`}>
-                      <span className="font-black text-slate-500">{i + 1}</span>
-                      <span className="font-mono font-bold text-lg text-slate-800">{entry.score.toFixed(1)}{challengeType === 'long-note' ? 's' : ' hits'}</span>
-                    </div>
-                  ))
-                )}
-              </div>
+            <div className="w-1/3 bg-slate-100 border-r-2 border-slate-200 p-6 flex flex-col shadow-inner overflow-y-auto">
+              <MiniLeaderboard 
+                gameName={challengeType === 'long-note' ? 'Long Note' : 'Tonguing Challenge'} 
+                instrument={instrument || 'Unknown'} 
+                currentScore={challengeType === 'long-note' ? timer : tonguingCount} 
+              />
             </div>
 
             {/* Right: Play Zone */}
