@@ -86,11 +86,11 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
 
       onNavigateToGame('teacher-student-hub');
     } else {
-      // Household member clicking their avatar on the stage
-      if (profile.role === 'student') {
-        localStorage.setItem('activeProfileId', profile.id);
-        onNavigateToGame('instrument-selection');
-      }
+        // Household member clicking their avatar on the stage
+        if (profile.role === 'student') {
+          localStorage.setItem('activeProfileId', profile.id);
+          onNavigateToGame('student-hub');
+        }
     }
   };
 

@@ -97,16 +97,23 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
 
       {/* Center: Avatar */}
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 pt-10">
-        <div className="w-64 h-64 md:w-80 md:h-80 relative group mb-8">
+        <button 
+          onClick={() => onNavigate('instrument-selection')}
+          className="w-64 h-64 md:w-80 md:h-80 relative group mb-8 cursor-pointer hover:scale-105 transition-transform"
+          title="Change Instrument"
+        >
           <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-3xl group-hover:bg-blue-400/30 transition-all duration-700"></div>
           <div className="w-full h-full bg-slate-800 border-8 border-slate-700 rounded-full flex items-center justify-center text-9xl shadow-2xl relative z-10 overflow-hidden">
             {profile.avatar_data?.url ? (
               <img src={`/avatars/${profile.avatar_data.url}`} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
-              profile.avatar_data?.emoji || '😎'
+              profile.avatar_data?.emoji || '👤'
             )}
           </div>
-        </div>
+          <div className="absolute -bottom-4 bg-slate-800 text-white font-bold px-6 py-2 rounded-full border-2 border-slate-600 shadow-xl z-20 left-1/2 -translate-x-1/2 whitespace-nowrap group-hover:bg-slate-700 transition-colors">
+            Switch Instrument
+          </div>
+        </button>
         <h1 className="text-4xl font-black text-white uppercase tracking-widest drop-shadow-md">{profile.name || 'Student'}</h1>
         <p className="text-emerald-400 font-bold uppercase tracking-widest mt-2">{instrument}</p>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Lock, Trophy, Play, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Lock, Trophy, Play, CheckCircle2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import MiniLeaderboard from '../MiniLeaderboard';
 import { useInstrument } from '../../contexts/InstrumentContext';
@@ -90,16 +90,25 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
         </button>
 
         <AnimatePresence>
-          {showLeaderboard && (
-            <motion.div 
-              initial={{ opacity: 0, y: -20, scale: 0.95 }} 
-              animate={{ opacity: 1, y: 0, scale: 1 }} 
-              exit={{ opacity: 0, y: -20, scale: 0.95 }} 
-              className="absolute top-[110%] w-full max-w-md z-[100]"
-            >
-              <MiniLeaderboard gameName={gameTitle} instrument={instrument} currentScore={null} />
-            </motion.div>
-          )}
+            {showLeaderboard && (
+              <motion.div
+                key="leaderboard"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+                onClick={() => setShowLeaderboard(false)}
+              >
+                <motion.div
+                  initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+                  className="w-full max-w-xl bg-slate-900 rounded-3xl p-6 shadow-2xl border border-white/20 relative cursor-default"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button onClick={() => setShowLeaderboard(false)} className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/10 p-2 rounded-full transition-colors z-50">
+                    <X size={24} />
+                  </button>
+                  <MiniLeaderboard gameName={gameTitle} instrument={instrument} currentScore={null} />
+                </motion.div>
+              </motion.div>
+            )}
         </AnimatePresence>
       </div>
 
