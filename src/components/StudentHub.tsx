@@ -98,7 +98,7 @@ export default function StudentHub({ onBack, onNavigateToGame }: StudentHubProps
       {/* Center: Avatar */}
       <div className="flex-1 flex flex-col items-center justify-center relative z-10 pt-10">
         <button 
-          onClick={() => onNavigate('instrument-selection')}
+          onClick={() => onNavigateToGame('instrument-selection')}
           className="w-64 h-64 md:w-80 md:h-80 relative group mb-8 cursor-pointer hover:scale-105 transition-transform"
           title="Change Instrument"
         >
