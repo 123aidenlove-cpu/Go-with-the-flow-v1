@@ -57,9 +57,14 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
   // Gameplay States
   const [pizzasBaked, setPizzasBaked] = useState(0);
   const targetPizzas = 3;
-  const [lives, setLives] = useState(3);
   
-  const [gamePhase, setGamePhase] = useState<'stage-select' | 'playing'>('stage-select');
+  const [gamePhase, setGamePhase] = useState<'stage-select' | 'order-select' | 'playing'>('stage-select');
+  const [ordersCompleted, setOrdersCompleted] = useState<boolean[]>([false, false, false]);
+  const [orderScores, setOrderScores] = useState<number[]>([0, 0, 0]);
+  const [currentOrderIndex, setCurrentOrderIndex] = useState<number | null>(null);
+  const [orderStartTime, setOrderStartTime] = useState<number | null>(null);
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+
   const [showNoteHelp, setShowNoteHelp] = useState(false);
   
   const [targetNote, setTargetNote] = useState<NoteType | null>(null);
@@ -76,29 +81,25 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
   const [currentFeatures, setCurrentFeatures] = useState<Set<string>>(new Set());
   
   const [baked, setBaked] = useState(false);
-  const [showOops, setShowOops] = useState(false);
   const [levelComplete, setLevelComplete] = useState(false);
   const [showPizzaBake, setShowPizzaBake] = useState(false);
-    const [strikeCount, setStrikeCount] = useState(0);
+  
+  const handleLevelSelect = (levelId: number) => {
+    setSelectedLevel(levelId);
+    setOrdersCompleted([false, false, false]);
+    setOrderScores([0, 0, 0]);
+    setLevelComplete(false);
+    setBaked(false);
+    setShowPizzaBake(false);
+    setCurrentFingering('');
+    setCurrentRhythm('');
+    setCurrentFeatures(new Set());
+    setFeedbackMessage(null);
+    setGamePhase('order-select');
+  };
   
   // TEMPORARY CALIBRATION FLAG
   const [showCalibration, setShowCalibration] = useState(false);
-
-  useEffect(() => {
-    if (selectedLevel !== null) {
-      setPizzasBaked(0);
-      setLives(3);
-      setLevelComplete(false);
-      setBaked(false);
-      setShowOops(false);
-      setShowPizzaBake(false);
-        setStrikeCount(0);
-        setCurrentFingering('');
-      setCurrentRhythm('');
-      setCurrentFeatures(new Set());
-      generateOrder();
-    }
-  }, [selectedLevel]);
 
   const generateOrder = () => {
     if (!selectedLevel) return;
@@ -230,41 +231,65 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
     const isCorrect = isNoteCorrect && isRhythmCorrect && isFeaturesCorrect;
     
     if (isCorrect) {
-      AudioManager.playSuccess();
-      addXP(5);
       setBaked(true);
-      setShowPizzaBake(true);
+      addXP(10);
+      
       setTimeout(() => {
-        const nextPizzas = pizzasBaked + 1;
-        setPizzasBaked(nextPizzas);
-        setShowPizzaBake(false);
+        setShowPizzaBake(true);
         
-        if (nextPizzas >= targetPizzas) {
-          setLevelComplete(true);
-          if (onComplete) onComplete();
-        } else {
+        setTimeout(() => {
+          const nextPizzas = pizzasBaked + 1;
+          setPizzasBaked(nextPizzas);
+          setShowPizzaBake(false);
           setBaked(false);
           setCurrentFingering('');
           setCurrentRhythm('');
           setCurrentFeatures(new Set());
-          setLives(3);
-          generateOrder();
-        }
-      }, 3000);
+          setFeedbackMessage(null);
+          
+          if (nextPizzas >= targetPizzas) {
+            const orderTimeS = orderStartTime ? (Date.now() - orderStartTime) / 1000 : 0;
+            let score = 1000;
+            if (orderTimeS > 60) {
+                score = Math.max(100, Math.floor(1000 - ((orderTimeS - 60) * 10)));
+            }
+            
+            const newCompleted = [...ordersCompleted];
+            if (currentOrderIndex !== null) newCompleted[currentOrderIndex] = true;
+            setOrdersCompleted(newCompleted);
+            
+            const newScores = [...orderScores];
+            if (currentOrderIndex !== null) newScores[currentOrderIndex] = score;
+            setOrderScores(newScores);
+            
+            if (newCompleted.every(c => c)) {
+                setLevelComplete(true);
+                if (onChallengeComplete && isDailyChallenge) onChallengeComplete(newScores.reduce((a,b)=>a+b, 0));
+                
+                // Mark local storage
+                const saved = localStorage.getItem('pizzeriaLevelProgress');
+                const progress = saved ? JSON.parse(saved) : {};
+                progress[selectedLevel!] = true;
+                localStorage.setItem('pizzeriaLevelProgress', JSON.stringify(progress));
+            } else {
+                setGamePhase('order-select');
+            }
+          } else {
+            generateOrder();
+          }
+        }, 3000);
+      }, 1500);
     } else {
       AudioManager.playError();
-      setShowOops(true);
-      const nextLives = lives - 1;
-      setLives(Math.max(0, nextLives));
+      const errors = [];
+      if (!isNoteCorrect) errors.push('Base (Fingering)');
+      if (!isRhythmCorrect) errors.push('Sauce (Rhythm)');
+      if (!isFeaturesCorrect) errors.push('Toppings (Features)');
+      setFeedbackMessage(`Oops! Check your ${errors.join(', ')}`);
+      
       setTimeout(() => {
-        setShowOops(false);
-        if (nextLives <= 0) {
-          setLives(3);
-          setCurrentFingering('');
-          setCurrentRhythm('');
-          setCurrentFeatures(new Set());
-        }
-      }, 3000);
+         setFeedbackMessage(null);
+      }, 4000);
     }
   };
 
@@ -365,7 +390,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
      }
   };
 
-  if (selectedLevel === null) {
+  if (gamePhase === 'stage-select' || selectedLevel === null) {
     const pizzeriaLevels: LevelCardData[] = curriculumLevelsData.map((lvl: any) => {
       const levelId = lvl.id;
       let selectedTheme;
@@ -408,7 +433,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
         onLevelSelect={(id) => {
           AudioManager.unlockAudio();
           setSelectedLevel(id);
-          setGamePhase('playing');
+          setGamePhase('order-select');
         }}
         onBack={onBack}
         onNoteHelp={() => setShowNoteHelp(true)}
@@ -416,6 +441,50 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
     );
   }
 
+
+  if (gamePhase === 'order-select') {
+      return (
+          <div className="absolute inset-0 z-40 bg-[url('/images/Pizzeria%20Background.png')] bg-cover bg-center flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+            <div className="bg-white/95 backdrop-blur-md p-12 rounded-3xl shadow-2xl flex flex-col items-center z-50">
+              <h2 className="text-5xl font-black text-slate-800 mb-8 uppercase tracking-widest text-center">Select an Order</h2>
+              <div className="flex gap-8 mb-8">
+                {[0, 1, 2].map(orderIdx => (
+                  <button
+                    key={orderIdx}
+                    disabled={ordersCompleted[orderIdx]}
+                    onClick={() => {
+                      setCurrentOrderIndex(orderIdx);
+                      setPizzasBaked(0);
+                      setOrderStartTime(Date.now());
+                      setGamePhase('playing');
+                      generateOrder();
+                    }}
+                    className={`flex flex-col items-center p-8 rounded-2xl border-4 transition-all w-56 ${ordersCompleted[orderIdx] ? 'bg-slate-100 border-slate-300 opacity-80 cursor-not-allowed' : 'bg-white border-orange-400 hover:bg-orange-50 hover:scale-105 active:scale-95 shadow-xl cursor-pointer'}`}
+                  >
+                    <h3 className="text-2xl font-black text-slate-700 mb-6">Order #{orderIdx + 1}</h3>
+                    <div className="flex gap-3">
+                      {[0, 1, 2].map(tick => (
+                        <div key={tick} className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${ordersCompleted[orderIdx] ? 'bg-green-500 border-green-600 shadow-inner' : 'bg-slate-200 border-slate-300'}`}>
+                          {ordersCompleted[orderIdx] && <CheckCircle2 className="w-6 h-6 text-white" />}
+                        </div>
+                      ))}
+                    </div>
+                    {ordersCompleted[orderIdx] && orderScores[orderIdx] > 0 && (
+                      <div className="mt-6 text-emerald-600 font-bold text-xl">
+                        {orderScores[orderIdx]} pts
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <button onClick={() => setGamePhase('stage-select')} className="px-8 py-4 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold uppercase tracking-wider transition-all w-full max-w-sm">
+                Back to Menu
+              </button>
+            </div>
+          </div>
+      );
+  }
   return (
     <div className="min-h-screen bg-[url('/images/Pizzeria%20Gameplay%20Background.png')] bg-cover bg-center flex flex-col relative select-none" id="pizzeria-container">
       {/* Header */}
@@ -430,17 +499,17 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
         <NoteHelpButton onClick={() => setShowNoteHelp(true)} className="bg-slate-800/80 border-white/20 backdrop-blur-md hover:bg-slate-700 w-14 h-14" />
       </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex gap-1">
-            {[...Array(3)].map((_, i) => (
-              <ChefHat key={i} className={`w-8 h-8 ${i < lives ? 'text-red-600 drop-shadow-sm' : 'text-slate-300'}`} />
-            ))}
+          <div className="flex items-center gap-4">
+            <div className="flex gap-1">
+              {[...Array(3)].map((_, i) => (
+                <ChefHat key={i} className="w-8 h-8 text-red-600 drop-shadow-sm" />
+              ))}
+            </div>
+            <div className="h-8 w-[2px] bg-orange-300" />
+            <div className="font-black text-2xl text-orange-800 tracking-wider">
+              PIZZAS: {pizzasBaked}/{targetPizzas}
+            </div>
           </div>
-          <div className="h-8 w-[2px] bg-orange-300" />
-          <div className="font-black text-2xl text-orange-800 tracking-wider">
-            PIZZAS: {pizzasBaked}/{targetPizzas}
-          </div>
-        </div>
       </div>
 
       {/* Main Content Area */}
@@ -611,9 +680,9 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
 
           {/* Bake Pizza Button & Errors - Fixed at bottom middle */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center pointer-events-none">
-            {showOops && (
-               <div className={`mb-4 px-6 py-2 rounded-full font-bold text-lg shadow-lg animate-bounce pointer-events-auto ${strikeCount >= 2 ? 'bg-red-500 text-white' : 'bg-orange-400 text-white'}`}>
-                 {strikeCount >= 2 ? '🔥 Burnt Pizza! Lost a life.' : '⚠️ Oops, try again!'}
+            {feedbackMessage && (
+               <div className="mb-4 px-6 py-2 rounded-full font-bold text-lg shadow-lg animate-bounce pointer-events-auto bg-red-500 text-white">
+                 {feedbackMessage}
                </div>
             )}
             <button
@@ -630,7 +699,38 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
           </div>
         
 
-        <AnimatePresence>
+        
+      {levelComplete && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+            <div className="bg-white p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl border-b-8 border-slate-300">
+              <div className="text-6xl mb-6">??</div>
+              <h2 className="text-5xl font-black text-slate-800 mb-4">Level Cleared!</h2>
+              <p className="text-xl text-slate-600 mb-8 font-bold">You completed all orders perfectly!</p>
+              
+              <div className="bg-slate-100 p-6 rounded-2xl mb-8 flex flex-col gap-2">
+                <div className="flex justify-between items-center text-xl font-bold text-slate-700">
+                  <span>Score:</span>
+                  <span>{orderScores.reduce((a,b) => a+b, 0)}</span>
+                </div>
+              </div>
+              
+              <div className="w-full max-w-md mb-8">
+                  <MiniLeaderboard gameName="Music Pizzeria" instrument={instrument} currentScore={orderScores.reduce((a,b) => a+b, 0)} />
+              </div>
+              
+              <button
+                onClick={() => {
+                  setGamePhase('stage-select');
+                  setLevelComplete(false);
+                }}
+                className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black text-2xl py-6 rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Continue Journey
+              </button>
+            </div>
+          </div>
+      )}
+<AnimatePresence>
           
 
           {showPizzaBake && targetNote && (
