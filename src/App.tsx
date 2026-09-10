@@ -65,8 +65,10 @@ export default function App() {
           if (profiles && profiles.length > 0) {
             const isTeacher = profiles.some(p => p.role === 'teacher');
             if (isTeacher) {
+              localStorage.setItem('isTeacher', 'true');
               handleLoginSuccess('teacher', profiles.find(p => p.role === 'teacher').id);
             } else {
+              localStorage.removeItem('isTeacher');
               handleLoginSuccess('student', profiles[0].id);
             }
           }
@@ -354,6 +356,8 @@ export default function App() {
           onNavigateToSettings={() => setScreen('settings')}
           onNavigateToConcertHall={() => setScreen('concert-hall')}
           onLogout={async () => {
+              localStorage.removeItem('isTeacher');
+              localStorage.removeItem('isTeacher');
              await supabase.auth.signOut();
              localStorage.removeItem('activeProfileId');
              setScreen('login');
@@ -371,6 +375,7 @@ export default function App() {
         <SettingsHub
           onBack={() => setScreen('map')}
           onLogout={async () => {
+              localStorage.removeItem('isTeacher');
              await supabase.auth.signOut();
              localStorage.removeItem('activeProfileId');
              setScreen('login');
