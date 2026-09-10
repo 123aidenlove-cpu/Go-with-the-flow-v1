@@ -21,7 +21,7 @@ interface RhythmRapidsProps {
 }
 
 // Helper to synthesize a woodblock-like tick
-const playRhythm = (notes: VexNoteDef[], timeSignature: string) => {
+const playRhythm = (notes: VexNoteDef[], timeSignature: string, onComplete?: () => void) => {
   const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
   if (!AudioContext) return;
   const ctx = new AudioContext();
@@ -122,6 +122,12 @@ const playRhythm = (notes: VexNoteDef[], timeSignature: string) => {
     }
     startTime += event.durationS;
   });
+
+  // Close context after playback completes
+  setTimeout(() => {
+    ctx.close();
+    if (onComplete) onComplete();
+  }, (startTime - ctx.currentTime + 1) * 1000);
 };
 
 export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComplete }: RhythmRapidsProps) {
@@ -421,6 +427,13 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
     }
   }, [selectedLevel, correctAnswers, gameOver, levelComplete]);
 
+  useEffect(() => {
+    if (challenge && !gameOver && !levelComplete && feedback === null) {
+      setIsPlayingSound(true);
+      playRhythm(challenge.correctRhythm, challenge.timeSignature, () => setIsPlayingSound(false));
+    }
+  }, [challenge]);
+
   const handleChoice = (side: 'left' | 'right') => {
     if (feedback !== null || !challenge) return;
     
@@ -444,16 +457,16 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
         const newAnswers = correctAnswers + 1;
         setCorrectAnswers(newAnswers);
         
-        if (newAnswers > 0 && newAnswers % 5 === 0) {
+        if (newAnswers === 5) {
           setLives(prev => Math.min(3, prev + 1));
         }
         
-        if (newAnswers >= 15) {
+        if (newAnswers >= 10) {
           const quavits = calculateGameQuavits(newScore, 'rhythm-rapids');
           addQuavits(quavits);
           setEarnedQuavits(quavits);
           setLevelComplete(true);
-          if (onChallengeComplete && isDailyChallenge) onChallengeComplete(15);
+          if (onChallengeComplete && isDailyChallenge) onChallengeComplete(10);
         }
       }, 1500);
     } else {
@@ -565,7 +578,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
               ))}
             </div>
             <div className="bg-white/20 backdrop-blur-md px-6 py-2 rounded-full border-2 border-white/50 text-white font-black text-xl tracking-widest shadow-lg">
-                SCORE: {correctAnswers}/15
+                SCORE: {correctAnswers}/10
             </div>
       </div>
 
@@ -575,12 +588,15 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
         {/* Audio Prompt Button */}
         <button 
           onClick={() => {
-              if (challenge) playRhythm(challenge.correctRhythm, challenge.timeSignature);
+            if (challenge && !isPlayingSound) {
+              setIsPlayingSound(true);
+              playRhythm(challenge.correctRhythm, challenge.timeSignature, () => setIsPlayingSound(false));
+            }
           }}
-          disabled={feedback !== null}
-          className="mb-12 bg-white hover:bg-cyan-50 shadow-2xl rounded-full px-10 py-5 flex items-center gap-4 transition-all hover:scale-105 active:scale-95 group border-4 border-cyan-400"
+          disabled={feedback !== null || isPlayingSound}
+          className={`mb-12 bg-white shadow-2xl rounded-full px-10 py-5 flex items-center gap-4 transition-all border-4 ${feedback !== null || isPlayingSound ? 'opacity-50 grayscale cursor-not-allowed border-slate-400' : 'hover:bg-cyan-50 hover:scale-105 active:scale-95 group border-cyan-400'}`}
         >
-          <div className="bg-cyan-500 rounded-full w-16 h-16 flex items-center justify-center group-hover:bg-cyan-600">
+          <div className={`rounded-full w-16 h-16 flex items-center justify-center ${feedback !== null || isPlayingSound ? 'bg-slate-400' : 'bg-cyan-500 group-hover:bg-cyan-600'}`}>
             <Volume2 className="w-8 h-8 text-white" />
           </div>
           <div className="flex flex-col items-start">
