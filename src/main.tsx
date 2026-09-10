@@ -4,6 +4,7 @@ import App from './App.tsx';
 import { ProfileProvider } from './context/ProfileContext';
 import { InstrumentProvider } from './contexts/InstrumentContext';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
+import { AutoScaler } from './components/AutoScaler.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -11,7 +12,9 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <ProfileProvider>
         <InstrumentProvider>
-          <App />
+          <AutoScaler>
+            <App />
+          </AutoScaler>
         </InstrumentProvider>
       </ProfileProvider>
     </ErrorBoundary>
