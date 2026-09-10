@@ -138,6 +138,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
   const [lives, setLives] = useState(3);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const [isPlayingSound, setIsPlayingSound] = useState(false);
   const [combo, setCombo] = useState(0);
   const [showComboAlert, setShowComboAlert] = useState(false);
   const [earnedQuavits, setEarnedQuavits] = useState(0);
