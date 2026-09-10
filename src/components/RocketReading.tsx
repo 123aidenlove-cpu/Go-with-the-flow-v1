@@ -271,6 +271,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
   const rocketLevels = rocketLevelsData.map(l => ({
     ...l,
     isUnlocked: devModeUnlockAll ? true : l.isUnlocked,
+      clef: clef,
     completionPercentage: levelProgress[l.id] || 0
   }));
 
@@ -575,7 +576,11 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
       {selectedLevel !== null && gamePhase === 'playing' && !gameOver && !levelCleared && (
         <div className="absolute bottom-6 right-6 z-30 flex items-end gap-4 pointer-events-none">
           <div className="bg-white text-slate-800 p-4 rounded-2xl rounded-br-none shadow-2xl max-w-[200px] border-2 border-purple-200 animate-pulse">
-            <p className="font-bold text-sm">Press on the <span className="bg-purple-100 text-purple-700 px-1 rounded">?</span> button if you need help remembering the notes!</p>
+            {selectedLevel <= 4 && correctNotesCount === 0 ? (
+              <p className="font-bold text-sm text-purple-600">Click on the correct note to keep flying higher!</p>
+            ) : (
+              <p className="font-bold text-sm">Press on the <span className="bg-purple-100 text-purple-700 px-1 rounded">?</span> button if you need help remembering the notes!</p>
+            )}
           </div>
           <img src="/astronaut_aiden_1784462702713.jpg" alt="Aiden Astronaut" className="w-24 h-24 object-contain rounded-full border-4 border-white shadow-xl shadow-purple-500/50" />
         </div>

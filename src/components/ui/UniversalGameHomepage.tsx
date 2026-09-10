@@ -9,7 +9,8 @@ import { PianoFingeringChart } from './PianoFingeringChart';
 import { VoicePitchDisplay } from './VoicePitchDisplay';
 import { NoteHelpButton } from './NoteHelpButton';
 import { BackButton } from './BackButton';
-import { formatAccidentals } from '../../utils/musicFormatter';
+import { formatAccidentals, formatVexFlowKey } from '../../utils/musicFormatter';
+import { DynamicScore } from './DynamicScore';
 
 export interface LevelCardData {
   id: number;
@@ -21,6 +22,8 @@ export interface LevelCardData {
   targetAltitude?: string;
   timeSignature?: string;
   toppingComplexity?: string;
+  clef?: string;
+  keySignature?: string;
   isUnlocked: boolean;
   cardTheme: string;
   textTheme: string;
@@ -202,6 +205,9 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
                            <div key={i} className="flex flex-col items-center bg-slate-100 rounded-2xl p-4 shadow-inner border-2 border-slate-200">
                              <div className="flex items-center gap-4 mb-4">
                                <span className="text-3xl font-black text-slate-800">{formatAccidentals(n.label)}</span>
+                               <div className="scale-75 origin-left h-24 flex items-center justify-center -my-4 pointer-events-none">
+                                 <DynamicScore clef={selectedPreview.clef as any || 'treble'} keySignature={selectedPreview.keySignature} notes={[{ keys: [formatVexFlowKey(n.writtenNote, selectedPreview.clef || 'treble')], duration: 'q' }]} width={100} height={120} />
+                               </div>
                              </div>
                              
                              <div className="relative w-full h-[150px] min-w-[120px] flex justify-center">
