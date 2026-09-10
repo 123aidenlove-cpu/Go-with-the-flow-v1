@@ -16,6 +16,8 @@ interface WorldMapProps {
 export default function WorldMap({ onNavigate }: WorldMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [sessionInfo, setSessionInfo] = useState<{ id: string, name: string } | null>(null);
+  const [avatarData, setAvatarData] = useState<any>(null);
+  const [inventory, setInventory] = useState<any>(null);
   const [showQuestLog, setShowQuestLog] = useState(false);
   // Calculate initial scale synchronously if window is defined (prevents jumping)
   const getInitialScale = () => {
@@ -83,6 +85,20 @@ export default function WorldMap({ onNavigate }: WorldMapProps) {
               >
                 <div className="w-full h-full rounded-[4rem] transition-all duration-300 group-hover:bg-white/20 group-hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] group-active:scale-95 cursor-pointer" />
               </button>
+
+              {/* Map Avatar */}
+              {avatarData && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); onNavigate('shop'); }}
+                  className="absolute z-50 hover:scale-110 transition-transform cursor-pointer drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+                  style={{ left: '48%', top: '55%', width: '5%', height: '5%' }}
+                  title="Open Wardrobe"
+                >
+                  <div className="w-full h-full rounded-full border-4 border-amber-400 bg-slate-800 flex items-center justify-center overflow-hidden shadow-2xl relative">
+                    {avatarData.url ? <img src={`/avatars/${avatarData.url}`} alt="Avatar" className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal" /> : <span className="text-3xl">{avatarData.emoji || '👤'}</span>}
+                  </div>
+                </button>
+              )}
 
               {/* DAY CAMPUS ONLY */}
               {!isNightMode && (

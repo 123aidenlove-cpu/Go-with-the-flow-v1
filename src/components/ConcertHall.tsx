@@ -88,23 +88,8 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
     } else {
       // Household member clicking their avatar on the stage
       if (profile.role === 'student') {
-        setInstrument(profile.instrument || 'Clarinet'); // Default fallback
         localStorage.setItem('activeProfileId', profile.id);
-        
-        // Temporarily bypassing placement test for now (will redesign later)
-        /*
-        const isPlacementDone = Array.isArray(profile.inventory) 
-          ? profile.inventory.includes('placement_done') 
-          : profile.inventory?.items?.includes('placement_done');
-          
-        if (!isPlacementDone) {
-          onNavigateToGame('placement-quiz');
-        } else {
-          onNavigateToGame('student-hub');
-        }
-        */
-        
-        onNavigateToGame('student-hub'); // Proceed directly to Student Avatar Landing
+        onNavigateToGame('instrument-selection');
       }
     }
   };
@@ -275,9 +260,7 @@ export default function ConcertHall({ onBack, onNavigateToGame }: ConcertHallPro
                    <span className="text-white font-black text-2xl">
                      {p.name || 'Musician'}
                    </span>
-                   <span className="text-emerald-400 font-bold uppercase tracking-widest text-sm">
-                     {p.instrument}
-                   </span>
+                   
                  </div>
                  <div className="opacity-0 group-hover:opacity-100 bg-sky-500 text-white font-bold px-4 py-2 rounded-full flex items-center gap-2 transition-opacity">
                    <Play className="w-4 h-4 fill-current" /> Start Adventure

@@ -71,12 +71,12 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
   const [flashTargetNote, setFlashTargetNote] = useState(false);
 
   useEffect(() => {
-    const savedBest = localStorage.getItem('rocketHighScore');
+    const savedBest = localStorage.getItem(`rocketHighScore_${instrument}`);
     if (savedBest) setBestAltitude(parseInt(savedBest, 10));
     
-    const savedProgress = localStorage.getItem('rocketLevelProgress');
+    const savedProgress = localStorage.getItem(`rocketLevelProgress_${instrument}`);
     if (savedProgress) setLevelProgress(JSON.parse(savedProgress));
-  }, []);
+  }, [instrument]);
 
   useEffect(() => {
     if (gameOver || isPaused || resumeCountdown !== null || selectedLevel === null || levelCleared || gamePhase === 'preview') return;
@@ -131,10 +131,10 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
 
   useEffect(() => {
     if ((gameOver || levelCleared) && selectedLevel !== null && !hasSavedScoreRef.current) {
-      saveGameScore('Rocket Reading', selectedLevel, altitude, 0);
+      saveGameScore(`Rocket Reading_${instrument}`, selectedLevel, altitude, 0);
       hasSavedScoreRef.current = true;
     }
-  }, [gameOver, levelCleared, selectedLevel, altitude]);
+  }, [gameOver, levelCleared, selectedLevel, altitude, instrument]);
 
   const generateLevel = () => {
     if (!selectedLevel) return;
@@ -203,11 +203,11 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
         const percentage = Math.min(100, Math.floor((nextCorrect / 30) * 100));
         setLevelProgress(prev => {
           const current = prev[selectedLevel] || 0;
-          if (percentage > current) {
-            const nextProg = { ...prev, [selectedLevel]: percentage };
-            localStorage.setItem('rocketLevelProgress', JSON.stringify(nextProg));
-            return nextProg;
-          }
+            if (percentage > current) {
+              const nextProg = { ...prev, [selectedLevel]: percentage };
+              localStorage.setItem(`rocketLevelProgress_${instrument}`, JSON.stringify(nextProg));
+              return nextProg;
+            }
           return prev;
         });
       }
@@ -222,7 +222,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
         const next = prev + 100;
         
         if (next > bestAltitude) {
-          localStorage.setItem('rocketHighScore', String(next));
+          localStorage.setItem(`rocketHighScore_${instrument}`, String(next));
           setBestAltitude(next);
         }
 

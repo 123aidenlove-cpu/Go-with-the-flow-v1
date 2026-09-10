@@ -34,6 +34,7 @@ import TeacherSyllabus from './components/TeacherSyllabus';
 import { LoginScreen } from './components/LoginScreen';
 import GlobalLeaderboard from './components/GlobalLeaderboard';
 import { PlacementQuiz } from './components/PlacementQuiz';
+import InstrumentSelection from './components/InstrumentSelection';
 import { addToInventory } from './utils/economy';
 import { supabase } from './lib/supabaseClient';
 
@@ -398,6 +399,13 @@ export default function App() {
       {screen === 'teacher-dashboard' && (
         <TeacherDashboard
           onBack={() => setScreen('account')}
+        />
+      )}
+
+      {screen === 'instrument-selection' && (
+        <InstrumentSelection
+          onBack={() => setScreen('concert-hall')}
+          onNavigate={setScreen}
         />
       )}
 
