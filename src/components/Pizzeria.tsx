@@ -59,8 +59,8 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
   const targetPizzas = 3;
   
   const [gamePhase, setGamePhase] = useState<'stage-select' | 'order-select' | 'playing'>('stage-select');
-  const [ordersCompleted, setOrdersCompleted] = useState<boolean[]>([false, false, false]);
-  const [orderScores, setOrderScores] = useState<number[]>([0, 0, 0]);
+  const [ordersCompletedMap, setOrdersCompletedMap] = useState<Record<number, boolean[]>>({});
+  const [orderScoresMap, setOrderScoresMap] = useState<Record<number, number[]>>({});
   const [currentOrderIndex, setCurrentOrderIndex] = useState<number | null>(null);
   const [orderStartTime, setOrderStartTime] = useState<number | null>(null);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
@@ -85,9 +85,16 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
   const [showPizzaBake, setShowPizzaBake] = useState(false);
   
   const handleLevelSelect = (levelId: number) => {
+    AudioManager.unlockAudio();
     setSelectedLevel(levelId);
-    setOrdersCompleted([false, false, false]);
-    setOrderScores([0, 0, 0]);
+    setOrdersCompletedMap(prev => {
+        if (!prev[levelId]) return { ...prev, [levelId]: [false, false, false] };
+        return prev;
+    });
+    setOrderScoresMap(prev => {
+        if (!prev[levelId]) return { ...prev, [levelId]: [0, 0, 0] };
+        return prev;
+    });
     setLevelComplete(false);
     setBaked(false);
     setShowPizzaBake(false);
@@ -200,6 +207,9 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
     setGamePhase('stage-select');
   };
 
+  const currentOrdersCompleted = selectedLevel && ordersCompletedMap[selectedLevel] ? ordersCompletedMap[selectedLevel] : [false, false, false];
+  const currentOrderScores = selectedLevel && orderScoresMap[selectedLevel] ? orderScoresMap[selectedLevel] : [0, 0, 0];
+
   const handleSendToOven = () => {
     if (!targetNote) return;
     
@@ -254,13 +264,13 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
                 score = Math.max(100, Math.floor(1000 - ((orderTimeS - 60) * 10)));
             }
             
-            const newCompleted = [...ordersCompleted];
+            const newCompleted = [...currentOrdersCompleted];
             if (currentOrderIndex !== null) newCompleted[currentOrderIndex] = true;
-            setOrdersCompleted(newCompleted);
+            setOrdersCompletedMap(prev => ({ ...prev, [selectedLevel!]: newCompleted }));
             
-            const newScores = [...orderScores];
+            const newScores = [...currentOrderScores];
             if (currentOrderIndex !== null) newScores[currentOrderIndex] = score;
-            setOrderScores(newScores);
+            setOrderScoresMap(prev => ({ ...prev, [selectedLevel!]: newScores }));
             
             if (newCompleted.every(c => c)) {
                 setLevelComplete(true);
@@ -430,11 +440,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
         titleColorClass="text-red-600 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]"
         backgroundClass="bg-[url('/images/Pizzeria%20Background.png')] bg-cover bg-center"
         levels={pizzeriaLevels}
-        onLevelSelect={(id) => {
-          AudioManager.unlockAudio();
-          setSelectedLevel(id);
-          setGamePhase('order-select');
-        }}
+        onLevelSelect={handleLevelSelect}
         onBack={onBack}
         onNoteHelp={() => setShowNoteHelp(true)}
       />
@@ -452,7 +458,7 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
                 {[0, 1, 2].map(orderIdx => (
                   <button
                     key={orderIdx}
-                    disabled={ordersCompleted[orderIdx]}
+                    disabled={currentOrdersCompleted[orderIdx]}
                     onClick={() => {
                       setCurrentOrderIndex(orderIdx);
                       setPizzasBaked(0);
@@ -460,19 +466,19 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
                       setGamePhase('playing');
                       generateOrder();
                     }}
-                    className={`flex flex-col items-center p-8 rounded-2xl border-4 transition-all w-56 ${ordersCompleted[orderIdx] ? 'bg-slate-100 border-slate-300 opacity-80 cursor-not-allowed' : 'bg-white border-orange-400 hover:bg-orange-50 hover:scale-105 active:scale-95 shadow-xl cursor-pointer'}`}
+                    className={`flex flex-col items-center p-8 rounded-2xl border-4 transition-all w-56 ${currentOrdersCompleted[orderIdx] ? 'bg-slate-100 border-slate-300 opacity-80 cursor-not-allowed' : 'bg-white border-orange-400 hover:bg-orange-50 hover:scale-105 active:scale-95 shadow-xl cursor-pointer'}`}
                   >
                     <h3 className="text-2xl font-black text-slate-700 mb-6">Order #{orderIdx + 1}</h3>
                     <div className="flex gap-3">
                       {[0, 1, 2].map(tick => (
-                        <div key={tick} className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${ordersCompleted[orderIdx] ? 'bg-green-500 border-green-600 shadow-inner' : 'bg-slate-200 border-slate-300'}`}>
-                          {ordersCompleted[orderIdx] && <CheckCircle2 className="w-6 h-6 text-white" />}
+                        <div key={tick} className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentOrdersCompleted[orderIdx] ? 'bg-green-500 border-green-600 shadow-inner' : 'bg-slate-200 border-slate-300'}`}>
+                          {currentOrdersCompleted[orderIdx] && <CheckCircle2 className="w-6 h-6 text-white" />}
                         </div>
                       ))}
                     </div>
-                    {ordersCompleted[orderIdx] && orderScores[orderIdx] > 0 && (
+                    {currentOrdersCompleted[orderIdx] && currentOrderScores[orderIdx] > 0 && (
                       <div className="mt-6 text-emerald-600 font-bold text-xl">
-                        {orderScores[orderIdx]} pts
+                        {currentOrderScores[orderIdx]} pts
                       </div>
                     )}
                   </button>
@@ -710,12 +716,12 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
               <div className="bg-slate-100 p-6 rounded-2xl mb-8 flex flex-col gap-2">
                 <div className="flex justify-between items-center text-xl font-bold text-slate-700">
                   <span>Score:</span>
-                  <span>{orderScores.reduce((a,b) => a+b, 0)}</span>
+                  <span>{currentOrderScores.reduce((a,b) => a+b, 0)}</span>
                 </div>
               </div>
               
               <div className="w-full max-w-md mb-8">
-                  <MiniLeaderboard gameName="Music Pizzeria" instrument={instrument} currentScore={orderScores.reduce((a,b) => a+b, 0)} />
+                  <MiniLeaderboard gameName="Music Pizzeria" instrument={instrument} currentScore={currentOrderScores.reduce((a,b) => a+b, 0)} />
               </div>
               
               <button

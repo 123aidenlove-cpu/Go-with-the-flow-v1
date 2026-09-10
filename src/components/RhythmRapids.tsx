@@ -137,6 +137,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [lives, setLives] = useState(3);
   const [gameOver, setGameOver] = useState(false);
+  const [showCanoeSank, setShowCanoeSank] = useState(false);
   const [score, setScore] = useState(0);
   const [isPlayingSound, setIsPlayingSound] = useState(false);
   const [combo, setCombo] = useState(0);
@@ -473,20 +474,23 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
     } else {
       setFeedback('wrong');
       setCombo(0);
-      
       setTimeout(() => {
-        setFeedback(null);
-        const nextLives = lives - 1;
-        setLives(nextLives);
-        if (nextLives <= 0) {
-          const quavits = calculateGameQuavits(score, 'rhythm-rapids');
-          addQuavits(quavits);
-          setEarnedQuavits(quavits);
-          setGameOver(true);
-        } else {
-          if (selectedLevel) generateChallenge(selectedLevel);
-        }
-      }, 2500);
+          setFeedback(null);
+          const nextLives = lives - 1;
+          setLives(nextLives);
+          if (nextLives <= 0) {
+            const quavits = calculateGameQuavits(score, 'rhythm-rapids');
+            addQuavits(quavits);
+            setEarnedQuavits(quavits);
+            setShowCanoeSank(true);
+            setTimeout(() => {
+              setShowCanoeSank(false);
+              setGameOver(true);
+            }, 3000);
+          } else {
+            if (selectedLevel) generateChallenge(selectedLevel);
+          }
+        }, 2500);
     }
   };
 
@@ -705,6 +709,15 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
                 <div className="text-6xl mt-4">💥</div>
             </div>
           </motion.div>
+        )}
+
+        {showCanoeSank && (
+          <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-[url('/images/waterfallRR.png')] bg-cover bg-center">
+             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+             <h1 className="relative z-10 text-6xl md:text-8xl font-black text-white drop-shadow-[0_0_30px_rgba(239,68,68,0.8)] text-center tracking-widest animate-pulse">
+                UH OH,<br/>YOUR CANOE SANK!
+             </h1>
+          </div>
         )}
 
         {gameOver && (
