@@ -40,6 +40,7 @@ interface FeedbackPop {
 
 export default function RocketReading({ onBack, onComplete }: RocketReadingProps) {
   const { instrument } = useInstrument();
+  const [isMultiverse, setIsMultiverse] = useState(false);
   const bassClefInstruments = ['Trombone', 'Tuba', 'Baritone/Euphonium', 'Cello', 'Double Bass', 'Bass Guitar'];
   const clef = bassClefInstruments.includes(instrument) ? 'bass' : 'treble';
   const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculums['Clarinet'] || [];
@@ -71,12 +72,17 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
   const [flashTargetNote, setFlashTargetNote] = useState(false);
 
   useEffect(() => {
-    const savedBest = localStorage.getItem(`rocketHighScore_${instrument}`);
-    if (savedBest) setBestAltitude(parseInt(savedBest, 10));
+    const highScoreKey = isMultiverse ? `rocketMultiverseHighScore_${instrument}` : `rocketHighScore_${instrument}`;
+    const savedBest = localStorage.getItem(highScoreKey);
+    if (savedBest) {
+      setBestAltitude(parseInt(savedBest, 10));
+    } else {
+      setBestAltitude(0);
+    }
     
     const savedProgress = localStorage.getItem(`rocketLevelProgress_${instrument}`);
     if (savedProgress) setLevelProgress(JSON.parse(savedProgress));
-  }, [instrument]);
+  }, [instrument, isMultiverse]);
 
   useEffect(() => {
     if (gameOver || isPaused || resumeCountdown !== null || selectedLevel === null || levelCleared || gamePhase === 'preview') return;
@@ -113,7 +119,8 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
 
   useEffect(() => {
     if (selectedLevel !== null) {
-      setGamePhase('preview');
+      setGamePhase('playing');
+      generateLevel(0);
       setSelectedPreviewNote(null);
       setShields(3);
       setAltitude(0);
@@ -131,12 +138,13 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
 
   useEffect(() => {
     if ((gameOver || levelCleared) && selectedLevel !== null && !hasSavedScoreRef.current) {
-      saveGameScore(`Rocket Reading_${instrument}`, selectedLevel, altitude, 0);
+      const gameName = isMultiverse ? `Rocket Reading Multiverse_${instrument}` : `Rocket Reading_${instrument}`;
+      saveGameScore(gameName, selectedLevel, altitude, 0);
       hasSavedScoreRef.current = true;
     }
-  }, [gameOver, levelCleared, selectedLevel, altitude, instrument]);
+  }, [gameOver, levelCleared, selectedLevel, altitude, instrument, isMultiverse]);
 
-  const generateLevel = () => {
+  const generateLevel = (nextCorrectCount?: number) => {
     if (!selectedLevel) return;
 
     const availableLevels = rocketLevelsData.filter(l => l.id <= selectedLevel);
@@ -167,15 +175,31 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
       }
     }
 
-    let wrongOption = allAvailable[Math.floor(Math.random() * allAvailable.length)];
+    let numOptions = 2;
+    if (isMultiverse) {
+       const count = nextCorrectCount ?? correctNotesCount;
+       const dist = count * 100;
+       if (dist >= 3000) {
+           numOptions = 3;
+       } else if (dist >= 1000 && dist % 500 === 0) {
+           numOptions = 3;
+       }
+    }
+
+    const generatedOptions: NoteType[] = [selectedTarget];
     let attempts = 0;
-    while (wrongOption.label === selectedTarget.label && wrongOption.writtenNote === selectedTarget.writtenNote && attempts < 50) {
-      wrongOption = allAvailable[Math.floor(Math.random() * allAvailable.length)];
+    while (generatedOptions.length < numOptions && attempts < 100) {
+      let wrongOption = allAvailable[Math.floor(Math.random() * allAvailable.length)];
+      const isDuplicate = generatedOptions.some(opt => opt.label === wrongOption.label && opt.writtenNote === wrongOption.writtenNote);
+      if (!isDuplicate) {
+        generatedOptions.push(wrongOption);
+      }
       attempts++;
     }
 
+    // Shuffle options
     setTargetNote(selectedTarget);
-    setOptions(Math.random() > 0.5 ? [selectedTarget, wrongOption] : [wrongOption, selectedTarget]);
+    setOptions(generatedOptions.sort(() => Math.random() - 0.5));
     
     setFlashTargetNote(true);
     setTimeout(() => setFlashTargetNote(false), 800);
@@ -221,8 +245,9 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
       setAltitude(prev => {
         const next = prev + 100;
         
+        const highScoreKey = isMultiverse ? `rocketMultiverseHighScore_${instrument}` : `rocketHighScore_${instrument}`;
         if (next > bestAltitude) {
-          localStorage.setItem(`rocketHighScore_${instrument}`, String(next));
+          localStorage.setItem(highScoreKey, String(next));
           setBestAltitude(next);
         }
 
@@ -251,7 +276,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
     }
 
     setTimeout(() => setFeedback(null), 600);
-    generateLevel();
+    generateLevel(isCorrect ? (correctNotesCount + 1) : correctNotesCount);
   };
 
   const restartGame = () => {
@@ -264,7 +289,8 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
     setFeedback(null);
     setAirLevel(100);
     setCorrectNotesCount(0);
-    setGamePhase('preview');
+    setGamePhase('playing');
+    generateLevel(0);
   };
 
   const devModeUnlockAll = true;
@@ -277,23 +303,32 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
 
   if (selectedLevel === null) {
     return (
-      <UniversalGameHomepage
-        gameTitle="Rocket Reading"
-        titleColorClass="text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]"
-        backgroundClass="bg-black bg-[url('/images/Reading%20Rocket.png')] bg-cover bg-center"
-        levels={rocketLevels as any}
-        onLevelSelect={(id) => {
-          setSelectedLevel(id);
-          setGamePhase('preview');
-        }}
-        onNoteHelp={() => setShowNoteHelp(true)}
-        onBack={onBack}
-      />
+      <div className="h-full w-full" style={{ filter: isMultiverse ? 'invert(1)' : 'none' }}>
+        <UniversalGameHomepage
+          gameTitle={isMultiverse ? "Multiverse Reading" : "Rocket Reading"}
+          titleColorClass={isMultiverse ? "text-rose-400 drop-shadow-[0_0_20px_rgba(244,63,94,0.8)]" : "text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]"}
+          backgroundClass={isMultiverse ? "bg-yellow-100 bg-[url('/images/Reading%20Rocket.png')] bg-cover bg-center bg-blend-multiply" : "bg-black bg-[url('/images/Reading%20Rocket.png')] bg-cover bg-center"}
+          levels={rocketLevels as any}
+          onLevelSelect={(id) => {
+            setSelectedLevel(id);
+          }}
+          onNoteHelp={() => setShowNoteHelp(true)}
+          onBack={onBack}
+          multiverseToggle={
+            <button onClick={() => setIsMultiverse(!isMultiverse)} className={`flex items-center gap-2 px-6 py-2 rounded-full font-black uppercase tracking-widest shadow-lg border-2 transition-all active:scale-95 z-50 ${isMultiverse ? 'bg-rose-500 hover:bg-rose-400 text-white border-white/50' : 'bg-slate-800 hover:bg-slate-700 text-purple-400 border-purple-500/50'}`}>
+               Wormhole
+            </button>
+          }
+        />
+        {showNoteHelp && (
+          <NoteHelpOverlay isOpen={showNoteHelp} onClose={() => setShowNoteHelp(false)} defaultView="notes" />
+        )}
+      </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-950 flex flex-col justify-between" id="rocket-reading-arena">
+    <div className={`relative h-full w-full overflow-hidden ${isMultiverse ? 'bg-yellow-100' : 'bg-slate-950'} flex flex-col justify-between`} id="rocket-reading-arena" style={{ filter: isMultiverse ? 'invert(1)' : 'none' }}>
       <div className="absolute inset-0 pointer-events-none opacity-40 z-0 transition-all duration-500" style={{ transform: `translateY(${(altitude % 500) * -0.5}px)` }}>
         <div className="absolute w-1 h-1 bg-white rounded-full top-[10%] left-[20%] animate-ping" />
         <div className="absolute w-1 h-1 bg-white rounded-full top-[30%] left-[70%] animate-pulse" />
@@ -315,90 +350,11 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
       </AnimatePresence>
       <NoteHelpOverlay isOpen={showNoteHelp} onClose={() => setShowNoteHelp(false)} defaultView="notes" />
 
-      {selectedLevel !== null && gamePhase === 'preview' && (
-        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-900/95 backdrop-blur-md p-6">
-          <div className="max-w-2xl w-full bg-slate-800 rounded-3xl p-8 shadow-2xl border border-white/10 flex flex-col items-center text-center">
-            
-            <div className="flex items-center gap-4 mb-6 bg-slate-900 p-4 rounded-2xl w-full border border-slate-700">
-              <img src="/astronaut_aiden_1784462702713.jpg" alt="Aiden" className="w-24 h-24 object-cover rounded-full border-2 border-purple-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] animate-bounce" />
-              <div className="text-left">
-                <h3 className="text-3xl font-black text-white">Commander Aiden</h3>
-                <p className="text-cyan-300 font-bold text-lg">"Click on the correct note to keep flying higher! Review your targets before we launch."</p>
-              </div>
-            </div>
 
-            <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-wider">Level {selectedLevel} Targets</h2>
-            
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-              {rocketLevels.find(l => l.id === selectedLevel)?.introducedNotes?.map((n: any, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedPreviewNote(n)}
-                  className={`px-6 py-3 rounded-xl font-mono font-black text-2xl transition-all ${selectedPreviewNote?.label === n.label ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.6)]' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}
-                >
-                  {formatAccidentals(n.label)}
-                </button>
-              ))}
-            </div>
-
-            {selectedPreviewNote && (() => {
-              const masterDesc = (masterDescriptions as any)[clef.charAt(0).toUpperCase() + clef.slice(1)]?.[selectedPreviewNote.writtenNote] || selectedPreviewNote.description || "No description available.";
-              const fingeringString = (selectedPreviewNote.fingeringDisplay || selectedPreviewNote.fingering || "").split(' OR ')[0];
-
-              return (
-                <div className="bg-slate-900 p-6 rounded-2xl w-full mb-8 border border-indigo-500/30 text-left relative overflow-hidden">
-                  <div className="absolute right-0 top-0 opacity-10 text-9xl leading-none font-black translate-x-4 -translate-y-4">
-                    {formatAccidentals(selectedPreviewNote.label)}
-                  </div>
-                  <h4 className="text-3xl font-black text-indigo-400 mb-4">{formatAccidentals(selectedPreviewNote.label)}</h4>
-                  <p className="text-slate-300 mb-4 text-lg"><span className="text-white font-bold">Description:</span> {masterDesc}</p>
-                  
-                  <div className="flex flex-col items-start">
-                    <span className="text-white font-bold text-lg mb-2">Fingering:</span>
-                    {fingeringString ? (
-                      <div className="transform scale-[0.6] origin-top-left -mb-[20%] lg:-mb-[10%]">
-                        {instrument === 'Clarinet' && <FingeringChart fingeringString={fingeringString} />}
-                        {(instrument === 'Trumpet' || instrument === 'Baritone/Euphonium') && <BrassFingeringChart fingeringString={fingeringString} />}
-                        {instrument === 'Flute' && <FluteFingeringChart fingeringString={fingeringString} />}
-                        {instrument === 'Alto Saxophone' && <SaxophoneFingeringChart fingeringString={fingeringString} />}
-                        {instrument === 'Tenor Saxophone' && <SaxophoneFingeringChart fingeringString={fingeringString} />}
-                        {instrument === 'Violin' && <ViolinFingeringChart fingeringString={fingeringString} />}
-                        {instrument === 'Cello' && <CelloFingeringChart fingeringString={fingeringString} />}
-                        {instrument === 'Piano' && <PianoFingeringChart fingeringString={fingeringString} />}
-                        {instrument.includes('Voice') && <VoicePitchDisplay fingeringString={fingeringString} />}
-                        {(!['Clarinet', 'Trumpet', 'Flute', 'Alto Saxophone', 'Tenor Saxophone', 'Violin', 'Cello', 'Piano', 'Soprano Voice', 'Alto Voice', 'Tenor Voice', 'Bass Voice', 'Baritone/Euphonium'].includes(instrument)) && (
-                          <p className="text-slate-400 italic">Chart for {instrument} coming soon!</p>
-                        )}
-                      </div>
-                    ) : (
-                      <span className="text-slate-500">N/A</span>
-                    )}
-                  </div>
-                </div>
-              );
-            })()}
-
-            <div className="flex gap-4 w-full">
-              <button 
-                onClick={() => setSelectedLevel(null)}
-                className="py-5 px-8 bg-slate-700 hover:bg-slate-600 text-white rounded-2xl font-black text-2xl uppercase tracking-widest shadow-lg transition-all active:scale-95 flex items-center justify-center"
-              >
-                <ArrowLeft className="w-8 h-8" />
-              </button>
-              <button 
-                onClick={() => { AudioManager.unlockAudio(); setGamePhase('playing'); generateLevel(); }}
-                className="flex-1 py-5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white rounded-2xl font-black text-4xl uppercase tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all active:scale-95 flex items-center justify-center gap-4"
-              >
-                Start Rocket! 🚀
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Altitude Graph */}
       {selectedLevel !== null && gamePhase === 'playing' && (
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 h-[70vh] w-16 bg-slate-900/60 backdrop-blur-md rounded-[2rem] border border-white/10 z-20 flex flex-col items-center py-6 shadow-2xl">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 h-[70%] w-16 bg-slate-900/60 backdrop-blur-md rounded-[2rem] border border-white/10 z-20 flex flex-col items-center py-6 shadow-2xl">
           <div className="relative w-full flex-1 flex flex-col justify-between items-center px-2">
             <div className="w-2 bg-slate-800 h-full absolute left-1/2 -translate-x-1/2 rounded-full overflow-hidden shadow-inner border border-slate-700/50">
               <div className="w-full bg-gradient-to-t from-indigo-600 via-cyan-400 to-emerald-400 absolute bottom-0 transition-all duration-500" style={{ height: `${Math.min(100, (altitude / 3000) * 100)}%` }} />
@@ -445,7 +401,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
 
       {/* Air Bar */}
       {selectedLevel !== null && !gameOver && !levelCleared && gamePhase === 'playing' && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[66%] max-w-2xl z-20 pointer-events-none ml-8">
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 w-[66%] max-w-2xl z-20 pointer-events-none ml-8">
           <div className="w-full bg-slate-900/80 p-3 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl">
             <div className="flex justify-between items-center px-2 mb-2">
               <span className="text-sm font-black uppercase text-cyan-400 tracking-widest">Air Remaining</span>
@@ -462,7 +418,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
       )}
 
       {/* Main Game Area */}
-      <div className="relative flex-1 flex flex-col items-center justify-center p-4 z-10 pb-28 pl-24">
+      <div className="relative flex-1 flex flex-col items-center justify-center p-4 z-10 pb-48 pl-24">
         <AnimatePresence>
           {feedback && (
             <motion.div
@@ -486,11 +442,17 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
         <div className="flex flex-col md:flex-row items-center justify-center gap-12 mb-12">
           <div className="bg-white/95 rounded-3xl p-8 shadow-[0_0_30px_rgba(168,85,247,0.3)] flex flex-col items-center relative border-4 border-purple-500 min-w-[280px]">
             <h2 className="text-xl font-black text-slate-500 mb-2 uppercase tracking-widest text-center">
-              Aim for the
+              {isMultiverse ? "What note is this?" : "Aim for the"}
             </h2>
-            <div className={`${(targetNote?.label || '').length > 2 ? 'text-7xl py-12' : 'text-[12rem]'} font-black text-purple-600 leading-none pb-4 drop-shadow-md`}>
-              {formatAccidentals(targetNote?.label || '')}
-            </div>
+            {isMultiverse ? (
+              <div className="pointer-events-none filter drop-shadow-md relative z-10 transition-all scale-150">
+                <DynamicScore clef={clef as any} keySignature={rocketLevelsData.find((l: any) => l.id === selectedLevel)?.keySignature} notes={[{ keys: [formatVexFlowKey(targetNote?.writtenNote || '', clef)], duration: "q" }]} width={160} height={180} />
+              </div>
+            ) : (
+              <div className={`${(targetNote?.label || '').length > 2 ? 'text-7xl py-12' : 'text-[12rem]'} font-black text-purple-600 leading-none pb-4 drop-shadow-md`}>
+                {formatAccidentals(targetNote?.label || '')}
+              </div>
+            )}
           </div>
           
           <AnimatePresence>
@@ -507,7 +469,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
           </AnimatePresence>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 max-w-2xl w-full">
+        <div className={`grid ${options.length === 3 ? 'grid-cols-3' : 'grid-cols-2'} gap-8 max-w-2xl w-full`}>
           {options.map((note, index) => (
             <button
               key={index}
@@ -515,9 +477,15 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
               disabled={gameOver || isPaused || resumeCountdown !== null || levelCleared}
               className="p-4 bg-white hover:bg-slate-50 text-slate-900 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all active:scale-95 border-4 border-slate-200 hover:border-purple-400 flex flex-col items-center justify-center disabled:opacity-50 min-h-[220px]"
             >
-              <div className={`pointer-events-none filter drop-shadow-md -mt-4 relative z-10 transition-all ${selectedLevel !== null && selectedLevel <= 10 ? 'scale-150' : 'scale-125'}`}>
-                <DynamicScore clef={clef as any} keySignature={rocketLevelsData.find((l: any) => l.id === selectedLevel)?.keySignature} notes={[{ keys: [formatVexFlowKey(note.writtenNote, clef)], duration: "q" }]} width={160} height={180} />
-              </div>
+              {isMultiverse ? (
+                <div className={`${(note.label || '').length > 2 ? 'text-4xl' : 'text-8xl'} font-black text-purple-600 leading-none pb-4 drop-shadow-md`}>
+                  {formatAccidentals(note.label || '')}
+                </div>
+              ) : (
+                <div className={`pointer-events-none filter drop-shadow-md -mt-4 relative z-10 transition-all ${selectedLevel !== null && selectedLevel <= 10 ? 'scale-150' : 'scale-125'}`}>
+                  <DynamicScore clef={clef as any} keySignature={rocketLevelsData.find((l: any) => l.id === selectedLevel)?.keySignature} notes={[{ keys: [formatVexFlowKey(note.writtenNote, clef)], duration: "q" }]} width={160} height={180} />
+                </div>
+              )}
             </button>
           ))}
         </div>
@@ -537,7 +505,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
             <h2 className="text-6xl font-black text-white mb-4">Hull Breach!</h2>
             <p className="text-2xl text-slate-300 mb-4 font-bold">Altitude reached: <span className="text-emerald-400">{altitude}m</span></p>
             <div className="w-full max-w-md mb-8">
-              <MiniLeaderboard gameName="Rocket Reading" instrument={instrument} currentScore={altitude} />
+              <MiniLeaderboard gameName={isMultiverse ? "Rocket Reading Multiverse" : "Rocket Reading"} instrument={instrument} currentScore={altitude} />
             </div>
             <div className="flex gap-6">
               <button onClick={restartGame} className="flex items-center gap-3 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold text-2xl transition-all active:scale-95 shadow-lg shadow-indigo-500/30">
@@ -556,7 +524,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
             <h2 className="text-6xl font-black text-white mb-4">Mission Complete!</h2>
             <p className="text-2xl text-emerald-200 mb-4 font-bold">You reached <span className="text-white">{altitude}m</span> in orbit!</p>
             <div className="w-full max-w-md mb-8">
-              <MiniLeaderboard className="!bg-emerald-800/80 !border-emerald-600 !text-white" gameName="Rocket Reading" instrument={instrument} currentScore={altitude} />
+              <MiniLeaderboard className="!bg-emerald-800/80 !border-emerald-600 !text-white" gameName={isMultiverse ? "Rocket Reading Multiverse" : "Rocket Reading"} instrument={instrument} currentScore={altitude} />
             </div>
             <div className="flex gap-6">
               {!isInfiniteMode && (
@@ -574,7 +542,7 @@ export default function RocketReading({ onBack, onComplete }: RocketReadingProps
 
       {/* Aiden Helper Avatar Popup */}
       {selectedLevel !== null && gamePhase === 'playing' && !gameOver && !levelCleared && (
-        <div className="absolute bottom-6 right-6 z-30 flex items-end gap-4 pointer-events-none">
+        <div className="absolute bottom-24 right-6 z-30 flex items-end gap-4 pointer-events-none">
           <div className="bg-white text-slate-800 p-4 rounded-2xl rounded-br-none shadow-2xl max-w-[200px] border-2 border-purple-200 animate-pulse">
             {selectedLevel <= 4 && correctNotesCount === 0 ? (
               <p className="font-bold text-sm text-purple-600">Click on the correct note to keep flying higher!</p>

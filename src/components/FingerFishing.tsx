@@ -257,18 +257,23 @@ export default function FingerFishing({ onBack, onComplete }: FingerFishingProps
 
   if (selectedLevel === null) {
     return (
-      <UniversalGameHomepage
-        gameTitle={title}
-        titleColorClass="text-cyan-300 drop-shadow-[0_0_20px_rgba(6,182,212,0.8)]"
-        backgroundClass="bg-black bg-[url('/images/Finger%20fishing.png')] bg-cover bg-center"
-        levels={fishingLevels as any}
-        onLevelSelect={(id) => {
-          setSelectedLevel(id);
-          setGamePhase('preview');
-        }}
-        onNoteHelp={() => setShowNoteHelp(true)}
-        onBack={onBack}
-      />
+      <div className="h-full w-full">
+        <UniversalGameHomepage
+          gameTitle={title}
+          titleColorClass="text-cyan-300 drop-shadow-[0_0_20px_rgba(6,182,212,0.8)]"
+          backgroundClass="bg-black bg-[url('/images/Finger%20fishing.png')] bg-cover bg-center"
+          levels={fishingLevels as any}
+          onLevelSelect={(id) => {
+            setSelectedLevel(id);
+            setGamePhase('preview');
+          }}
+          onNoteHelp={() => setShowNoteHelp(true)}
+          onBack={onBack}
+        />
+        {showNoteHelp && (
+          <NoteHelpOverlay isOpen={showNoteHelp} onClose={() => setShowNoteHelp(false)} defaultView="notes" />
+        )}
+      </div>
     );
   }
 

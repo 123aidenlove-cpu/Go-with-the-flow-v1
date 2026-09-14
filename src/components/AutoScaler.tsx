@@ -64,20 +64,6 @@ export const AutoScaler: React.FC<AutoScalerProps> = ({
         {children}
       </div>
 
-      {/* 
-        Mobile Portrait Overlay
-        CSS rotation breaks touch/mouse coordinate maps, so the best practice 
-        for web games is to require the user to rotate their device. 
-      */}
-      {isPortrait && (
-        <div className="absolute inset-0 z-[9999] bg-slate-900 flex flex-col items-center justify-center text-white p-8 text-center">
-          <Smartphone className="w-24 h-24 mb-8 animate-pulse rotate-90" />
-          <h2 className="text-4xl font-black mb-4">Please Rotate Your Device</h2>
-          <p className="text-xl text-slate-400 max-w-md">
-            This game is designed to be played in landscape mode. Please turn your phone sideways to continue!
-          </p>
-        </div>
-      )}
     </div>
   );
 };

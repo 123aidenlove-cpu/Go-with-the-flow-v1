@@ -10,7 +10,7 @@ import { UniversalGameHomepage, LevelCardData } from './ui/UniversalGameHomepage
 import { DynamicScore, VexNoteDef } from './ui/DynamicScore';
 import { NoteHelpOverlay } from './ui/NoteHelpOverlay';
 import { NoteHelpButton } from './ui/NoteHelpButton';
-import { addXP } from '../utils/economy';
+import { addXP, calculateGameQuavits, addQuavits } from '../utils/economy';
 import { RhythmsExpressions } from '../data';
 
 interface RhythmRapidsProps {
@@ -436,6 +436,13 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
     }
   }, [challenge]);
 
+  useEffect(() => {
+    if ((gameOver || levelComplete) && selectedLevel !== null && !hasSavedScoreRef.current) {
+      saveGameScore(`Rhythm Rapids_${instrument}`, selectedLevel, Math.floor(score), 0);
+      hasSavedScoreRef.current = true;
+    }
+  }, [gameOver, levelComplete, selectedLevel, score, instrument]);
+
   const handleChoice = (side: 'left' | 'right') => {
     if (feedback !== null || !challenge) return;
     
@@ -508,18 +515,24 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
 
   if (selectedLevel === null) {
     return (
-      <UniversalGameHomepage
-        gameTitle="Rhythm Rapids"
-        titleColorClass="text-cyan-400 drop-shadow-lg"
-        backgroundClass="bg-[url('/assets/images/games/rhythm_rapids_background.png')] bg-cover bg-center"
-        levels={levelCards}
-        onLevelSelect={(id) => {
-          setSelectedLevel(id);
-          setGamePhase('preview');
-        }}
-        onNoteHelp={() => setShowNoteHelp(true)}
-        onBack={onBack}
-      />
+      <div className="h-full w-full">
+        <UniversalGameHomepage
+          gameTitle="Rhythm Rapids"
+          titleColorClass="text-cyan-400 drop-shadow-lg"
+          backgroundClass="bg-[url('/assets/images/games/rhythm_rapids_background.png')] bg-cover bg-center"
+          levels={levelCards}
+          onLevelSelect={(id) => {
+            setSelectedLevel(id);
+            setGamePhase('preview');
+            hasSavedScoreRef.current = false;
+          }}
+          onNoteHelp={() => setShowNoteHelp(true)}
+          onBack={onBack}
+        />
+        {showNoteHelp && (
+          <NoteHelpOverlay isOpen={showNoteHelp} onClose={() => setShowNoteHelp(false)} defaultView="notes" />
+        )}
+      </div>
     );
   }
 
@@ -532,6 +545,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
     setCombo(0);
     setEarnedQuavits(0);
     setLevelComplete(false);
+    hasSavedScoreRef.current = false;
   };
 
   return (
@@ -713,7 +727,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
 
         {showCanoeSank && (
           <div className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-[url('/images/waterfallRR.png')] bg-cover bg-center">
-             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+             <div className="absolute inset-0 bg-black/40"></div>
              <h1 className="relative z-10 text-6xl md:text-8xl font-black text-white drop-shadow-[0_0_30px_rgba(239,68,68,0.8)] text-center tracking-widest animate-pulse">
                 UH OH,<br/>YOUR CANOE SANK!
              </h1>
@@ -724,7 +738,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/70"
           >
             <div className="bg-white p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl border-b-8 border-slate-300">
               <h2 className="text-5xl font-black text-slate-800 mb-4">Canoe Sank!</h2>
@@ -746,11 +760,12 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
               <button
                 onClick={() => {
                   setGameOver(false);
-    setScore(0);
-    setCombo(0);
-    setEarnedQuavits(0);
+                  setScore(0);
+                  setCombo(0);
+                  setEarnedQuavits(0);
                   setCorrectAnswers(0);
                   setLives(3);
+                  hasSavedScoreRef.current = false;
                 }}
                 className="w-full bg-cyan-500 hover:bg-cyan-400 text-white font-black text-2xl py-6 rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
@@ -770,7 +785,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/70"
           >
             <div className="bg-white p-12 rounded-3xl max-w-lg w-full text-center shadow-2xl border-b-8 border-slate-300">
               <div className="text-6xl mb-6">🏆</div>
@@ -785,6 +800,7 @@ export default function RhythmRapids({ onBack, isDailyChallenge, onChallengeComp
                   setLevelComplete(false);
                   setCorrectAnswers(0);
                   setLives(3);
+                  hasSavedScoreRef.current = false;
                 }}
                 className="w-full bg-cyan-500 hover:bg-cyan-400 text-white font-black text-2xl py-6 rounded-2xl shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
               >

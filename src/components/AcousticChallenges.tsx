@@ -66,7 +66,14 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
     saveGameScore(type === 'long-note' ? 'Long Note' : 'Tonguing Challenge', 1, score);
   };
   
-  const startChallenge = (type: ChallengeType) => {
+  const startChallenge = async (type: ChallengeType) => {
+    try {
+      await initAudio();
+    } catch (err) {
+      console.error('Failed to init audio', err);
+      return;
+    }
+
     setChallengeType(type);
     setSubModal('countdown');
     setCountdown(3);
@@ -109,6 +116,7 @@ export default function AcousticChallenges({ onBack, warmupMode, forcedType, onW
   };
 
   const initAudio = async () => {
+    if (audioContextRef.current && streamRef.current) return;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;

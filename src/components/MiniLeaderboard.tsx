@@ -48,10 +48,11 @@ export default function MiniLeaderboard({ gameName, instrument, currentScore, on
         const profileMap = new Map(profiles.map(p => [p.id, p.name || 'Anonymous']));
 
         // 2. Get top 10 scores for this game & instrument
+        const fullGameName = gameName.includes('_') ? gameName : `${gameName}_${instrument}`;
         const { data: scores } = await supabase
           .from('game_progress')
           .select('profile_id, high_score')
-          .eq('game_name', gameName)
+          .eq('game_name', fullGameName)
           .in('profile_id', profileIds)
           .order('high_score', { ascending: false })
           .limit(10);
@@ -78,7 +79,7 @@ export default function MiniLeaderboard({ gameName, instrument, currentScore, on
         const { data: myScore } = await supabase
           .from('game_progress')
           .select('high_score')
-          .eq('game_name', gameName)
+          .eq('game_name', fullGameName)
           .eq('profile_id', activeProfileId)
           .maybeSingle();
 

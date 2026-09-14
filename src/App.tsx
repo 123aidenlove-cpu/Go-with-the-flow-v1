@@ -139,7 +139,7 @@ export default function App() {
   }
 
   return (
-    <div className="w-full h-screen bg-slate-900 text-slate-100 font-sans overflow-hidden">
+    <div className="w-full h-full bg-slate-900 text-slate-100 font-sans overflow-hidden">
       
       {screen === 'login' && (
         <LoginScreen onLoginSuccess={handleLoginSuccess} />

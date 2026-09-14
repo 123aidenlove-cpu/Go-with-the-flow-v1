@@ -37,9 +37,10 @@ interface UniversalGameHomepageProps {
   backgroundClass: string; 
   headerFont?: string; 
   levels: LevelCardData[];
-  onLevelSelect: (levelId: number) => void;
-  onBack: () => void;
+  onLevelSelect: (id: number) => void;
   onNoteHelp?: () => void;
+  onBack: () => void;
+  multiverseToggle?: React.ReactNode;
 }
 
 export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
@@ -50,7 +51,8 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
   levels,
   onLevelSelect,
   onBack,
-  onNoteHelp
+  onNoteHelp,
+  multiverseToggle
 }) => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [selectedPreview, setSelectedPreview] = useState<LevelCardData | null>(null);
@@ -64,10 +66,7 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
 
   // Check if a biome is unlocked (Biome 0 is always unlocked. Biome N is unlocked if all levels in Biome N-1 are 100% completed)
   const isBiomeUnlocked = (biomeIndex: number) => {
-    if (localStorage.getItem('isTeacher') === 'true') return true;
-    if (biomeIndex === 0) return true;
-    const prevBiome = biomes[biomeIndex - 1];
-    return prevBiome.every(l => l.completionPercentage === 100);
+    return true;
   };
 
   return (
@@ -85,31 +84,12 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
         <h1 className={`text-4xl md:text-6xl ${headerFont} font-black ${titleColorClass} tracking-wider uppercase bg-slate-900/80 px-10 py-4 rounded-full border-4 border-white shadow-2xl drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`}>
           {gameTitle}
         </h1>
-        <button onClick={() => setShowLeaderboard(!showLeaderboard)} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-white px-6 py-2 rounded-full font-black uppercase tracking-widest shadow-lg border-2 border-white/50 transition-all active:scale-95 z-50">
-          <Trophy className="w-5 h-5" /> View Leaderboards
-        </button>
-
-        <AnimatePresence>
-            {showLeaderboard && (
-              <motion.div
-                key="leaderboard"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-                onClick={() => setShowLeaderboard(false)}
-              >
-                <motion.div
-                  initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
-                  className="w-full max-w-xl bg-slate-900 rounded-3xl p-6 shadow-2xl border border-white/20 relative cursor-default"
-                  onClick={e => e.stopPropagation()}
-                >
-                  <button onClick={() => setShowLeaderboard(false)} className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/10 p-2 rounded-full transition-colors z-50">
-                    <X size={24} />
-                  </button>
-                  <MiniLeaderboard gameName={gameTitle} instrument={instrument} currentScore={null} />
-                </motion.div>
-              </motion.div>
-            )}
-        </AnimatePresence>
+        <div className="flex items-center gap-4">
+          <button onClick={() => setShowLeaderboard(!showLeaderboard)} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-white px-6 py-2 rounded-full font-black uppercase tracking-widest shadow-lg border-2 border-white/50 transition-all active:scale-95 z-50">
+            <Trophy className="w-5 h-5" /> View Leaderboards
+          </button>
+          {multiverseToggle}
+        </div>
       </div>
 
       {/* BIOME SWIPE CAROUSEL */}
@@ -273,6 +253,29 @@ export const UniversalGameHomepage: React.FC<UniversalGameHomepageProps> = ({
             </motion.div>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      {/* Leaderboard Modal */}
+      <AnimatePresence>
+          {showLeaderboard && (
+            <motion.div
+              key="leaderboard"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+              onClick={() => setShowLeaderboard(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+                className="w-full max-w-xl bg-slate-900 rounded-3xl p-6 shadow-2xl border border-white/20 relative cursor-default"
+                onClick={e => e.stopPropagation()}
+              >
+                <button onClick={() => setShowLeaderboard(false)} className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/10 p-2 rounded-full transition-colors z-50">
+                  <X size={24} />
+                </button>
+                <MiniLeaderboard gameName={gameTitle} instrument={instrument} currentScore={null} />
+              </motion.div>
+            </motion.div>
+          )}
       </AnimatePresence>
 
       <style>{`

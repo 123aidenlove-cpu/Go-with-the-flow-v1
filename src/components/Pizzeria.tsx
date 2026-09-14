@@ -435,15 +435,20 @@ const rawData = Curriculums[instrument as keyof typeof Curriculums] || Curriculu
     });
 
     return (
-      <UniversalGameHomepage
-        gameTitle="Music Pizzeria"
-        titleColorClass="text-red-600 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]"
-        backgroundClass="bg-[url('/images/Pizzeria%20Background.png')] bg-cover bg-center"
-        levels={pizzeriaLevels}
-        onLevelSelect={handleLevelSelect}
-        onBack={onBack}
-        onNoteHelp={() => setShowNoteHelp(true)}
-      />
+      <div className="h-full w-full">
+        <UniversalGameHomepage
+          gameTitle="Music Pizzeria"
+          titleColorClass="text-red-600 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]"
+          backgroundClass="bg-[url('/images/Pizzeria%20Background.png')] bg-cover bg-center"
+          levels={pizzeriaLevels}
+          onLevelSelect={handleLevelSelect}
+          onBack={onBack}
+          onNoteHelp={() => setShowNoteHelp(true)}
+        />
+        {showNoteHelp && (
+          <NoteHelpOverlay isOpen={showNoteHelp} onClose={() => setShowNoteHelp(false)} defaultView="notes" />
+        )}
+      </div>
     );
   }
 
